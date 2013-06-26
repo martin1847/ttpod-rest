@@ -20,7 +20,7 @@ class UnmodifDBObject extends BasicDBObject{
     final Map inner;
     UnmodifDBObject(Map init){
         super(init);
-        inner= init;
+        inner= Collections.unmodifiableMap(init);
     }
 
     public BasicDBObject append( String key , Object val ){
@@ -38,25 +38,15 @@ class UnmodifDBObject extends BasicDBObject{
     public void clear() {
         throw new UnsupportedOperationException("UnmodifDBObject");
     }
-    private transient Set keySet = null;
-    private transient Set  entrySet = null;
-    private transient Collection  values = null;
-
     public Set  keySet() {
-        if (keySet==null)
-            keySet = Collections.unmodifiableSet(inner.keySet());
-        return keySet;
+        return inner.keySet();
     }
 
     public Set entrySet() {
-        if (entrySet==null)
-            entrySet = Collections.unmodifiableSet(inner.entrySet());
-        return entrySet;
+        return inner.entrySet();
     }
 
     public Collection values() {
-        if (values==null)
-            values = Collections.unmodifiableCollection(inner.values());
-        return values;
+        return inner.values();
     }
 }
