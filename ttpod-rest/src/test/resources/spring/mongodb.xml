@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        default-lazy-init="true">
+
+
+    <mongo:mongo replica-set="${mongo.uri}" id="mongo">
+        <mongo:options connections-per-host="80"
+                       threads-allowed-to-block-for-connection-multiplier="6"
+                       connect-timeout="2000"
+                        max-wait-time="3000"
+                        auto-connect-retry="true"
+                        socket-keep-alive="true"
+                        socket-timeout="1500"
+                        slave-ok="#{'${mongo.cost.write}' == 'REPLICA_ACKNOWLEDGED' ? true : false }"
+                        write-number="1"
+                        write-timeout="3000"
+                        write-fsync="false"/>
+    </mongo:mongo>
+
+    <util:constant static-field="com.mongodb.WriteConcern.${mongo.cost.write}" id="writeConcern"/>
+
+    <mongo:db-factory dbname="ttpod_rest" id="mainFactory" mongo-ref="mongo" />
+
+    <bean id="mainMongo" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mainFactory"/>
+    </bean>
+
+
+
+
+</beans>

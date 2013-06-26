@@ -1,0 +1,48 @@
+
+//apply from: "indy.gradle"
+
+allprojects {
+    group = 'com.ttpod'
+    version = '1.0-SNAPSHOT'
+
+    apply plugin: 'maven'
+
+    repositories {
+        mavenLocal()
+        mavenRepo name: 'public', url: "http://mvn.ttpod.com/nexus/content/groups/public" 
+        mavenRepo name: 'snapshots', url: "http://mvn.ttpod.com/nexus/content/groups/public-snapshots"
+        mavenCentral()
+    }
+
+}
+
+subprojects {
+
+//    apply plugin: 'idea'
+    apply plugin: 'java'
+
+    compileJava.sourceCompatibility = '1.7'
+    compileJava.options.encoding = 'UTF-8'
+//  compileJava.options.compilerArgs = ['-Xlint:unchecked']
+
+
+//    configurations { provided }
+//    sourceSets {
+//        main { compileClasspath += configurations.provided }
+//    }
+
+
+    apply from: "${rootProject.projectDir}/gradle/slf4j.gradle"
+    apply from: "${rootProject.projectDir}/gradle/groovy.gradle"
+    apply from: "${rootProject.projectDir}/gradle/webapp.gradle"
+
+    dependencies {
+        testCompile 'junit:junit:4.11','org.springframework:spring-test:3.2.3.RELEASE'
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    description = 'Generates gradlew[.bat] scripts'
+    gradleVersion = '1.6'
+}

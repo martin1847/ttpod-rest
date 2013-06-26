@@ -1,0 +1,4 @@
+moduleName = RestExtension
+moduleVersion = 1.0
+extensionClasses = com.ttpod.rest.ext.RestExtension,org.apache.commons.lang.StringUtils
+staticExtensionClasses =

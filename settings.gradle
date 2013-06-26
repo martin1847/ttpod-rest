@@ -1,0 +1,3 @@
+include "ttpod-rest"
+
+rootProject.name = 'ttpod'

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+        default-lazy-init="true">
+
+    <context:property-placeholder location="classpath:application.properties" ignore-unresolvable="true"/>
+
+    <context:component-scan base-package="com.ttpod.star.admin"/>
+
+    <mvc:resources mapping="/" location="/index.html" order="0"/>
+    <mvc:resources mapping="/favicon.ico" location="/favicon.ico" order="0"/>
+    <mvc:resources mapping="/robots.txt" location="/robots.txt" order="0"/>
+    <mvc:annotation-driven/>
+    <!--<cache:annotation-driven cache-manager="cacheManager" />-->
+
+
+    <!--
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+        <bean class="org.springframework.data.redis.samples.retwisj.web.CookieInterceptor" />
+	</mvc:interceptors>
+    -->
+
+    <!--<bean id="tokenStore" class="com.ttpod.oauth.MemcachedTokenStore">-->
+        <!--<property name="cache">-->
+            <!--<bean class="com.ttpod.cache.impl.MemcachedImpl" p:memcachedClient-ref="memcachedClient"/>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <!--
+    <bean id="tokenServices"
+                class="org.springframework.security.oauth2.provider.token.DefaultTokenServices"
+                p:tokenStore-ref="tokenStore"
+                p:supportRefreshToken="false"/>
+    <bean id="authenticationManager" class="org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager"
+            p:tokenServices-ref="tokenServices"/>
+    <bean id="sessionInterceptor" class="com.ttpod.weibo.web.interceptor.OAuth2AuthenticationInterceptor" p:authenticationManager-ref="authenticationManager"/>
+
+    <bean id="redisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"/>
+    <bean id="shardJedis" class="com.ttpod.redis.ShardJedis" destroy-method="destroy"
+          p:jedisPoolConfig-ref="redisPoolConfig" p:shards="${token.redis}"/>
+    <bean id="redisConnectionFactory" p:shardJedis-ref="shardJedis"
+          class="com.ttpod.redis.ShardedRedisConnectionFactory"/>
+
+    -->
+
+    <bean id="sessionInterceptor" class="com.ttpod.rest.web.interceptor.SessionInterceptor"/>
+    <bean class="com.ttpod.rest.web.spring.InterceptorAnnotationAwareClassNameHandlerMapping" />
+    <!-- 使用annocation创建Controller的bean
+    <mvc:default-servlet-handler/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+ -->
+    <!-- ControllerClassNameHandlerMapping用于匹配我们的Controller -->
+    <!--<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >-->
+        <!--<property name="interceptors">-->
+            <!--<list>-->
+                <!--<ref bean="sessionInterceptor" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <!-- freemarker的配置 -->
+    <import resource="freemarker.xml"/>
+
+</beans>

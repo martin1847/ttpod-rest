@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo.springsource.org/plugins-release' }
+    }
+    dependencies {
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+    }
+}
+
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+
+
+apply plugin: 'maven-publish'
+
+publishing {
+    repositories {
+        maven {
+            url "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"
+        }
+    }
+}
+dependencies {
+
+    provided  'javax.servlet:javax.servlet-api:3.1.0'
+    provided 'org.projectlombok:lombok:0.11.8'
+    provided 'org.codehaus.groovy:groovy-all:2.1.3+:indy'
+
+    optional 'org.mongodb:mongo-java-driver:2.11.1'
+//    compile 'org.aspectj:aspectjrt:1.7.3'
+
+    compile 'org.apache.httpcomponents:httpclient:4.2.5'
+    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
+
+    compile('org.springframework:spring-webmvc:3.2.3.RELEASE'){
+	exclude group: 'org.springframework',module: 'spring-tx'
+	exclude group: 'org.springframework',module: 'spring-aop'
+    }
+
+//    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
+
+    compile 'commons-lang:commons-lang:2.6'
+
+
+    optional 'org.freemarker:freemarker:2.3.19'
+
+    optional ('org.springframework.data:spring-data-redis:1.0.4.RELEASE'){
+	exclude group: 'org.springframework',module: 'spring-aop'
+    }
+
+    optional 'redis.clients:jedis:2.1.0'
+    
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.google.caliper:caliper:1.0-beta-1'
+
+}
