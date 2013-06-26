@@ -11,6 +11,7 @@ buildscript {
 
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
 
 
 apply plugin: 'maven-publish'
