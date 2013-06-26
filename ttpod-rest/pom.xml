@@ -203,7 +203,7 @@
         <groovy-all-compiler-version>2.1.3</groovy-all-compiler-version>
         <groovy-scope>provided</groovy-scope>
 
-        <spring-version>3.2.2.RELEASE</spring-version>
+        <spring-version>3.2.3.RELEASE</spring-version>
         <aspectj-version>1.7.2</aspectj-version>
 
         <httpclient-version>4.2.3</httpclient-version>

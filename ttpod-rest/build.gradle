@@ -1,3 +1,5 @@
+//version = '1.0.1'
+
 buildscript {
     repositories {
         maven { url 'http://repo.springsource.org/plugins-release' }
