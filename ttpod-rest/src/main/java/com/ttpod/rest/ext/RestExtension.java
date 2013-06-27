@@ -1,7 +1,12 @@
 package com.ttpod.rest.ext;
 
+import com.ttpod.rest.common.util.JSONUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -35,4 +40,16 @@ public  final class RestExtension {
     public  static String asString(byte[] data){
         return data ==null?null : new String (data,UTF8);
     }
+
+    public  static Map<String, Object> asJSON(String string){
+        return (string == null ? null : JSONUtil.jsonToMap(string));
+    }
+    public  static List asJSONList(String string){
+        return (string == null ? null : JSONUtil.jsonToBean(string, ArrayList.class));
+    }
+
+    public static String asJsonString(Object obj){
+        return (obj == null ? null : JSONUtil.beanToJson(obj));
+    }
+
 }
