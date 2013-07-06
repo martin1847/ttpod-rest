@@ -51,6 +51,7 @@ dependencies {
     }
 
     optional 'redis.clients:jedis:2.1.0'
+    optional 'org.jsoup:jsoup:1.7.2'
     
     testCompile 'junit:junit:4.11'
     testCompile 'com.google.caliper:caliper:1.0-beta-1'
