@@ -1,6 +1,3 @@
-/*
- * Copy Right,fangjia.com 2010-2020
- */
 package com.ttpod.rest.common.util;
 
 import org.jsoup.Connection;
