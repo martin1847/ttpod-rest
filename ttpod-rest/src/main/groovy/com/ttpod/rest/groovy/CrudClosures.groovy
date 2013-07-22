@@ -13,6 +13,7 @@ interface CrudClosures {
     Closure Int = {String str->  (str == null || str.isEmpty()) ? null : Integer.valueOf(str)  };
     Closure Ne0 = {!'0'.equals(it)};
     Closure Eq1 = {'1'.equals(it)};
+    Closure Bool = {Boolean.valueOf((String)it)}
     Closure Timestamp = {System.currentTimeMillis()};
 
 
