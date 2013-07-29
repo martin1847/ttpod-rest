@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public  final class RestExtension {
 
+//    private RestExtension(){}
 //    public static boolean isNotBlank(String self) {
 //        return StringUtils.isNotBlank(self);
 //    }
