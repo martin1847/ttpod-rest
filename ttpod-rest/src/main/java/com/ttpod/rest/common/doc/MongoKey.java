@@ -32,10 +32,17 @@ public interface MongoKey {
     String $ne = "$ne";
     String $exists = "$exists";
 
-//    String finance_coin_count = "finance.coin_count";
-//
-//    String finance_log="finance_log";
-//    String finance_log_id=finance_log+"."+_id;
+
+    // geo operators
+    String $within = "$within";
+    String $near = "$near";
+    String $nearSphere = "$nearSphere";
+    String $box = "$box";
+    String $center = "$center";
+    String $polygon = "$polygon";
+    String $centerSphere = "$centerSphere";
+
+    String $natural = "$natural";//sort( { $natural: 1 } )documents in the order they exist on disk
 
     String timestamp ="timestamp";
 
