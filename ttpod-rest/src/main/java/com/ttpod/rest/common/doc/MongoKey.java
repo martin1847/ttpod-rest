@@ -33,6 +33,19 @@ public interface MongoKey {
     String $exists = "$exists";
 
 
+
+
+    //aggregate  pipeline operators
+    String $match = "$match";
+    String $project = "$project";
+    String $limit = "$limit";
+    String $skip = "$skip";
+    String $unwind = "$unwind";
+    String $group = "$group";
+    String $sort = "$sort";
+    String $geoNear = "$geoNear";
+
+
     // geo operators
     String $within = "$within";
     String $near = "$near";
