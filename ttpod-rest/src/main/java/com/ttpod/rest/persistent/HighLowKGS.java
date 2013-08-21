@@ -18,7 +18,7 @@ public class HighLowKGS extends SimpleKGS {
     }
     private int step =  10;
 
-    transient int setpMaxValue;
+    volatile  int setpMaxValue;
 
     final AtomicInteger idGenerator = new AtomicInteger();
 
