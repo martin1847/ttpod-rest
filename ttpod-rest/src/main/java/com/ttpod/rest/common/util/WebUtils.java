@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.QueryBuilder;
+import com.ttpod.rest.AppProperties;
 import com.ttpod.rest.common.doc.ParamKey;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -11,9 +12,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * date: 13-5-15 上午10:04
@@ -128,10 +127,19 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
     }
 
 
+
+    static final Set<String> nocount_table = new HashSet<>();
+    static {
+        String[] str = AppProperties.get("api.nocount_table","").split(",");
+        for(String table : str){
+            nocount_table.add(table);
+        }
+    }
+
     public static Pager mongoPager(DBCollection table, DBObject query, DBObject field, DBObject sort, int page, int pageSize) {
         return new Pager(
                 table.find(query, field).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toArray()
-                , table.count(query), page, pageSize);
+                ,nocount_table.contains(table.getName()) ? -1:table.count(query), page, pageSize);
     }
 
 
