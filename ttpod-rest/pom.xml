@@ -1,234 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ttpod</groupId>
+  <artifactId>ttpod-rest</artifactId>
+  <version>1.0.1</version>
     <parent>
         <groupId>com.ttpod</groupId>
         <artifactId>app</artifactId>
         <version>1.3</version>
     </parent>
-
-
-    <artifactId>ttpod-rest</artifactId>
-    <!--<version>1.0-SNAPSHOT</version>-->
-    <version>1.0.1</version>
-    <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjrt</artifactId>-->
-            <!--<scope>${aspectj-scope}</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjweaver</artifactId>-->
-            <!--<scope>${aspectj-scope}</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>cglib</groupId>-->
-            <!--<artifactId>cglib</artifactId>-->
-        <!--</dependency>-->
-
-
-
-
-        <!--<dependency>   java ioc annotations -->
-        <!--<groupId>javax.inject</groupId>-->
-        <!--<artifactId>javax.inject</artifactId>-->
-        <!--<version>1</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-lgpl</artifactId>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>commons-fileupload</groupId>-->
-            <!--<artifactId>commons-fileupload</artifactId>-->
-            <!--<version>1.2.2</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>commons-io</groupId>-->
-            <!--<artifactId>commons-io</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>net.sf.ehcache</groupId>-->
-        <!--<artifactId>ehcache-core</artifactId>-->
-        <!--<version>2.5.3</version>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-        <!--<groupId>com.gmongo</groupId>-->
-        <!--<artifactId>gmongo</artifactId>-->
-        <!--<version>1.1</version>-->
-        <!--</dependency>-->
-
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient-version}</version>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <version>1.0.3.RELEASE</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-            <version>1.2.0.RELEASE</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.19</version>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>2.10.1</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.1.0</version>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.caliper</groupId>
-            <artifactId>caliper</artifactId>
-            <version>1.0-beta-1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test-mvc</artifactId>
-            <version>1.0.0.M1</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-webmvc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.8.5</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
     <properties>
-        <log.target>stdout</log.target>
-        <log.web.level>DEBUG</log.web.level>
 
-        <redis.port>6379</redis.port>
-        <mongo.port>27017</mongo.port>
-        <redis.mem.db>0</redis.mem.db>
-
-        <aspectj-scope>compile</aspectj-scope>
         <targetJdk>1.7</targetJdk>
+		<sourceEncoding>UTF-8</sourceEncoding>
 
-        <maven-source-plugin-version>2.2.1</maven-source-plugin-version>
-        <maven-jar-plugin-version>2.4</maven-jar-plugin-version>
-        <maven-compiler-plugin-version>3.1</maven-compiler-plugin-version>
-
-        <groovy-all-compiler-version>2.1.3</groovy-all-compiler-version>
-        <groovy-scope>provided</groovy-scope>
-
-        <spring-version>3.2.3.RELEASE</spring-version>
-        <aspectj-version>1.7.2</aspectj-version>
-
-        <httpclient-version>4.2.3</httpclient-version>
-        <slf4j.version>1.7.5</slf4j.version>
-        <javassist.version>3.17.1-GA</javassist.version>
-        <jackson-version>1.9.12</jackson-version>
-    </properties>
-
-    <!--<build>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.gmaven</groupId>-->
-                <!--<artifactId>groovy-maven-plugin</artifactId>-->
-                <!--&lt;!&ndash;<dependencies>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<groupId>org.codehaus.groovy</groupId>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<artifactId>groovy-all</artifactId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-                <!--&lt;!&ndash;</dependencies>&ndash;&gt;-->
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
-
-    <!--https://github.com/groovy/GMavenPlus/wiki/Choosing-Your-Build-Tool-->
-
-
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.1.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>0.11.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.2.5</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>3.2.3.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.0.4.RELEASE</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>2.11.1</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.19</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>3.2.3.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.1.0</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.google.caliper</groupId>
+      <artifactId>caliper</artifactId>
+      <version>1.0-beta-1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.7.2</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>3.2.3.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-lgpl</artifactId>
+      <version>1.9.12</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>
