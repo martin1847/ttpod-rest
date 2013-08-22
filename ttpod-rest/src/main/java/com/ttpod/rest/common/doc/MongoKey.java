@@ -61,6 +61,7 @@ public interface MongoKey {
 
 
     DBObject SJ_DESC = new UnmodifDBObject(new BasicDBObject(timestamp,-1));
+    DBObject NATURAL_DESC = new UnmodifDBObject(new BasicDBObject($natural,-1));
     DBObject ID_DESC = new UnmodifDBObject(new BasicDBObject(_id,-1));
     DBObject ALL_FIELD = null;
     DBObject NO_SORT = null;
