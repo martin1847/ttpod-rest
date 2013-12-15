@@ -32,7 +32,7 @@ dependencies {
     optional 'org.mongodb:mongo-java-driver:2.11.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
-    optional 'org.apache.httpcomponents:httpclient:4.2.5'
+    optional 'org.apache.httpcomponents:httpclient:4.3.1'
     compile 'org.slf4j:slf4j-api:1.7.5'
 //    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
     compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
