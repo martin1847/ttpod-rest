@@ -125,6 +125,12 @@ public abstract class JSONUtil {
     }
 
 
+    public static void validateJSON(String json) throws IOException {
+        JsonParser parser = JSONFACTORY.createJsonParser(json);
+        while (parser.nextToken() != null) {
+        }
+    }
+
     public interface ToJson{
         String toJsonString();
     }
