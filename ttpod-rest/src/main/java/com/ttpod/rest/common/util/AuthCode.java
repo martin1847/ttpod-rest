@@ -1,6 +1,5 @@
 package com.ttpod.rest.common.util;
 
-import lombok.Cleanup;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -71,8 +70,9 @@ public abstract class AuthCode {
 			graphics.drawString(String.valueOf(chars[i]), (float) ((i +1-0.618) * xx), codeY);
 		}
         //绘画之前扭曲 BufferedOutputStream FIX EOFException  Broken Pipe
-        @Cleanup OutputStream buff = new BufferedOutputStream(out);
+        OutputStream buff = new BufferedOutputStream(out);
         ImageIO.write(doTwist(buffImg,graphics), "png",buff);
+        buff.close();
 
 //        ByteArrayOutputStream out_arr = new ByteArrayOutputStream(20480);
 //        AuthCode.draw(code, 160, 48, out_arr);
@@ -209,8 +209,9 @@ public abstract class AuthCode {
     }
 
     public static void writeJpeg(BufferedImage srcImage,OutputStream out)throws IOException{
-        @Cleanup OutputStream buff = new BufferedOutputStream(out);
+        OutputStream buff = new BufferedOutputStream(out);
         ImageIO.write(srcImage, "jpeg", buff); // BufferedOutputStream FIX EOFException  Broken Pipe
+        buff.close();
     }
     public static void main(String[] args) throws Exception {
 

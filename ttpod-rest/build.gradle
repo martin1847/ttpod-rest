@@ -26,32 +26,34 @@ publishing {
 dependencies {
 
     provided  'javax.servlet:javax.servlet-api:3.1.0'
-    provided 'org.projectlombok:lombok:0.11.8'
-    provided 'org.codehaus.groovy:groovy-all:2.1.3+:indy'
+//    provided 'org.projectlombok:lombok:0.11.8'
+    provided 'org.codehaus.groovy:groovy-all:2.2.1+:indy'
 
-    optional 'org.mongodb:mongo-java-driver:2.11.1'
+    optional 'org.mongodb:mongo-java-driver:2.11.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
     optional 'org.apache.httpcomponents:httpclient:4.2.5'
     compile 'org.slf4j:slf4j-api:1.7.5'
-    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
+//    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
 
-    compile('org.springframework:spring-webmvc:3.2.3.RELEASE')
-    compile 'org.springframework:spring-tx:3.2.3.RELEASE'
+    compile('org.springframework:spring-webmvc:3.2.6.RELEASE')
+    compile 'org.springframework:spring-tx:3.2.6.RELEASE'
 
 //    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
 
     compile 'commons-lang:commons-lang:2.6'
 
 
-    optional 'org.freemarker:freemarker:2.3.19'
+    optional 'org.freemarker:freemarker:2.3.20'
 
     optional ('org.springframework.data:spring-data-redis:1.0.4.RELEASE'){
         transitive = false
     }
 
-    optional 'redis.clients:jedis:2.1.0'
-    optional 'org.jsoup:jsoup:1.7.2'
+    optional 'redis.clients:jedis:2.2.1'
+    optional 'org.jsoup:jsoup:1.7.3'
     
     testCompile 'junit:junit:4.11'
     testCompile 'com.google.caliper:caliper:1.0-beta-1'

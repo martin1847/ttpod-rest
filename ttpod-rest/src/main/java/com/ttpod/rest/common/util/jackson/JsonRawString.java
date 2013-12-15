@@ -1,8 +1,8 @@
 package com.ttpod.rest.common.util.jackson;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.ttpod.rest.common.util.JSONUtil;
-import org.codehaus.jackson.annotate.JsonRawValue;
-import org.codehaus.jackson.annotate.JsonValue;
 
 import java.io.IOException;
 
@@ -17,12 +17,14 @@ import java.io.IOException;
 public final class JsonRawString {
     final String value;
 
+//    static final char JSON_ARRAY = '[';
+//    static final char JSON_OBJECT = '{';
     public JsonRawString(String value) {
-        try {
-            JSONUtil.validateJSON(value);
-        } catch (IOException e) {
-            throw new RuntimeException("Invalid JSON => " + value,e);
-        }
+       try {
+           JSONUtil.validateJSON(value);
+       }catch (IOException e){
+           throw new RuntimeException("Invalid JSON   => " + value,e);
+       }
         this.value = value;
     }
 
