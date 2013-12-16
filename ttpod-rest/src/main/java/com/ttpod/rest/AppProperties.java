@@ -8,14 +8,18 @@ import java.util.Properties;
 
 public abstract class AppProperties {
 
-    static final Properties p ;
+    static Properties p ;
     static {
         try {
             p = PropertiesLoaderUtils.loadProperties(
                     new ClassPathResource("application.properties")
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+//            throw new RuntimeException(e);
+            e.printStackTrace();
+            System.err.println("ClassPathResource  application.properties NOT found ! ");
+
+            p = new Properties();
         }
     }
 	public static String get(String key) {
