@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ttpod.rest.common.util.JSONUtil;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * JsonRawString :
@@ -14,7 +15,7 @@ import java.io.IOException;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public final class JsonRawString {
+public final class JsonRawString implements Serializable{
     final String value;
 
 //    static final char JSON_ARRAY = '[';
