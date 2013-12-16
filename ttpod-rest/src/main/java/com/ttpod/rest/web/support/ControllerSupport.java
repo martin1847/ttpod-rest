@@ -32,9 +32,9 @@ import java.util.Map;
  */
 //@Slf4j
 public class ControllerSupport extends MultiActionController {
-    static final Logger log = LoggerFactory.getLogger(ControllerSupport.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ControllerSupport.class);
 
-    static final boolean DEBUG =log.isDebugEnabled();
+    static final boolean DEBUG =LOGGER.isDebugEnabled();
 
     static final ThreadLocal<Map<String,Long>> EXEC_MAP = new ThreadLocal<Map<String, Long>>();
 
@@ -138,6 +138,7 @@ public class ControllerSupport extends MultiActionController {
         return null;
     }
 
+    static final int SLOW_REQ_TIME = Integer.getInteger("rest.slow_req_mill",1500);
     protected ModelAndView invokeMethod(
             String methodName, HttpServletRequest request, HttpServletResponse response) throws Throwable {
 
@@ -164,8 +165,8 @@ public class ControllerSupport extends MultiActionController {
             }else if( map != IMessageCode.OK &&  map.containsKey(ParamKey.Out.msg)){
                 map.remove(ParamKey.Out.msg);
             }
-            if(cost > 1500){
-                log.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
+            if(cost > SLOW_REQ_TIME){
+                LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
             }
             return map2View.exchange(map);
         }else if (returnValue instanceof IMessageCode) {
@@ -182,8 +183,8 @@ public class ControllerSupport extends MultiActionController {
             }
 
 
-            if(cost > 1500){
-                log.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
+            if(cost > SLOW_REQ_TIME){
+                LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
             }
 
             return map2View.exchange(map);

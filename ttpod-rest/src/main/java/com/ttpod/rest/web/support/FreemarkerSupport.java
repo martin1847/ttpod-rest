@@ -22,7 +22,7 @@ import java.util.Map;
  * @author: yangyang.cong@ttpod.com
  */
 public class FreemarkerSupport extends ControllerSupport {
-    static final Logger log = LoggerFactory.getLogger(FreemarkerSupport.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(FreemarkerSupport.class);
     protected ModelAndView invokeMethod(
             String methodName, HttpServletRequest request, HttpServletResponse response) throws Throwable {
 
@@ -39,7 +39,7 @@ public class FreemarkerSupport extends ControllerSupport {
         if (returnValue instanceof Map) {
             long cost = System.currentTimeMillis() - b;
             if(cost > 1500){
-                log.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
+                LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
             }
             Map<String,Object> map  =  (Map<String,Object>)returnValue;
             if(isFreemarker()){

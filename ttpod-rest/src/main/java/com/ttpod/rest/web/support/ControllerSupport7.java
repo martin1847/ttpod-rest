@@ -23,7 +23,7 @@ import java.util.Map;
  */
 //@Slf4j
 public class ControllerSupport7 extends ControllerSupport {
-    static final Logger log = LoggerFactory.getLogger(ControllerSupport7.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ControllerSupport7.class);
 
 
     protected MethodExec zeroArg(Method method,Object self){
@@ -72,7 +72,7 @@ public class ControllerSupport7 extends ControllerSupport {
             Class selfClass = reveiver.getClass();
             MethodHandle mh = MethodHandles.publicLookup().findVirtual(selfClass, method.getName(), mt).bindTo(reveiver);
             //.asType(mt);
-            ControllerSupport7.log.info("findMethodHandle : {}.{}",selfClass.getSimpleName(),mh);
+            ControllerSupport7.LOGGER.info("findMethodHandle : {}.{}",selfClass.getSimpleName(),mh);
             return mh;
         } catch (Exception e) {
             throw new RuntimeException("findMethodHandle Error : "+ reveiver.getClass() +"."+ method.getName(),e);
