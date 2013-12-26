@@ -59,6 +59,8 @@ public interface MongoKey {
 
     String timestamp ="timestamp";
 
+    // Boolean.FALSE == update({_id:1},{$setOnInsert:{..}}).getField("updatedExisting")
+    String updatedExisting = "updatedExisting";
 
     DBObject SJ_DESC = new UnmodifDBObject(new BasicDBObject(timestamp,-1));
     DBObject NATURAL_DESC = new UnmodifDBObject(new BasicDBObject($natural,-1));
