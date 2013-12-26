@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!--<bean id="bossGroup" class="io.netty.channel.nio.NioEventLoopGroup">-->
+        <!--<constructor-arg type="int" index="0" value="${boss.thread.count}" />-->
+        <!--<constructor-arg index="1" ref="bossThreadFactory" />-->
+    <!--</bean>-->
+
+    <!--<bean id="workerGroup" class="io.netty.channel.nio.NioEventLoopGroup">-->
+        <!--<constructor-arg type="int" index="0" value="${worker.thread.count}" />-->
+        <!--<constructor-arg index="1" ref="workerThreadFactory" />-->
+    <!--</bean>-->
+
+    <!--<bean id="bossThreadFactory" class="org.nerdronix.NamedThreadFactory">-->
+        <!--<constructor-arg type="String" value="Server-Boss" />-->
+    <!--</bean>-->
+
+    <!--<bean id="workerThreadFactory" class="org.nerdronix.NamedThreadFactory">-->
+        <!--<constructor-arg type="String" index="0" value="Server-Worker" />-->
+    <!--</bean>-->
+
+
+    <!-- Netty options for server bootstrap -->
+    <util:map id="tcpChannelOptions" map-class="java.util.HashMap">
+        <entry>
+            <key><util:constant static-field="io.netty.channel.ChannelOption.SO_KEEPALIVE"/></key>
+            <value type="java.lang.Boolean">${so.keepalive}</value>
+        </entry>
+        <entry>
+            <key><util:constant static-field="io.netty.channel.ChannelOption.SO_BACKLOG"/></key>
+            <value type="java.lang.Integer">${so.backlog}</value>
+        </entry>
+    </util:map>
+
+</beans>

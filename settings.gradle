@@ -1,3 +1,5 @@
 include "ttpod-rest"
 
+include "ttpod-ttcp"
+
 rootProject.name = 'ttpod'

@@ -1,0 +1,46 @@
+version = '1.0.1'
+
+buildscript {
+    repositories {
+        maven { url 'http://repo.springsource.org/plugins-release' }
+    }
+    dependencies {
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+    }
+}
+
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+
+
+apply plugin: 'maven-publish'
+
+publishing {
+    repositories {
+        maven {
+            url "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"
+        }
+    }
+}
+dependencies {
+
+
+    compile 'io.netty:netty-all:4.0.13.Final'
+
+
+    optional 'org.mongodb:mongo-java-driver:2.11.3'
+//    compile 'org.aspectj:aspectjrt:1.7.3'
+
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    compile 'org.springframework:spring-context:3.2.3.RELEASE'
+
+//    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
+
+    compile 'commons-lang:commons-lang:2.6'
+
+
+    optional 'org.freemarker:freemarker:2.3.19'
+
+}
