@@ -26,7 +26,7 @@ publishing {
 dependencies {
 
 
-    compile 'io.netty:netty-all:4.0.13.Final'
+    compile 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
 
 
     optional 'org.mongodb:mongo-java-driver:2.11.3'

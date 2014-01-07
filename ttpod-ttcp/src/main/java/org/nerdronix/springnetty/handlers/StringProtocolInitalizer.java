@@ -27,7 +27,7 @@ public class StringProtocolInitalizer extends ChannelInitializer<SocketChannel> 
 	StringEncoder stringEncoder;
 
 	@Autowired
-	ServerHandler serverHandler;
+    EchoServerHandler serverHandler;
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
@@ -53,11 +53,11 @@ public class StringProtocolInitalizer extends ChannelInitializer<SocketChannel> 
 		this.stringEncoder = stringEncoder;
 	}
 
-	public ServerHandler getServerHandler() {
+	public EchoServerHandler getServerHandler() {
 		return serverHandler;
 	}
 
-	public void setServerHandler(ServerHandler serverHandler) {
+	public void setServerHandler(EchoServerHandler serverHandler) {
 		this.serverHandler = serverHandler;
 	}
 

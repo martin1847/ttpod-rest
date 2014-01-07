@@ -1,0 +1,53 @@
+package com.ttpod.netty.time.server;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+
+/**
+ *
+ * The protocol to implement in this section is the TIME protocol.
+ * It is different from the previous examples in that it sends a message, which contains a 32-bit integer,
+ * without receiving any requests and loses the connection once the message is sent.
+ * In this example, you will learn how to construct and send a message, and to close the connection on completion.
+ *
+ * Because we are going to ignore any received data but to send a message as soon as a connection is established,
+ * we cannot use the channelRead() method this time. Instead, we should override the channelActive() method.
+ *
+ */
+public class TimeServerHandler extends ChannelHandlerAdapter {
+
+    @Override
+    public void channelActive(final ChannelHandlerContext ctx) { // (1)
+        final ByteBuf time = ctx.alloc().buffer(4); // (2)
+        time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+        
+        final ChannelFuture f = ctx.writeAndFlush(time); // (3)A ChannelFuture represents an I/O operation which has not yet occurred.
+        // It means, any requested operation might not have been performed yet because all operations are asynchronous in Netty
+        /*
+        For example, the following code might close the connection even before a message is sent:
+        Channel ch = ...;
+        ch.writeAndFlush(message);
+        ch.close();
+         */
+
+
+//        f.addListener(new ChannelFutureListener() {
+//            @Override
+//            public void operationComplete(ChannelFuture future) {
+//                assert f == future;
+//                ctx.close();//close() also might not close the connection immediately, and it returns a ChannelFuture.
+//            }
+//        }); // (4)
+
+        f.addListener(ChannelFutureListener.CLOSE);
+    }
+    
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
+    }
+}

@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-//@Qualifier("serverHandler")
+@Qualifier("serverHandler")
 @Sharable
-public class ServerHandler extends SimpleChannelInboundHandler<String> {
+public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
 
 	@Override
-	public void channelRead0(ChannelHandlerContext ctx, String msg)
+	public void messageReceived(ChannelHandlerContext ctx, String msg)
 			throws Exception {
 		System.out.print(msg);
-		ctx.channel().writeAndFlush(msg);
+		ctx.channel().writeAndFlush("Push :" + msg);
 	}
 	
 	@Override
