@@ -43,4 +43,6 @@ dependencies {
 
     optional 'org.freemarker:freemarker:2.3.19'
 
+    optional 'com.google.protobuf:protobuf-java:2.5.0'
+
 }

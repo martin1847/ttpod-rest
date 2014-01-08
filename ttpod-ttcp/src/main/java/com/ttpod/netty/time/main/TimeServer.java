@@ -15,11 +15,13 @@ public class TimeServer {
 
     public static void main(String[] args) {
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
+
+            final TimeServerHandler SHARED_HANDER =  new TimeServerHandler();
             @Override
             public void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline pipeline = ch.pipeline();
 //                            pipeline.addLast("decoder", new StringDecoder());
-                pipeline.addLast("handler", new TimeServerHandler());
+                pipeline.addLast("handler", SHARED_HANDER);
 //                          pipeline.addLast("handler", new EchoServerHandler());
 //                            pipeline.addLast("encoder", new StringEncoder());
             }

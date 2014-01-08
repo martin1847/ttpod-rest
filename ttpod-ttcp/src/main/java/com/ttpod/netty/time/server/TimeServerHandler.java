@@ -1,10 +1,9 @@
 package com.ttpod.netty.time.server;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.*;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 /**
  *
@@ -17,13 +16,26 @@ import io.netty.channel.ChannelHandlerContext;
  * we cannot use the channelRead() method this time. Instead, we should override the channelActive() method.
  *
  */
+@ChannelHandler.Sharable
 public class TimeServerHandler extends ChannelHandlerAdapter {
+
+    {
+        System.out.println(Thread.currentThread().getName() + "\t create " + getClass().getSimpleName() +" .");
+    }
+
+    private final AttributeKey<Boolean> auth = AttributeKey.valueOf("auth");
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) { // (1)
         final ByteBuf time = ctx.alloc().buffer(4); // (2)
         time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
-        
+
+
+        Attribute<Boolean> isAuthed =  ctx.attr(auth);
+        isAuthed.set(Boolean.TRUE);
+
+        System.out.println(isAuthed);
+
         final ChannelFuture f = ctx.writeAndFlush(time); // (3)A ChannelFuture represents an I/O operation which has not yet occurred.
         // It means, any requested operation might not have been performed yet because all operations are asynchronous in Netty
         /*
