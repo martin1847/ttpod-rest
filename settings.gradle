@@ -2,4 +2,6 @@ include "ttpod-rest"
 
 include "ttpod-ttcp"
 
+include "ttpod-vertx-groovy"
+
 rootProject.name = 'ttpod'

@@ -1,28 +1,7 @@
 version = '1.0.1'
 
-buildscript {
-    repositories {
-        maven { url 'http://repo.springsource.org/plugins-release' }
-    }
-    dependencies {
-        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
-    }
-}
+apply from: "${rootProject.projectDir}/gradle/provided.gradle"
 
-apply plugin: 'propdeps'
-apply plugin: 'propdeps-maven'
-apply plugin: 'propdeps-idea'
-
-
-apply plugin: 'maven-publish'
-
-publishing {
-    repositories {
-        maven {
-            url "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"
-        }
-    }
-}
 dependencies {
 
 
