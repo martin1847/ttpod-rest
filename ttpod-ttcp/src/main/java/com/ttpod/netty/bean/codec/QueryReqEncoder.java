@@ -4,6 +4,7 @@ import com.ttpod.netty.bean.QueryReq;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.util.CharsetUtil;
 
 /**
  * date: 14-1-28 上午11:57
@@ -21,7 +22,7 @@ public class QueryReqEncoder extends MessageToByteEncoder<QueryReq> {
 //        System.out.println("[QueryReqEncoder call]   ");
 //        byte[] q = ;
 //        byte[] full = new byte[q.length + BYTE_FIELDS];
-        byte[] string = msg.getQ().getBytes(QueryReqDecoder.UTF8);
+        byte[] string = msg.getQ().getBytes(CharsetUtil.UTF_8);
         out.writeInt(string.length + BYTE_FIELDS);
         out.writeByte( msg.getService());
         out.writeByte(  msg.getPage());
