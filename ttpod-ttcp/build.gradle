@@ -24,4 +24,13 @@ dependencies {
 
     optional 'com.google.protobuf:protobuf-java:2.5.0'
 
+    optional 'com.dyuproject.protostuff:protostuff-core:1.0.8'
+    optional 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
+    optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
+
+    optional 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
+// java -Xbootclasspath/p:<path_to_npn_boot_jar>
+//  compile 'org.mortbay.jetty.npn:npn-boot:8.1.2.v20120308'
+
+//    compile 'org.glassfish.grizzly:grizzly-npn-api:1.1'
 }
