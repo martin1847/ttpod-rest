@@ -24,7 +24,7 @@ public class ProtostuffRuntimeEncoder extends MessageToMessageEncoder<Object> {
     /**
      *
      *http://code.google.com/p/protostuff/wiki/ProtostuffRuntime
-     * 
+     *
      * http://code.google.com/p/protostuff/source/browse/trunk/protostuff-runtime-registry/src/test/java/com/dyuproject/protostuff/runtime/ExplicitRuntimeObjectSchemaTest.java
      *
      *
