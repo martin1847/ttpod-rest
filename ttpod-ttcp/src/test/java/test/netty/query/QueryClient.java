@@ -1,9 +1,10 @@
-package com.ttpod.netty.bean.main;
+package test.netty.query;
 
 import com.ttpod.netty.Client;
 import com.ttpod.netty.bean.QueryReq;
 import com.ttpod.netty.bean.codec.QueryReqEncoder;
 import com.ttpod.netty.bean.codec.QueryResDecoder;
+import com.ttpod.netty.bean.handler.QueryClientHandler;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
@@ -23,7 +24,7 @@ public class QueryClient {
     public static void main(String[] args) throws Exception {
         final QueryReqEncoder queryReqEncoder = new QueryReqEncoder();
         final ChannelHandler queryResDecoder = new QueryResDecoder();
-        new Client(new InetSocketAddress("127.0.0.1", 8080),
+        new Client(new InetSocketAddress("127.0.0.1", 6666),
                 new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {

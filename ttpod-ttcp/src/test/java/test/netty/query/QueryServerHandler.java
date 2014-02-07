@@ -1,8 +1,8 @@
-package com.ttpod.netty.bean.main;
+package test.netty.query;
 
 import com.ttpod.netty.bean.QueryReq;
 import com.ttpod.netty.bean.QueryRes;
-import com.ttpod.netty.protostuff.Pojo;
+import com.ttpod.netty.Pojo;
 import io.netty.channel.*;
 
 import java.util.Arrays;

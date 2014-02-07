@@ -1,4 +1,4 @@
-package com.ttpod.netty.bean.main;
+package com.ttpod.netty.bean.handler;
 
 import com.ttpod.netty.bean.QueryReq;
 import com.ttpod.netty.bean.QueryRes;
@@ -22,9 +22,10 @@ public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(QueryClientHandler.class);
     protected void messageReceived(ChannelHandlerContext ctx, QueryRes msg) throws Exception {
-        System.out.println(
-                "Serach messageReceived :  " + msg
-        );
+        answer.add(msg);
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, QueryRes msg) throws Exception{
         answer.add(msg);
     }
 

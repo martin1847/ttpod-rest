@@ -1,4 +1,4 @@
-package com.ttpod.netty.time.pojo;
+package test.netty.time.pojo;
 
 import java.util.Date;
 

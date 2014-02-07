@@ -1,4 +1,4 @@
-package com.ttpod.netty.protostuff;
+package com.ttpod.netty;
 
 
 /**

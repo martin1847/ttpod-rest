@@ -1,34 +1,35 @@
 version = '1.0.1'
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
+apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 
 dependencies {
 
 
-    compile 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
+    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
 
 
-    optional 'org.mongodb:mongo-java-driver:2.11.3'
+    testCompile 'org.mongodb:mongo-java-driver:2.11.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
     compile 'org.slf4j:slf4j-api:1.7.5'
 
-    compile 'org.springframework:spring-context:3.2.3.RELEASE'
+    testCompile 'org.springframework:spring-context:3.2.3.RELEASE'
 
 //    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
 
     compile 'commons-lang:commons-lang:2.6'
 
 
-    optional 'org.freemarker:freemarker:2.3.19'
+    testCompile 'org.freemarker:freemarker:2.3.19'
 
-    optional 'com.google.protobuf:protobuf-java:2.5.0'
+    runtime 'com.google.protobuf:protobuf-java:2.5.0'
 
-    optional 'com.dyuproject.protostuff:protostuff-core:1.0.8'
-    optional 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
+    compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
+    compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
 
-    optional 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
+    testCompile 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
 // java -Xbootclasspath/p:<path_to_npn_boot_jar>
 //  compile 'org.mortbay.jetty.npn:npn-boot:8.1.2.v20120308'
 

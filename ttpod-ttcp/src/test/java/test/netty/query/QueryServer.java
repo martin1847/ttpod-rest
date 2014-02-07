@@ -1,4 +1,4 @@
-package com.ttpod.netty.bean.main;
+package test.netty.query;
 
 import com.ttpod.netty.Server;
 import com.ttpod.netty.bean.codec.QueryReqDecoder;
@@ -42,7 +42,7 @@ public class QueryServer {
 
                 p.addLast(searchGroup,"queryServerHandler", queryServerHandler);
             }
-        });
+        },6666);
 
         searchGroup.shutdownGracefully();
     }

@@ -1,4 +1,4 @@
-package com.ttpod.netty.protobuf.node;
+package test.netty.node;
 
 import com.ttpod.netty.Server;
 import io.netty.buffer.ByteBuf;

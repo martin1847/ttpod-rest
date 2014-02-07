@@ -1,4 +1,4 @@
-package com.ttpod.netty.protostuff.codec;
+package test.netty.protostuff.codec;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;

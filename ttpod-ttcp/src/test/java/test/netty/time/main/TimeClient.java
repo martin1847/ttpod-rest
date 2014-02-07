@@ -1,8 +1,8 @@
-package com.ttpod.netty.time.main;
+package test.netty.time.main;
 
 import com.ttpod.netty.Client;
-import com.ttpod.netty.time.client.TimeClientHandler;
-import com.ttpod.netty.time.client.TimeDecoder;
+import test.netty.time.client.TimeClientHandler;
+import test.netty.time.client.TimeDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 

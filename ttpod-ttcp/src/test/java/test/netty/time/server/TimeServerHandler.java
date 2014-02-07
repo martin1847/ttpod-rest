@@ -1,4 +1,4 @@
-package com.ttpod.netty.time.server;
+package test.netty.time.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;

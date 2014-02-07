@@ -1,11 +1,11 @@
-package com.ttpod.netty.protostuff.main;
+package test.netty.protostuff.main;
 
 import com.ttpod.netty.Client;
 import com.ttpod.netty.bean.codec.QueryReqDecoder;
 import com.ttpod.netty.bean.codec.QueryReqEncoder;
-import com.ttpod.netty.protostuff.Pojo;
-import com.ttpod.netty.protostuff.codec.ProtostuffRuntimeDecoder;
-import com.ttpod.netty.protostuff.codec.ProtostuffRuntimeEncoder;
+import com.ttpod.netty.Pojo;
+import test.netty.protostuff.codec.ProtostuffRuntimeDecoder;
+import test.netty.protostuff.codec.ProtostuffRuntimeEncoder;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
