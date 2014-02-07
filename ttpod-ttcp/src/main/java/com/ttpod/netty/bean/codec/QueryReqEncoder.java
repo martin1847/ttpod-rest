@@ -33,7 +33,7 @@ public class QueryReqEncoder extends MessageToByteEncoder<QueryReq> {
         out.writeBytes(string);
 //        System.arraycopy(q,0,full,q.length -1, q.length);
 //        out.add(Unpooled.wrappedBuffer(full));
-        System.out.println("[QueryReqEncoder end] : "+ msg);
+//        System.out.println("[QueryReqEncoder end] : "+ msg);
        // out.add(ByteBufUtil.encodeString(buf, CharBuffer.wrap(msg.getQ()),QueryReqDecoder.UTF8));
     }
 }

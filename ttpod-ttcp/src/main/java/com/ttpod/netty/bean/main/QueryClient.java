@@ -2,10 +2,14 @@ package com.ttpod.netty.bean.main;
 
 import com.ttpod.netty.Client;
 import com.ttpod.netty.bean.QueryReq;
+import com.ttpod.netty.bean.QueryRes;
 import com.ttpod.netty.bean.codec.QueryReqDecoder;
 import com.ttpod.netty.bean.codec.QueryReqEncoder;
+import com.ttpod.netty.bean.codec.QueryResDecoder;
+import com.ttpod.netty.protostuff.codec.ProtostuffRuntimeDecoder;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,15 +24,21 @@ import java.net.InetSocketAddress;
  */
 public class QueryClient {
     public static void main(String[] args) throws Exception {
-        final QueryReqEncoder encoder = new QueryReqEncoder();
+        final QueryReqEncoder queryReqEncoder = new QueryReqEncoder();
+        final ChannelHandler queryResDecoder = new QueryResDecoder();
         new Client(new InetSocketAddress("127.0.0.1", 8080),
                 new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
                         //new QueryReqDecoder(),new QueryReqEncoder(),
-                        ch.pipeline().addLast(new QueryReqDecoder(), encoder,
-                                new SimpleChannelInboundHandler<QueryReq>() {
-                                    protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
+                        ChannelPipeline p = ch.pipeline();
+                        p.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
+                        p.addLast("queryResDecoder",queryResDecoder);
+                        p.addLast("queryReqEncoder",queryReqEncoder);
+
+                        p.addLast(
+                                new SimpleChannelInboundHandler<QueryRes>() {
+                                    protected void messageReceived(ChannelHandlerContext ctx, QueryRes msg) throws Exception {
                                         System.out.println(
                                                 "Serach Result :  " + msg
                                         );

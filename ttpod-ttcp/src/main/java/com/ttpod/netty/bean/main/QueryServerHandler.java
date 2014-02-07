@@ -1,7 +1,11 @@
 package com.ttpod.netty.bean.main;
 
 import com.ttpod.netty.bean.QueryReq;
+import com.ttpod.netty.bean.QueryRes;
+import com.ttpod.netty.protostuff.Pojo;
 import io.netty.channel.*;
+
+import java.util.Arrays;
 
 /**
  * date: 14-2-7 上午11:11
@@ -14,10 +18,15 @@ public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
     protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
 
         String q = msg.getQ();
-        msg.setQ("Server GOT  q: "+q);
         // We do not need to write a ChannelBuffer here.
         // We know the encoder inserted at TelnetPipelineFactory will do the conversion.
-        ChannelFuture future = ctx.writeAndFlush(msg);
+
+        QueryRes  data = new QueryRes();
+        data.setCode(1);
+        data.setPages(10);
+        data.setRows(2000);
+        data.setData(Arrays.asList(new Pojo(q,100),new Pojo("OK",10)));
+        ChannelFuture future = ctx.writeAndFlush(data);
 
         //  Close the connection if the client has sent 'bye'.
         if ("bye".equals(q)) {

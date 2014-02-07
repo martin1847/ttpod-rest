@@ -1,10 +1,7 @@
 package com.ttpod.netty;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
@@ -21,13 +18,19 @@ public class Client {
 
     ChannelHandler channelHandler;
 
+
+
     public Client(SocketAddress socketAddress, ChannelHandler channelHandler) {
-        this.socketAddress = socketAddress;
-        this.channelHandler = channelHandler;
-        connect();
+        this(socketAddress,channelHandler,null);
     }
 
-    void connect() {
+    public Client(SocketAddress socketAddress, ChannelHandler channelHandler,ChannelCallback callback) {
+        this.socketAddress = socketAddress;
+        this.channelHandler = channelHandler;
+        connect(callback);
+    }
+
+    void connect(ChannelCallback callback) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
@@ -41,11 +44,24 @@ public class Client {
             ChannelFuture f = b.connect(socketAddress).sync(); // (5)
 
             // Wait until the connection is closed.
-            f.channel().closeFuture().sync();
+            Channel channel = f.channel();
+
+            if(null == callback){
+                channel.closeFuture().sync();
+            }else{
+                callback.useChannel(channel);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             workerGroup.shutdownGracefully();
         }
     }
+
+
+    public interface ChannelCallback{
+
+        void useChannel( Channel channel )  throws InterruptedException;
+    }
+
 }
