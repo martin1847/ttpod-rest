@@ -4,12 +4,13 @@ import com.ttpod.netty.Client;
 import com.ttpod.netty.bean.QueryReq;
 import com.ttpod.netty.bean.codec.QueryReqDecoder;
 import com.ttpod.netty.bean.codec.QueryReqEncoder;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
-import java.util.Date;
 
 /**
  * TODO Comment here.
@@ -18,23 +19,62 @@ import java.util.Date;
  * @author: yangyang.cong@ttpod.com
  */
 public class QueryClient {
-    public static void main(String[] args) {
-        final QueryReqEncoder encoder =  new QueryReqEncoder();
+    public static void main(String[] args) throws Exception {
+        final QueryReqEncoder encoder = new QueryReqEncoder();
         new Client(new InetSocketAddress("127.0.0.1", 8080),
                 new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
                         //new QueryReqDecoder(),new QueryReqEncoder(),
-                        ch.pipeline().addLast( new QueryReqDecoder(),encoder,
-                                new SimpleChannelInboundHandler<QueryReq>(){
+                        ch.pipeline().addLast(new QueryReqDecoder(), encoder,
+                                new SimpleChannelInboundHandler<QueryReq>() {
                                     protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
                                         System.out.println(
-                                                "Client Recevied :  " + msg
+                                                "Serach Result :  " + msg
                                         );
                                     }
                                 });
                     }
-                });
+                },
+                new Client.ChannelCallback() {
+                    @Override
+                    public void useChannel(Channel searchChannel) throws InterruptedException {
+                        System.out.println("Begin Loop");
+                        // Read commands from the stdin.
+                        ChannelFuture lastWriteFuture = null;
+                        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                        for (; ; ) {
+                            String line = null;
+                            try {
+                                line = in.readLine();
+                            } catch (IOException e) {
+                            }
+                            if (line == null) {
+                                break;
+                            }
+                            System.out.println(line);
+
+                            // Sends the received line to the server.
+                            lastWriteFuture = searchChannel.writeAndFlush(
+                                    new QueryReq(QueryReq.QueryServie.SONG, (short) 1, (short) 50, line)
+                            );
+
+                            // If user typed the 'bye' command, wait until the server closes
+                            // the connection.
+                            if ("bye".equals(line.toLowerCase())) {
+                                searchChannel.closeFuture().sync();
+                                break;
+                            }
+                        }
+
+                        // Wait until all messages are flushed before closing the channel.
+                        if (lastWriteFuture != null) {
+                            lastWriteFuture.sync();
+                        }
+                    }
+                }
+        );
+
 
     }
 }

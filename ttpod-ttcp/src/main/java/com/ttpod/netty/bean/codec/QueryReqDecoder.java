@@ -17,29 +17,37 @@ import java.util.List;
 public class QueryReqDecoder extends ByteToMessageDecoder {
     static final int MAGIC_BYTE  = 1;
     static final int LENGTH_BYTE  = 2;
-
     static final int HEADER_BYTE   = MAGIC_BYTE + LENGTH_BYTE ;
+
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if (in.readableBytes() <= HEADER_BYTE) {// Wait until the length prefix is available.
+        if (in.readableBytes() < HEADER_BYTE) {// Wait until the length prefix is available.
             return;
         }
         in.markReaderIndex();
+        int frameLength;
         if (        in.readUnsignedByte() != QueryReqEncoder.MAGIC
-              ||    in.readUnsignedShort() > in.readableBytes()  // Wait until the whole data is available.
+              ||    (frameLength = in.readUnsignedShort() )> in.readableBytes()  // Wait until the whole data is available.
          ) {
             in.resetReaderIndex();
             return;
         }
+
+        int dataIndex = in.readerIndex();
         byte service =  in.readByte();
         short page = in.readUnsignedByte();
         short size = in.readUnsignedByte();
-        String q = in.toString(in.readerIndex(),in.readableBytes(), CharsetUtil.UTF_8);
+        int stringIndex  = in.readerIndex();
+        int endIndex =  frameLength  +  dataIndex;
+        String q = in.toString(stringIndex,endIndex - stringIndex, CharsetUtil.UTF_8);
+        in.readerIndex(endIndex);
+
         QueryReq req = new QueryReq();
         req.setService(service);
         req.setPage(page);
         req.setSize(size);
         req.setQ(q);
+
         out.add(req);
     }
 }
