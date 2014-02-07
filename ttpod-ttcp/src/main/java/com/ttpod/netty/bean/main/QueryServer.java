@@ -2,14 +2,16 @@ package com.ttpod.netty.bean.main;
 
 import com.ttpod.netty.Server;
 import com.ttpod.netty.bean.codec.QueryReqDecoder;
-import com.ttpod.netty.bean.codec.QueryReqEncoder;
 import com.ttpod.netty.bean.codec.QueryResEncoder;
-import com.ttpod.netty.protostuff.codec.ProtostuffRuntimeEncoder;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+
+import java.util.concurrent.Executors;
 
 /**
  * date: 14-1-28 下午1:11
@@ -23,7 +25,9 @@ public class QueryServer {
 
         final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
         final ChannelHandler queryResEncoder = new QueryResEncoder();
-
+        final EventLoopGroup searchGroup = new NioEventLoopGroup(
+                0, Executors.newCachedThreadPool()
+        );
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
 
             //            final QueryReqDecoder decoder =  ;
@@ -36,8 +40,10 @@ public class QueryServer {
                 p.addLast("frameEncoder",frameEncoder );
                 p.addLast("queryResEncoder", queryResEncoder);
 
-                p.addLast("queryServerHandler", queryServerHandler);
+                p.addLast(searchGroup,"queryServerHandler", queryServerHandler);
             }
         });
+
+        searchGroup.shutdownGracefully();
     }
 }

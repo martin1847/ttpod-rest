@@ -2,11 +2,8 @@ package com.ttpod.netty.bean.main;
 
 import com.ttpod.netty.Client;
 import com.ttpod.netty.bean.QueryReq;
-import com.ttpod.netty.bean.QueryRes;
-import com.ttpod.netty.bean.codec.QueryReqDecoder;
 import com.ttpod.netty.bean.codec.QueryReqEncoder;
 import com.ttpod.netty.bean.codec.QueryResDecoder;
-import com.ttpod.netty.protostuff.codec.ProtostuffRuntimeDecoder;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
@@ -36,14 +33,7 @@ public class QueryClient {
                         p.addLast("queryResDecoder",queryResDecoder);
                         p.addLast("queryReqEncoder",queryReqEncoder);
 
-                        p.addLast(
-                                new SimpleChannelInboundHandler<QueryRes>() {
-                                    protected void messageReceived(ChannelHandlerContext ctx, QueryRes msg) throws Exception {
-                                        System.out.println(
-                                                "Serach Result :  " + msg
-                                        );
-                                    }
-                                });
+                        p.addLast(new QueryClientHandler());
                     }
                 },
                 new Client.ChannelCallback() {
@@ -53,6 +43,7 @@ public class QueryClient {
                         // Read commands from the stdin.
                         ChannelFuture lastWriteFuture = null;
                         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                        QueryClientHandler  handler =searchChannel.pipeline().get(QueryClientHandler.class);
                         for (; ; ) {
                             String line = null;
                             try {
@@ -62,12 +53,12 @@ public class QueryClient {
                             if (line == null) {
                                 break;
                             }
-                            System.out.println(line);
+                            System.out.println(line + "  ->  doSearch -> " +
 
-                            // Sends the received line to the server.
-                            lastWriteFuture = searchChannel.writeAndFlush(
-                                    new QueryReq(QueryReq.QueryServie.SONG, (short) 1, (short) 50, line)
-                            );
+                                    // Sends the received line to the server.
+                                    handler.doSearch(
+                                            new QueryReq(QueryReq.QueryServie.SONG, (short) 1, (short) 50, line)
+                                    ));
 
                             // If user typed the 'bye' command, wait until the server closes
                             // the connection.

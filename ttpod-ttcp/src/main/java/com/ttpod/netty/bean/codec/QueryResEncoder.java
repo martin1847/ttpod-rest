@@ -51,6 +51,7 @@ public class QueryResEncoder extends MessageToMessageEncoder<QueryRes> {
 //        ExplicitIdStrategy.Registry.
         byte[] data = ProtostuffIOUtil.toByteArray(msg, QueryResDecoder.schema, LinkedBuffer.allocate(4096));
 
+        System.out.println("encode QueryRes bytes: " + data.length);
 //        schema.newMessage();
         out.add(wrappedBuffer(data));
     }
