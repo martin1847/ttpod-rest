@@ -9,13 +9,13 @@ public class QueryReq {
 
 
     byte service =0;
-    byte page =1 ;
-    byte size =50;
+    short page =1 ;
+    short size =50;
     String q = "TTPOD";
 
     public QueryReq(){}
-    public QueryReq(byte service, byte page, byte size, String q) {
-        this.service = service;
+    public QueryReq(QueryServie service, short page, short size, String q) {
+        this.service = service.flag();
         this.page = page;
         this.size = size;
         this.q = q;
@@ -38,19 +38,19 @@ public class QueryReq {
         this.service = service;
     }
 
-    public byte getPage() {
+    public short getPage() {
         return page;
     }
 
-    public void setPage(byte page) {
+    public void setPage(short page) {
         this.page = page;
     }
 
-    public byte getSize() {
+    public short getSize() {
         return size;
     }
 
-    public void setSize(byte size) {
+    public void setSize(short size) {
         this.size = size;
     }
 

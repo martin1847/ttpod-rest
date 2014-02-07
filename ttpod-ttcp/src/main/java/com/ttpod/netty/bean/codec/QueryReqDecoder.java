@@ -15,38 +15,31 @@ import java.util.List;
  */
 //@ChannelHandler.Sharable
 public class QueryReqDecoder extends ByteToMessageDecoder {
-    static final int BYTE  = 1;
-    static final int INT_BYTE  = 4 * BYTE;
+    static final int MAGIC_BYTE  = 1;
+    static final int LENGTH_BYTE  = 2;
+
+    static final int HEADER_BYTE   = MAGIC_BYTE + LENGTH_BYTE ;
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        // Wait until the length prefix is available.
-        if (in.readableBytes() < INT_BYTE) {
+        if (in.readableBytes() <= HEADER_BYTE) {// Wait until the length prefix is available.
             return;
         }
-
         in.markReaderIndex();
-//
-////        // Check the magic number.
-////        int magicNumber = in.readUnsignedByte();
-////        if (magicNumber != 'F') {
-////            in.resetReaderIndex();
-////            throw new CorruptedFrameException(
-////                    "Invalid magic number: " + magicNumber);
-////        }
-//
-//        // Wait until the whole data is available.
-        int dataLength = in.readInt();
-        if (in.readableBytes() < dataLength) {
+        if (        in.readUnsignedByte() != QueryReqEncoder.MAGIC
+              ||    in.readUnsignedShort() > in.readableBytes()  // Wait until the whole data is available.
+         ) {
             in.resetReaderIndex();
             return;
         }
         byte service =  in.readByte();
-        byte page = in.readByte();
-        byte size = in.readByte();
+        short page = in.readUnsignedByte();
+        short size = in.readUnsignedByte();
         String q = in.toString(in.readerIndex(),in.readableBytes(), CharsetUtil.UTF_8);
-        QueryReq req = new QueryReq(service,page,size,q);
+        QueryReq req = new QueryReq();
+        req.setService(service);
+        req.setPage(page);
+        req.setSize(size);
+        req.setQ(q);
         out.add(req);
-//        System.out.println("[QueryReqDecoder end] : "+req);
-
     }
 }
