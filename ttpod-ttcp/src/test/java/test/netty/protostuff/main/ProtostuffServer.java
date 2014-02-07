@@ -33,7 +33,6 @@ public class ProtostuffServer {
 //                p.addLast("handler", new WorldClockServerHandler());
                 p.addLast("hanlder", new SimpleChannelInboundHandler<Pojo>(){
 
-                    @Override
                     protected void messageReceived(ChannelHandlerContext ctx, Pojo msg) throws Exception {
                         System.out.println(
                                 "Recived :" + msg
@@ -46,6 +45,10 @@ public class ProtostuffServer {
                     f.addListener(ChannelFutureListener.CLOSE);
                     super.channelActive(ctx);
                 }
+
+                    protected void channelRead0(ChannelHandlerContext ctx, Pojo msg) throws Exception {
+                     messageReceived(ctx, msg);
+                    }
                 });
 
             }

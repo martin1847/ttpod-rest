@@ -38,9 +38,12 @@ public class ProtostuffClient {
                         p.addLast("protobufEncoder", new ProtostuffRuntimeEncoder());
 
                         p.addLast("handler", new SimpleChannelInboundHandler<Pojo>() {
-                            @Override
                             protected void messageReceived(ChannelHandlerContext ctx, Pojo msg) throws Exception {
                                 System.out.println(" ProtostuffClient Revice  :" + msg);
+                            }
+
+                            protected void channelRead0(ChannelHandlerContext ctx, Pojo msg) throws Exception {
+                                messageReceived(ctx, msg);
                             }
                         });
                     }

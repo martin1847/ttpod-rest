@@ -92,7 +92,6 @@ public class FileServer {
     }
 
     private static final class FileHandler extends SimpleChannelInboundHandler<String> {
-        @Override
         public void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
             File file = new File(msg);
             if (file.exists()) {
@@ -115,6 +114,10 @@ public class FileServer {
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             cause.printStackTrace();
             ctx.close();
+        }
+
+        protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+            messageReceived(ctx, msg);
         }
     }
 }

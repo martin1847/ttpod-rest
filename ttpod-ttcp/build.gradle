@@ -6,8 +6,9 @@ apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 dependencies {
 
 
-    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
+//    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
 
+    optional 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
 
     testCompile 'org.mongodb:mongo-java-driver:2.11.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
@@ -23,7 +24,7 @@ dependencies {
 
     testCompile 'org.freemarker:freemarker:2.3.19'
 
-    runtime 'com.google.protobuf:protobuf-java:2.5.0'
+    compile 'com.google.protobuf:protobuf-java:2.5.0'
 
     compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
     compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'

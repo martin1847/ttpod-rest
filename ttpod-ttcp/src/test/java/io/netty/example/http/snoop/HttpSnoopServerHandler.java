@@ -54,7 +54,6 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
         ctx.flush();
     }
 
-    @Override
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof HttpRequest) {
             HttpRequest request = this.request = (HttpRequest) msg;
@@ -188,5 +187,9 @@ public class HttpSnoopServerHandler extends SimpleChannelInboundHandler<Object> 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

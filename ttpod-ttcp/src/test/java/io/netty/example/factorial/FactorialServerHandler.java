@@ -38,7 +38,6 @@ public class FactorialServerHandler extends SimpleChannelInboundHandler<BigInteg
     private BigInteger lastMultiplier = new BigInteger("1");
     private BigInteger factorial = new BigInteger("1");
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, BigInteger msg) throws Exception {
         // Calculate the cumulative factorial and send it to the client.
         lastMultiplier = msg;
@@ -60,5 +59,9 @@ public class FactorialServerHandler extends SimpleChannelInboundHandler<BigInteg
                 Level.WARNING,
                 "Unexpected exception from downstream.", cause);
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, BigInteger msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

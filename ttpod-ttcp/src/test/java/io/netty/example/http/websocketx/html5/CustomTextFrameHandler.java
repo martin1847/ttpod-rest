@@ -20,9 +20,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class CustomTextFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
-    @Override
     protected void messageReceived(ChannelHandlerContext ctx, TextWebSocketFrame frame) throws Exception {
         String request = frame.text();
         ctx.channel().writeAndFlush(new TextWebSocketFrame(request.toUpperCase()));
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

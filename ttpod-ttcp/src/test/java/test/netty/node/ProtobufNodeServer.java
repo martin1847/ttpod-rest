@@ -59,11 +59,14 @@ public class ProtobufNodeServer {
                     }
                 });
                 p.addLast(new SimpleChannelInboundHandler<String>() {
-                    @Override
                     protected void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
                         System.out.println(
                                 "Recevied :" + msg
                         );
+                    }
+
+                    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+                        messageReceived(ctx, msg);
                     }
                 });
             }

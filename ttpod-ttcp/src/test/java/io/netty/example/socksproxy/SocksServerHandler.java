@@ -36,7 +36,6 @@ public final class SocksServerHandler extends SimpleChannelInboundHandler<SocksR
         return name;
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, SocksRequest socksRequest) throws Exception {
         switch (socksRequest.requestType()) {
             case INIT: {
@@ -76,5 +75,9 @@ public final class SocksServerHandler extends SimpleChannelInboundHandler<SocksR
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) throws Exception {
         throwable.printStackTrace();
         SocksServerUtils.closeOnFlush(ctx.channel());
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, SocksRequest msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

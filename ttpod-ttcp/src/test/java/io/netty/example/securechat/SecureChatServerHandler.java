@@ -39,7 +39,6 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
 
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
         // Once session is secured, send a greeting and register the channel to the global channel
         // list so the channel received the messages from others.
@@ -60,7 +59,6 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
         });
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
         // Send the received message to all channels but the current one.
         for (Channel c: channels) {
@@ -84,5 +82,9 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
                 Level.WARNING,
                 "Unexpected exception from downstream.", cause);
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

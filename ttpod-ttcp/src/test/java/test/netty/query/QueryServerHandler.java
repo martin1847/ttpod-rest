@@ -14,7 +14,6 @@ import java.util.Arrays;
  */
 @ChannelHandler.Sharable
 public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
-    @Override
     protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
         String q = msg.getQ();
         QueryRes  data = new QueryRes();
@@ -27,5 +26,9 @@ public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
         if ("bye".equals(q)) {
             future.addListener(ChannelFutureListener.CLOSE);
         }
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
+        messageReceived(ctx,msg);
     }
 }

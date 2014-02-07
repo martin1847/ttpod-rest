@@ -38,12 +38,10 @@ public class SctpEchoServerHandler extends ChannelHandlerAdapter {
         ctx.close();
     }
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

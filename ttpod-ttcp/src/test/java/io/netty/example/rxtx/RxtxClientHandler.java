@@ -25,7 +25,6 @@ public class RxtxClientHandler extends SimpleChannelInboundHandler<String> {
         ctx.writeAndFlush("AT\n");
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
         if ("OK".equals(msg)) {
             System.out.println("Serial port responded to AT");
@@ -33,5 +32,9 @@ public class RxtxClientHandler extends SimpleChannelInboundHandler<String> {
             System.out.println("Serial port responded with not-OK: " + msg);
         }
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

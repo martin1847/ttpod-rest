@@ -69,7 +69,6 @@ public class FactorialClientHandler extends SimpleChannelInboundHandler<BigInteg
         sendNumbers();
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, final BigInteger msg) {
         receivedMessages ++;
         if (receivedMessages == count) {
@@ -115,4 +114,8 @@ public class FactorialClientHandler extends SimpleChannelInboundHandler<BigInteg
             }
         }
     };
+
+    protected void channelRead0(ChannelHandlerContext ctx, BigInteger msg) throws Exception {
+        messageReceived(ctx, msg);
+    }
 }

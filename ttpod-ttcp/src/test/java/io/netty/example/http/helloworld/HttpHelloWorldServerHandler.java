@@ -31,12 +31,10 @@ import static io.netty.handler.codec.http.HttpVersion.*;
 public class HttpHelloWorldServerHandler extends ChannelHandlerAdapter {
     private static final byte[] CONTENT = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd' };
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
     }
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;

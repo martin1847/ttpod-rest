@@ -30,7 +30,6 @@ public class TelnetClientHandler extends SimpleChannelInboundHandler<String> {
 
     private static final Logger logger = Logger.getLogger(TelnetClientHandler.class.getName());
 
-    @Override
     protected void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
         System.err.println(msg);
     }
@@ -41,5 +40,10 @@ public class TelnetClientHandler extends SimpleChannelInboundHandler<String> {
                 Level.WARNING,
                 "Unexpected exception from downstream.", cause);
         ctx.close();
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

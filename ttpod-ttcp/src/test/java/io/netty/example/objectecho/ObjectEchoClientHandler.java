@@ -49,19 +49,16 @@ public class ObjectEchoClientHandler extends ChannelHandlerAdapter {
         }
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         // Send the first message if this handler is a client-side handler.
         ctx.writeAndFlush(firstMessage);
     }
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // Echo back the received object to the server.
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

@@ -26,7 +26,7 @@ public class QueryServer {
         final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
         final ChannelHandler queryResEncoder = new QueryResEncoder();
         final EventLoopGroup searchGroup = new NioEventLoopGroup(
-                0, Executors.newCachedThreadPool()
+//                0, Executors.newCachedThreadPool()
         );
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
 

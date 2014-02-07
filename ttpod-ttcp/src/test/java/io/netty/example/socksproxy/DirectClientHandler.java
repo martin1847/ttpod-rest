@@ -32,7 +32,6 @@ public final class DirectClientHandler extends ChannelHandlerAdapter {
         this.promise = promise;
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.pipeline().remove(this);
         promise.setSuccess(ctx.channel());

@@ -43,7 +43,6 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
         ctx.flush();
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, String request) throws Exception {
 
         // Generate and write a response.
@@ -80,5 +79,9 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
                 Level.WARNING,
                 "Unexpected exception from downstream.", cause);
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

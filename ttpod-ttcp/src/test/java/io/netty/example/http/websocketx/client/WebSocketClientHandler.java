@@ -78,7 +78,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         System.out.println("WebSocket Client disconnected!");
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         Channel ch = ctx.channel();
         if (!handshaker.isHandshakeComplete()) {
@@ -115,5 +114,9 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         }
 
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

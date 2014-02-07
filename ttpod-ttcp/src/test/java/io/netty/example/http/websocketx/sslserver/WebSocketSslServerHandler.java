@@ -53,7 +53,6 @@ public class WebSocketSslServerHandler extends SimpleChannelInboundHandler<Objec
 
     private WebSocketServerHandshaker handshaker;
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof FullHttpRequest) {
             handleHttpRequest(ctx, (FullHttpRequest) msg);
@@ -158,5 +157,9 @@ public class WebSocketSslServerHandler extends SimpleChannelInboundHandler<Objec
 
     private static String getWebSocketLocation(FullHttpRequest req) {
         return "wss://" + req.headers().get(HOST) + WEBSOCKET_PATH;
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

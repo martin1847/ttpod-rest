@@ -30,14 +30,12 @@ public class ObjectEchoServerHandler extends ChannelHandlerAdapter {
     private static final Logger logger = Logger.getLogger(
             ObjectEchoServerHandler.class.getName());
 
-    @Override
     public void channelRead(
             ChannelHandlerContext ctx, Object msg) throws Exception {
         // Echo back the received object to the client.
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

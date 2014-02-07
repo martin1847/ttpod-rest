@@ -48,7 +48,6 @@ public class UptimeClientHandler extends SimpleChannelInboundHandler<Object> {
         println("Connected to: " + ctx.channel().remoteAddress());
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         // Discard received data
     }
@@ -99,5 +98,9 @@ public class UptimeClientHandler extends SimpleChannelInboundHandler<Object> {
         } else {
             System.err.format("[UPTIME: %5ds] %s%n", (System.currentTimeMillis() - startTime) / 1000, msg);
         }
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+
     }
 }

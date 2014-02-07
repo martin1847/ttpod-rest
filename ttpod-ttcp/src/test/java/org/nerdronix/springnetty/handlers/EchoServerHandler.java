@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Sharable
 public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
 
-	@Override
 	public void messageReceived(ChannelHandlerContext ctx, String msg)
 			throws Exception {
 		System.out.print(msg);
@@ -31,4 +30,8 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
 		super.channelInactive(ctx);
 	}
 
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        messageReceived(ctx, msg);
+    }
 }

@@ -31,12 +31,10 @@ public class EchoServerHandler extends ChannelHandlerAdapter {
     private static final Logger logger = Logger.getLogger(
             EchoServerHandler.class.getName());
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

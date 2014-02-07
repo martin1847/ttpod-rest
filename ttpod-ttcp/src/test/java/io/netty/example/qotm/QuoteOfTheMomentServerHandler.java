@@ -43,7 +43,6 @@ public class QuoteOfTheMomentServerHandler extends SimpleChannelInboundHandler<D
         return quotes[quoteId];
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
         System.err.println(packet);
         if ("QOTM?".equals(packet.content().toString(CharsetUtil.UTF_8))) {
@@ -63,5 +62,9 @@ public class QuoteOfTheMomentServerHandler extends SimpleChannelInboundHandler<D
             throws Exception {
         cause.printStackTrace();
         // We don't close the channel because we can keep serving requests.
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

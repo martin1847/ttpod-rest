@@ -113,7 +113,10 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         this.useSendFile = useSendFile;
     }
 
-    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
+        messageReceived(ctx, msg);
+    }
+
     public void messageReceived(
             ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         if (!request.getDecoderResult().isSuccess()) {

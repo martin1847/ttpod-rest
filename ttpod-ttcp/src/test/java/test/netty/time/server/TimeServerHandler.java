@@ -25,7 +25,6 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
 
     private final AttributeKey<Boolean> auth = AttributeKey.valueOf("auth");
 
-    @Override
     public void channelActive(final ChannelHandlerContext ctx) { // (1)
         final ByteBuf time = ctx.alloc().buffer(4); // (2)
         time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));

@@ -36,7 +36,6 @@ public class HexDumpProxyFrontendHandler extends ChannelHandlerAdapter {
         this.remotePort = remotePort;
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         final Channel inboundChannel = ctx.channel();
 
@@ -62,7 +61,6 @@ public class HexDumpProxyFrontendHandler extends ChannelHandlerAdapter {
         });
     }
 
-    @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
         if (outboundChannel.isActive()) {
             outboundChannel.writeAndFlush(msg).addListener(new ChannelFutureListener() {
@@ -79,7 +77,6 @@ public class HexDumpProxyFrontendHandler extends ChannelHandlerAdapter {
         }
     }
 
-    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         if (outboundChannel != null) {
             closeOnFlush(outboundChannel);

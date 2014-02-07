@@ -21,13 +21,11 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class LocalEchoServerHandler extends ChannelHandlerAdapter {
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // Write back as received
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

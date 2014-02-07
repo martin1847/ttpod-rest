@@ -94,7 +94,6 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
         }
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         if (msg instanceof HttpRequest) {
             HttpRequest request = this.request = (HttpRequest) msg;
@@ -410,5 +409,9 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.log(Level.WARNING, responseContent.toString(), cause);
         ctx.channel().close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

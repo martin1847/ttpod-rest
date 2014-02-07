@@ -7,7 +7,6 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Date;
 
 public class TimeClientHandler extends ChannelHandlerAdapter {
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf m = (ByteBuf) msg; // (1)
         try {

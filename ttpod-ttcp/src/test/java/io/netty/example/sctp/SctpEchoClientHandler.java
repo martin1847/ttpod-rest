@@ -49,17 +49,14 @@ public class SctpEchoClientHandler extends ChannelHandlerAdapter {
         }
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(new SctpMessage(0, 0, firstMessage));
     }
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ctx.write(msg);
     }
 
-    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
     }

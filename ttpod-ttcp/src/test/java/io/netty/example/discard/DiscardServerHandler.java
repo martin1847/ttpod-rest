@@ -29,7 +29,6 @@ public class DiscardServerHandler extends SimpleChannelInboundHandler<Object> {
     private static final Logger logger = Logger.getLogger(
             DiscardServerHandler.class.getName());
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         // discard
     }
@@ -43,5 +42,9 @@ public class DiscardServerHandler extends SimpleChannelInboundHandler<Object> {
                 "Unexpected exception from downstream.",
                 cause);
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+
     }
 }

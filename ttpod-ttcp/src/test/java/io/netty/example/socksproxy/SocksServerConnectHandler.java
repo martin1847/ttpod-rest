@@ -41,7 +41,6 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
 
     private final Bootstrap b = new Bootstrap();
 
-    @Override
     public void messageReceived(final ChannelHandlerContext ctx, final SocksCmdRequest request) throws Exception {
         Promise<Channel> promise = ctx.executor().newPromise();
         promise.addListener(
@@ -91,5 +90,9 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         SocksServerUtils.closeOnFlush(ctx.channel());
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, SocksCmdRequest msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

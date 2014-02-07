@@ -26,7 +26,6 @@ import io.netty.util.CharsetUtil;
 
 public class HttpSnoopClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         if (msg instanceof HttpResponse) {
             HttpResponse response = (HttpResponse) msg;
@@ -67,5 +66,9 @@ public class HttpSnoopClientHandler extends SimpleChannelInboundHandler<HttpObje
             ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

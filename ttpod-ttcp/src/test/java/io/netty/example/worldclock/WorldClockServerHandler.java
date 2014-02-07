@@ -36,7 +36,6 @@ public class WorldClockServerHandler extends SimpleChannelInboundHandler<Locatio
     private static final Logger logger = Logger.getLogger(
             WorldClockServerHandler.class.getName());
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, Locations locations) throws Exception {
         long currentTime = System.currentTimeMillis();
 
@@ -75,5 +74,10 @@ public class WorldClockServerHandler extends SimpleChannelInboundHandler<Locatio
 
     private static String toString(Continent c) {
         return c.name().charAt(0) + c.name().toLowerCase().substring(1);
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Locations msg) throws Exception {
+        messageReceived(ctx, msg);
     }
 }

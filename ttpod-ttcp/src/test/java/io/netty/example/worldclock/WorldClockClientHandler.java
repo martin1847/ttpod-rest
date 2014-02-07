@@ -49,6 +49,10 @@ public class WorldClockClientHandler extends SimpleChannelInboundHandler<LocalTi
         super(false);
     }
 
+    protected void channelRead0(ChannelHandlerContext ctx, LocalTimes msg) throws Exception {
+        messageReceived(ctx, msg);
+    }
+
     public List<String> getLocalTimes(Collection<String> cities) {
         Locations.Builder builder = Locations.newBuilder();
 
@@ -98,7 +102,6 @@ public class WorldClockClientHandler extends SimpleChannelInboundHandler<LocalTi
         channel = ctx.channel();
     }
 
-    @Override
     public void messageReceived(ChannelHandlerContext ctx, LocalTimes times) throws Exception {
         answer.add(times);
     }

@@ -30,13 +30,11 @@ public class HexDumpProxyBackendHandler extends ChannelHandlerAdapter {
         this.inboundChannel = inboundChannel;
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.read();
         ctx.write(Unpooled.EMPTY_BUFFER);
     }
 
-    @Override
     public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
         inboundChannel.writeAndFlush(msg).addListener(new ChannelFutureListener() {
             @Override
@@ -50,7 +48,6 @@ public class HexDumpProxyBackendHandler extends ChannelHandlerAdapter {
         });
     }
 
-    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         HexDumpProxyFrontendHandler.closeOnFlush(inboundChannel);
     }

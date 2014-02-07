@@ -35,12 +35,10 @@ public final class RelayHandler extends ChannelHandlerAdapter {
         this.relayChannel = relayChannel;
     }
 
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER);
     }
 
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (relayChannel.isActive()) {
             relayChannel.writeAndFlush(msg);
@@ -49,7 +47,6 @@ public final class RelayHandler extends ChannelHandlerAdapter {
         }
     }
 
-    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         if (relayChannel.isActive()) {
             SocksServerUtils.closeOnFlush(relayChannel);
