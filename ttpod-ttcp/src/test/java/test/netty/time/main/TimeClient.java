@@ -6,6 +6,7 @@ import test.netty.time.client.TimeDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
@@ -15,7 +16,7 @@ import java.net.InetSocketAddress;
  */
 public class TimeClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         new Client(new InetSocketAddress("127.0.0.1", 8080),
             new ChannelInitializer<SocketChannel>() {

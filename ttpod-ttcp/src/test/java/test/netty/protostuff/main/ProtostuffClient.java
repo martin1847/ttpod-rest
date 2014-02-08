@@ -1,8 +1,8 @@
 package test.netty.protostuff.main;
 
 import com.ttpod.netty.Client;
-import com.ttpod.netty.bean.codec.QueryReqDecoder;
-import com.ttpod.netty.bean.codec.QueryReqEncoder;
+import com.ttpod.netty.rpc.codec.RequestDecoder;
+import com.ttpod.netty.rpc.codec.RequestEncoder;
 import com.ttpod.netty.Pojo;
 import test.netty.protostuff.codec.ProtostuffRuntimeDecoder;
 import test.netty.protostuff.codec.ProtostuffRuntimeEncoder;
@@ -19,9 +19,9 @@ import java.net.InetSocketAddress;
  * @author: yangyang.cong@ttpod.com
  */
 public class ProtostuffClient {
-    public static void main(String[] args) {
-        final QueryReqDecoder decoder =  new QueryReqDecoder();
-        final QueryReqEncoder encoder =  new QueryReqEncoder();
+    public static void main(String[] args) throws Exception{
+        final RequestDecoder decoder =  new RequestDecoder();
+        final RequestEncoder encoder =  new RequestEncoder();
 
 //        byte flag = 1;
 ////                                ctx.flush();

@@ -1,7 +1,7 @@
 package test.netty.query;
 
-import com.ttpod.netty.bean.QueryReq;
-import com.ttpod.netty.bean.QueryRes;
+import com.ttpod.netty.rpc.RequestBean;
+import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.Pojo;
 import io.netty.channel.*;
 
@@ -13,10 +13,10 @@ import java.util.Arrays;
  * @author: yangyang.cong@ttpod.com
  */
 @ChannelHandler.Sharable
-public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
-    protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
+public class QueryServerHandler extends SimpleChannelInboundHandler<RequestBean> {
+    protected void messageReceived(ChannelHandlerContext ctx, RequestBean msg) throws Exception {
         String q = msg.getQ();
-        QueryRes  data = new QueryRes();
+        ResponseBean data = new ResponseBean();
         data.setReqId(msg.reqId);
         data.setCode(1);
         data.setPages(10);
@@ -29,7 +29,7 @@ public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
         }
     }
 
-    protected void channelRead0(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, RequestBean msg) throws Exception {
         messageReceived(ctx,msg);
     }
 }

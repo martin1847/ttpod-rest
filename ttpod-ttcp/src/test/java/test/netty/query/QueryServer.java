@@ -1,8 +1,8 @@
 package test.netty.query;
 
 import com.ttpod.netty.Server;
-import com.ttpod.netty.bean.codec.QueryReqDecoder;
-import com.ttpod.netty.bean.codec.QueryResEncoder;
+import com.ttpod.netty.rpc.codec.RequestDecoder;
+import com.ttpod.netty.rpc.codec.ResponseEncoder;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -12,8 +12,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.util.Version;
 
-import java.util.concurrent.Executors;
-
 /**
  * date: 14-1-28 下午1:11
  *
@@ -22,10 +20,10 @@ import java.util.concurrent.Executors;
 public class QueryServer {
     public static void main(String[] args) {
 
-        final  ChannelHandler queryServerHandler = new QueryServerHandler();
+
 
         final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
-        final ChannelHandler queryResEncoder = new QueryResEncoder();
+        final ChannelHandler responseEncoder = new ResponseEncoder();
         final EventLoopGroup searchGroup = new NioEventLoopGroup(
 //                0, Executors.newCachedThreadPool()
         );
@@ -34,6 +32,7 @@ public class QueryServer {
                 Version.identify()
         );
 
+        final  ChannelHandler serverHandler = new QueryServerHandler();
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
 
             //            final QueryReqDecoder decoder =  ;
@@ -41,12 +40,13 @@ public class QueryServer {
             @Override
             public void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline p = ch.pipeline();
-                p.addLast("decoder", new QueryReqDecoder());
-//                pipeline.addLast("encoder", encoder);
-                p.addLast("frameEncoder",frameEncoder );
-                p.addLast("queryResEncoder", queryResEncoder);
 
-                p.addLast(searchGroup,"queryServerHandler", queryServerHandler);
+                p.addLast("decoder", new RequestDecoder());
+
+                p.addLast("frameEncoder",frameEncoder );
+                p.addLast("responseEncoder", responseEncoder);
+
+                p.addLast(searchGroup,"serverHandler", serverHandler);
             }
         },6666);
 
