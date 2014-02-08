@@ -10,6 +10,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.util.Version;
 
 import java.util.concurrent.Executors;
 
@@ -28,6 +29,11 @@ public class QueryServer {
         final EventLoopGroup searchGroup = new NioEventLoopGroup(
 //                0, Executors.newCachedThreadPool()
         );
+
+        System.out.println(
+                Version.identify()
+        );
+
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
 
             //            final QueryReqDecoder decoder =  ;

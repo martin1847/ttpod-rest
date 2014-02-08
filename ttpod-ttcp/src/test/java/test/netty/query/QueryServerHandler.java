@@ -17,6 +17,7 @@ public class QueryServerHandler extends SimpleChannelInboundHandler<QueryReq> {
     protected void messageReceived(ChannelHandlerContext ctx, QueryReq msg) throws Exception {
         String q = msg.getQ();
         QueryRes  data = new QueryRes();
+        data.setReqId(msg.reqId);
         data.setCode(1);
         data.setPages(10);
         data.setRows(2000);
