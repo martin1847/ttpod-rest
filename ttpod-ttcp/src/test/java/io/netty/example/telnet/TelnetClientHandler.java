@@ -42,7 +42,6 @@ public class TelnetClientHandler extends SimpleChannelInboundHandler<String> {
         ctx.close();
     }
 
-    @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         messageReceived(ctx, msg);
     }

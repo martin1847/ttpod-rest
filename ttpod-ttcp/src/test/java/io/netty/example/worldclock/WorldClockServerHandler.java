@@ -76,7 +76,6 @@ public class WorldClockServerHandler extends SimpleChannelInboundHandler<Locatio
         return c.name().charAt(0) + c.name().toLowerCase().substring(1);
     }
 
-    @Override
     protected void channelRead0(ChannelHandlerContext ctx, Locations msg) throws Exception {
         messageReceived(ctx, msg);
     }

@@ -6,9 +6,9 @@ apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 dependencies {
 
 
-//    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
+    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
 
-    optional 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
+//    optional 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
 
     testCompile 'org.mongodb:mongo-java-driver:2.11.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'

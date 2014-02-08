@@ -30,7 +30,6 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
 		super.channelInactive(ctx);
 	}
 
-    @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         messageReceived(ctx, msg);
     }

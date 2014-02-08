@@ -25,7 +25,6 @@ public class CustomTextFrameHandler extends SimpleChannelInboundHandler<TextWebS
         ctx.channel().writeAndFlush(new TextWebSocketFrame(request.toUpperCase()));
     }
 
-    @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         messageReceived(ctx, msg);
     }
