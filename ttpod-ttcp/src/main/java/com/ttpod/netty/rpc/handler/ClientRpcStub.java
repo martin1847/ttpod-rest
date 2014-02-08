@@ -3,6 +3,8 @@ package com.ttpod.netty.rpc.handler;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * date: 14-2-8 下午10:27
  *
@@ -23,6 +25,6 @@ public interface ClientRpcStub {
     /**
      * sync call.
      */
-    ResponseBean rpc(RequestBean req,int timeOutMills);
+    ResponseBean rpc(RequestBean req,int timeOutMills) throws TimeoutException;
 
 }

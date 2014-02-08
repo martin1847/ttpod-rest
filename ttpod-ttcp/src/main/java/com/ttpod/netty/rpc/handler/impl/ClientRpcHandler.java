@@ -7,10 +7,13 @@ import com.ttpod.netty.rpc.handler.ResponseObserver;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * date: 14-2-7 下午1:16
@@ -20,16 +23,23 @@ import java.util.concurrent.TimeUnit;
 public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> implements ClientRpcStub {
     {
         System.out.println(
-                "new QueryClientHandler :" + this
+                "new ClientRpcHandler :" + this
         );
     }
     // Stateful properties
     private volatile Channel channel;
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ClientRpcHandler.class);
-    private static final ConcurrentHashMap<Short,ResponseObserver> map = new ConcurrentHashMap<>(128);
+    private static final Logger logger = LoggerFactory.getLogger(ClientRpcHandler.class);
+
+    // TODO beanckmark with RingBuffer . https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started
+    private static final ConcurrentHashMap<Short,ResponseObserver> outstandings = new ConcurrentHashMap<>(128);
 
     protected void messageReceived(ChannelHandlerContext ctx, ResponseBean msg) throws Exception {
-        map.remove(msg.getReqId()).onSuccess(msg);
+        ResponseObserver observer = outstandings.remove(msg.getReqId());
+        if(null != observer){
+            observer.onSuccess(msg);
+        }else{
+            logger.error("Unknown ResponseBean with id : {}", msg.getReqId());
+        }
     }
 
     @Deprecated
@@ -37,38 +47,56 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
         messageReceived(ctx,msg);
     }
 
-    @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         channel = ctx.channel();
     }
-
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.warn("Unexpected exception from downstream.", cause);
         ctx.close();
     }
 
+
+
     @Override
-    public void rpc(RequestBean req, ResponseObserver observer) {
-        if(null !=  map.put(req.reqId,observer)){
+    public void rpc(final RequestBean req, ResponseObserver observer) {
+        if(null !=  outstandings.put(req.reqId,observer)){
             logger.warn("rpc req id Conflict : {}" ,req);
         }
         channel.writeAndFlush(req);
+        // TODO !future.isSuccess() clean Or Use Disruptor ( Ring Buffer ) Or just waring with put above?
+//        .addListener( new ChannelFutureListener() {
+//            public void operationComplete(ChannelFuture future) throws Exception {
+//                if(!future.isSuccess()){
+//                    outstandings.remove(req.reqId);
+//                }
+//            }
+//        });
     }
 
     @Override
     public ResponseBean rpc(RequestBean req) {
-        return rpc(req,2000);
+        BlockingResponseObserver done = new BlockingResponseObserver();
+        rpc(req,done);
+        synchronized (done) {
+            while (done.response == null) {
+                try {
+                    done.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        return done.response;
     }
 
     @Override
-    public ResponseBean rpc(RequestBean req, int timeOutMills) {
+    public ResponseBean rpc(RequestBean req, int timeOutMills) throws TimeoutException{
         ResponseFuture future = new ResponseFuture();
         rpc(req,future);
         try {
             return future.get(timeOutMills, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error(" rpc future Error -> ",e);
             throw new RuntimeException("future Got Error . ",e);
         }
     }
