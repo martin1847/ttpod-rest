@@ -44,8 +44,10 @@ public class QueryClient {
         // Read commands from the stdin.
         ChannelFuture lastWriteFuture = null;
         final ClientRpcStub handler = client.getChannel().pipeline().get(ClientRpcHandler.class);
-        final int THREADS = 1000;
-        ExecutorService exe = Executors.newFixedThreadPool(THREADS);
+        final int THREADS = 5000;
+        // TODO 1. Benchmark : wait notify VS ResponseFuture
+        // TODO 2. HowToRunBenchmark with nfs-rpc
+        ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024,THREADS));
         for (int i = THREADS; i > 0; i--) {
             exe.execute(new Runnable() {
                 public void run() {
