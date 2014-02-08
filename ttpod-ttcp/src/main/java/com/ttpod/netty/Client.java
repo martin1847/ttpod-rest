@@ -13,27 +13,11 @@ import java.net.SocketAddress;
  * @author: yangyang.cong@ttpod.com
  */
 public class Client {
+    EventLoopGroup workerGroup;
 
-    SocketAddress socketAddress;
-
-    ChannelHandler channelHandler;
-
-
-
-    public Client(SocketAddress socketAddress, ChannelHandler channelHandler) {
-        this(socketAddress,channelHandler,null);
-    }
-
-    public Client(SocketAddress socketAddress, ChannelHandler channelHandler,ChannelCallback callback) {
-        this.socketAddress = socketAddress;
-        this.channelHandler = channelHandler;
-        connect(callback);
-    }
-
-    void connect(ChannelCallback callback) {
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-        try {
+    Channel channel;
+    public Client(SocketAddress socketAddress, ChannelHandler channelHandler) throws InterruptedException {
+        workerGroup = new NioEventLoopGroup();
             Bootstrap b = new Bootstrap(); // (1)
             b.group(workerGroup); // (2)
             b.channel(NioSocketChannel.class); // (3)
@@ -42,26 +26,25 @@ public class Client {
 
             // Start the client.
             ChannelFuture f = b.connect(socketAddress).sync(); // (5)
-
             // Wait until the connection is closed.
-            Channel channel = f.channel();
+            this.channel = f.channel();
 
-            if(null == callback){
-                channel.closeFuture().sync();
-            }else{
-                callback.useChannel(channel);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            workerGroup.shutdownGracefully();
-        }
+//                channel.closeFuture().sync();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } finally {
+//            workerGroup.shutdownGracefully();
+//        }
     }
 
 
-    public interface ChannelCallback{
-
-        void useChannel( Channel channel )  throws InterruptedException;
+    public void close() throws InterruptedException {
+        channel.closeFuture().sync();
+        workerGroup.shutdownGracefully();
     }
+    public Channel getChannel() {
+        return channel;
+    }
+
 
 }

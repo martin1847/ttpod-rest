@@ -1,4 +1,4 @@
-package com.ttpod.netty.bean;
+package com.ttpod.netty.rpc;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class QueryRes {
+public class ResponseBean {
 
     int code;
     int rows;
@@ -59,7 +59,7 @@ public class QueryRes {
 
     @Override
     public String toString() {
-        return "QueryRes{" +
+        return "ResponseBean{" +
                 "code=" + code +
                 ", rows=" + rows +
                 ", pages=" + pages +

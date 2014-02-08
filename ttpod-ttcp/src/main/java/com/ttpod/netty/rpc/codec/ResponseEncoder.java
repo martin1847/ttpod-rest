@@ -1,8 +1,8 @@
-package com.ttpod.netty.bean.codec;
+package com.ttpod.netty.rpc.codec;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
-import com.ttpod.netty.bean.QueryRes;
+import com.ttpod.netty.rpc.ResponseBean;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -17,7 +17,7 @@ import static io.netty.buffer.Unpooled.wrappedBuffer;
  * @author: yangyang.cong@ttpod.com
  */
 @ChannelHandler.Sharable
-public class QueryResEncoder extends MessageToMessageEncoder<QueryRes> {
+public class ResponseEncoder extends MessageToMessageEncoder<ResponseBean> {
 
 
     /**
@@ -47,9 +47,9 @@ public class QueryResEncoder extends MessageToMessageEncoder<QueryRes> {
      */
     @Override
     protected void encode(
-            ChannelHandlerContext ctx, QueryRes msg, List<Object> out) throws Exception {
+            ChannelHandlerContext ctx, ResponseBean msg, List<Object> out) throws Exception {
 //        ExplicitIdStrategy.Registry.
-        byte[] data = ProtostuffIOUtil.toByteArray(msg, QueryResDecoder.schema, LinkedBuffer.allocate(4096));
+        byte[] data = ProtostuffIOUtil.toByteArray(msg, ResponseDecoder.schema, LinkedBuffer.allocate(4096));
 
         System.out.println("encode QueryRes bytes: " + data.length);
 //        schema.newMessage();

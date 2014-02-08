@@ -1,6 +1,6 @@
-package com.ttpod.netty.bean.codec;
+package com.ttpod.netty.rpc.codec;
 
-import com.ttpod.netty.bean.QueryReq;
+import com.ttpod.netty.rpc.RequestBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,14 +13,14 @@ import io.netty.util.CharsetUtil;
  * @author: yangyang.cong@ttpod.com
  */
 @ChannelHandler.Sharable
-public class QueryReqEncoder extends MessageToByteEncoder<QueryReq> {
+public class RequestEncoder extends MessageToByteEncoder<RequestBean> {
 
 
     static final int BYTE_FIELDS = 1*2 + 3 * 1;// _id + 3 byte
     public static final short MAGIC  = 0XCF;
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, QueryReq req, ByteBuf out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, RequestBean req, ByteBuf out) throws Exception {
 
 //        System.out.println("[QueryReqEncoder call]   ");
 //        byte[] q = ;

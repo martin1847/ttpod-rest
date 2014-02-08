@@ -1,6 +1,6 @@
-package com.ttpod.netty.bean.codec;
+package com.ttpod.netty.rpc.codec;
 
-import com.ttpod.netty.bean.QueryReq;
+import com.ttpod.netty.rpc.RequestBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author: yangyang.cong@ttpod.com
  */
 //@ChannelHandler.Sharable
-public class QueryReqDecoder extends ByteToMessageDecoder {
+public class RequestDecoder extends ByteToMessageDecoder {
     static final int MAGIC_BYTE  = 1;
     static final int LENGTH_BYTE  = 2;
     static final int HEADER_BYTE   = MAGIC_BYTE + LENGTH_BYTE ;
@@ -26,7 +26,7 @@ public class QueryReqDecoder extends ByteToMessageDecoder {
         }
         in.markReaderIndex();
         int frameLength;
-        if (        in.readUnsignedByte() != QueryReqEncoder.MAGIC
+        if (        in.readUnsignedByte() != RequestEncoder.MAGIC
               ||    (frameLength = in.readUnsignedShort() )> in.readableBytes()  // Wait until the whole data is available.
          ) {
             in.resetReaderIndex();
@@ -45,7 +45,7 @@ public class QueryReqDecoder extends ByteToMessageDecoder {
         String q = in.toString(stringIndex,endIndex - stringIndex, CharsetUtil.UTF_8);
         in.readerIndex(endIndex);
 
-        QueryReq req = new QueryReq(reqId);
+        RequestBean req = new RequestBean(reqId);
         req.setService(service);
         req.setPage(page);
         req.setSize(size);

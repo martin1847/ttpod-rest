@@ -1,4 +1,4 @@
-package com.ttpod.netty.bean;
+package com.ttpod.netty.rpc;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class QueryReq {
+public class RequestBean {
 
 
 
@@ -21,15 +21,15 @@ public class QueryReq {
     short size =50;
     String q = "TTPOD";
 
-    public QueryReq(){
+    public RequestBean(){
         this((short) (ID.incrementAndGet() & 0xffff));
     }
 
-    public QueryReq(short reqId){
+    public RequestBean(short reqId){
         this.reqId = reqId;
     }
 
-    public QueryReq(QueryServie service, short page, short size, String q) {
+    public RequestBean(QueryServie service, short page, short size, String q) {
         this();
         this.service = service.flag();
         this.page = page;
@@ -80,7 +80,7 @@ public class QueryReq {
 
     @Override
     public String toString() {
-        return "QueryReq{" +
+        return "RequestBean{" +
                 "service=" + service +
                 ", page=" + page +
                 ", size=" + size +

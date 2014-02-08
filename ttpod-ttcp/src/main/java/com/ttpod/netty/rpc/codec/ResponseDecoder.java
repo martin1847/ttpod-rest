@@ -1,9 +1,9 @@
-package com.ttpod.netty.bean.codec;
+package com.ttpod.netty.rpc.codec;
 
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
-import com.ttpod.netty.bean.QueryRes;
+import com.ttpod.netty.rpc.ResponseBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,9 +17,9 @@ import java.util.List;
  * @author: yangyang.cong@ttpod.com
  */
 @ChannelHandler.Sharable
-public class QueryResDecoder extends MessageToMessageDecoder<ByteBuf> {
+public class ResponseDecoder extends MessageToMessageDecoder<ByteBuf> {
 
-    static final Schema<QueryRes> schema =  RuntimeSchema.getSchema(QueryRes.class);
+    static final Schema<ResponseBean> schema =  RuntimeSchema.getSchema(ResponseBean.class);
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
         final byte[] array;
@@ -34,7 +34,7 @@ public class QueryResDecoder extends MessageToMessageDecoder<ByteBuf> {
             offset = 0;
         }
         // deser
-        QueryRes pojo = new QueryRes();
+        ResponseBean pojo = new ResponseBean();
         ProtostuffIOUtil.mergeFrom(array, offset, length, pojo, schema);
         out.add(pojo);
     }
