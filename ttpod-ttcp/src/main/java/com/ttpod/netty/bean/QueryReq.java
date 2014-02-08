@@ -1,5 +1,7 @@
 package com.ttpod.netty.bean;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * date: 14-1-28 上午11:31
  *
@@ -8,13 +10,27 @@ package com.ttpod.netty.bean;
 public class QueryReq {
 
 
+
+    private static final AtomicInteger ID = new AtomicInteger();
+
+
+    public final short reqId ;
+
     byte service =0;
     short page =1 ;
     short size =50;
     String q = "TTPOD";
 
-    public QueryReq(){}
+    public QueryReq(){
+        this((short) (ID.incrementAndGet() & 0xffff));
+    }
+
+    public QueryReq(short reqId){
+        this.reqId = reqId;
+    }
+
     public QueryReq(QueryServie service, short page, short size, String q) {
+        this();
         this.service = service.flag();
         this.page = page;
         this.size = size;

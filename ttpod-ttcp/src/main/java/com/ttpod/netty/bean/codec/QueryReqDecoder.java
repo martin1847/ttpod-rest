@@ -34,6 +34,9 @@ public class QueryReqDecoder extends ByteToMessageDecoder {
         }
 
         int dataIndex = in.readerIndex();
+
+        short reqId = in.readShort();
+
         byte service =  in.readByte();
         short page = in.readUnsignedByte();
         short size = in.readUnsignedByte();
@@ -42,7 +45,7 @@ public class QueryReqDecoder extends ByteToMessageDecoder {
         String q = in.toString(stringIndex,endIndex - stringIndex, CharsetUtil.UTF_8);
         in.readerIndex(endIndex);
 
-        QueryReq req = new QueryReq();
+        QueryReq req = new QueryReq(reqId);
         req.setService(service);
         req.setPage(page);
         req.setSize(size);

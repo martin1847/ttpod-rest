@@ -7,8 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * date: 14-2-7 下午1:16
@@ -25,17 +24,16 @@ public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
 
     // Stateful properties
     private volatile Channel channel;
-    private final BlockingQueue<QueryRes> answer = new LinkedBlockingQueue<QueryRes>();
 
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(QueryClientHandler.class);
 
 
-    private volatile QueryResCallback callback;
+    private static final ConcurrentHashMap<Short,QueryResFuture> map = new ConcurrentHashMap<>(1024);
 
     protected void messageReceived(ChannelHandlerContext ctx, QueryRes msg) throws Exception {
 
-        answer.add(msg);
+        map.get(msg.getReqId()).set(msg);
 //        System.out.println(
 //                Thread.currentThread().getName() +" GOT MSG : " + msg
 //        );
@@ -62,29 +60,18 @@ public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
     }
 
     public void doSearchWithCallBack(QueryReq req,QueryResCallback callback) {
-        this.callback = callback;
         channel.writeAndFlush(req);
     }
     public QueryRes doSearch(QueryReq req) {
+        QueryResFuture future = new QueryResFuture();
+        map.put(req.reqId,future);
         channel.writeAndFlush(req);
-        QueryRes result;
-        boolean interrupted = false;
-        for (;;) {
-            try {
-                result = answer.take();
-                break;
-            } catch (InterruptedException e) {
-                interrupted = true;
-            }
+        try {
+            return future.get(2000, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("future Got Error . ",e);
         }
-
-        if (interrupted) {
-            Thread.currentThread().interrupt();
-        }
-//        System.out.println(
-//                Thread.currentThread().getName() +" call doSearch, return msg :" + result
-//        );
-        return result;
     }
 
     public interface QueryResCallback{

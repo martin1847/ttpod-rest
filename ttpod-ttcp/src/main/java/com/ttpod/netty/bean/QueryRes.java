@@ -15,6 +15,8 @@ public class QueryRes {
 
     List data;
 
+    short reqId;
+
     public int getCode() {
         return code;
     }
@@ -47,6 +49,14 @@ public class QueryRes {
         this.data = data;
     }
 
+    public short getReqId() {
+        return reqId;
+    }
+
+    public void setReqId(short reqId) {
+        this.reqId = reqId;
+    }
+
     @Override
     public String toString() {
         return "QueryRes{" +
@@ -54,6 +64,7 @@ public class QueryRes {
                 ", rows=" + rows +
                 ", pages=" + pages +
                 ", data=" + data +
+                ", reqId=" + reqId +
                 '}';
     }
 }
