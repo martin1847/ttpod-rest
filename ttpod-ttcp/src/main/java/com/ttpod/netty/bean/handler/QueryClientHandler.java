@@ -16,6 +16,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author: yangyang.cong@ttpod.com
  */
 public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
+
+    {
+        System.out.println(
+                "new QueryClientHandler :" + this
+        );
+    }
+
     // Stateful properties
     private volatile Channel channel;
     private final BlockingQueue<QueryRes> answer = new LinkedBlockingQueue<QueryRes>();
@@ -27,14 +34,16 @@ public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
     private volatile QueryResCallback callback;
 
     protected void messageReceived(ChannelHandlerContext ctx, QueryRes msg) throws Exception {
-        System.out.println(
-                Thread.currentThread().getName() +" GOT MSG : " + msg
-        );
-        if (null == callback) {
-            answer.add(msg);
-        } else {
-            callback.dealWith(msg);
-        }
+
+        answer.add(msg);
+//        System.out.println(
+//                Thread.currentThread().getName() +" GOT MSG : " + msg
+//        );
+//        if (null == callback) {
+//            answer.add(msg);
+//        } else {
+//            callback.dealWith(msg);
+//        }
     }
 
     protected void channelRead0(ChannelHandlerContext ctx, QueryRes msg) throws Exception{
@@ -72,6 +81,9 @@ public class QueryClientHandler extends SimpleChannelInboundHandler<QueryRes> {
         if (interrupted) {
             Thread.currentThread().interrupt();
         }
+//        System.out.println(
+//                Thread.currentThread().getName() +" call doSearch, return msg :" + result
+//        );
         return result;
     }
 
