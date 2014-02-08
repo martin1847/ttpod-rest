@@ -3,6 +3,7 @@ package com.ttpod.netty.rpc.handler.impl;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.handler.ClientRpcStub;
+import com.ttpod.netty.rpc.handler.OutstandingContainer;
 import com.ttpod.netty.rpc.handler.ResponseObserver;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +11,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -31,7 +31,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
     private static final Logger logger = LoggerFactory.getLogger(ClientRpcHandler.class);
 
     // TODO beanckmark with RingBuffer . https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started
-    private static final ConcurrentHashMap<Short,ResponseObserver> outstandings = new ConcurrentHashMap<>(128);
+    private static final OutstandingContainer outstandings = OutstandingContainer.ARRAY_0xFFFF;
 
     protected void messageReceived(ChannelHandlerContext ctx, ResponseBean msg) throws Exception {
         ResponseObserver observer = outstandings.remove(msg.getReqId());
@@ -60,7 +60,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
 
     @Override
     public void rpc(final RequestBean req, ResponseObserver observer) {
-        if(null !=  outstandings.put(req.reqId,observer)){
+        if(null !=  outstandings.put(req.reqId = OutstandingContainer.ID.next() ,observer)){
             logger.warn("rpc req id Conflict : {}" ,req);
         }
         channel.writeAndFlush(req);

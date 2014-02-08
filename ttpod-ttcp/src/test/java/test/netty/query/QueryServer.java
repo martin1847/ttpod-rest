@@ -28,6 +28,11 @@ public class QueryServer {
 //                0, Executors.newCachedThreadPool()
         );
 
+        short s = (short) (Short.MAX_VALUE+100);
+        System.out.println((short)s);
+
+        int a= s& 0Xffff;
+        System.out.println(a);
         System.out.println(
                 Version.identify()
         );

@@ -1,7 +1,5 @@
 package com.ttpod.netty.rpc;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * date: 14-1-28 上午11:31
  *
@@ -11,10 +9,10 @@ public class RequestBean {
 
 
 
-    private static final AtomicInteger ID = new AtomicInteger();
 
 
-    public final short reqId ;
+
+    public short reqId ;
 
     byte service =0;
     short page =1 ;
@@ -22,7 +20,7 @@ public class RequestBean {
     String q = "TTPOD";
 
     public RequestBean(){
-        this((short) (ID.incrementAndGet() & 0xffff));
+//        this((short) (ID.incrementAndGet() & 0xffff));
     }
 
     public RequestBean(short reqId){

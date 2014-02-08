@@ -6,6 +6,7 @@ import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.codec.RequestEncoder;
 import com.ttpod.netty.rpc.codec.ResponseDecoder;
 import com.ttpod.netty.rpc.handler.ClientRpcStub;
+import com.ttpod.netty.rpc.handler.OutstandingContainer;
 import com.ttpod.netty.rpc.handler.impl.ClientRpcHandler;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
@@ -44,7 +45,7 @@ public class QueryClient {
         // Read commands from the stdin.
         ChannelFuture lastWriteFuture = null;
         final ClientRpcStub handler = client.getChannel().pipeline().get(ClientRpcHandler.class);
-        final int THREADS = 5000;
+        final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         // TODO 1. Benchmark : wait notify VS ResponseFuture
         // TODO 2. HowToRunBenchmark with nfs-rpc
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024,THREADS));
