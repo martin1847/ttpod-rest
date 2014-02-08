@@ -11,8 +11,8 @@ import com.ttpod.netty.rpc.handler.ResponseObserver;
 public class BlockingResponseObserver  implements ResponseObserver{
     volatile ResponseBean response;
     public void onSuccess(ResponseBean response) {
+        this.response = response;
         synchronized (this) {
-            this.response = response;
             notify();
         }
     }
