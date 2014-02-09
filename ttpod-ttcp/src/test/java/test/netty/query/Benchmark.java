@@ -51,4 +51,25 @@ class Benchmark implements Runnable{
 
         return cost;
     }
+
+
+    static void VS(Benchmark a,Benchmark b,int TIMES){
+        int aTotal = 0;
+        int bTotal = 0;
+        for (int j = TIMES + 5 ; j > 0; j--) {
+            int cost = a.costMills();
+            if (j <= TIMES) {
+                aTotal += cost;
+            }
+            cost = b.costMills();
+            if (j <= TIMES) {
+                bTotal += cost;
+            }
+        }
+        System.out.println("===========================END========================");
+        int cost = aTotal / TIMES;
+        System.out.println(a.name + "  cov ,cost : " + cost + " ms, rps : " + a.reqCount * 1000  / cost);
+        cost = bTotal / TIMES;
+        System.out.println(b.name + "  cov ,cost : " + cost + " ms, rps : " + b.reqCount * 1000  / cost);
+    }
 }

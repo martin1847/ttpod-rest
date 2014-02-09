@@ -27,18 +27,14 @@ public class QueryClient {
         final ClientHandler handler = client.getChannel().pipeline().get(DefaultClientHandler.class);
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024,THREADS));
-        for (int i = THREADS; i > 0; i--) {
-            exe.execute(new Runnable() {
-                public void run() {
-                    String q =  Thread.currentThread().getName();
-                    RequestBean req = new RequestBean(RequestBean.QueryServie.SONG, (short) 1, (short) 50, q);
-                    ResponseBean msg = handler.rpc(req);
-                    if (!msg.toString().contains(q)) {
-                        System.err.println(q + "\t" + InnerBindUtil.id(req) + "\t" + msg);
-                    }
+        exe.execute(new Benchmark("assertThreadSafe",handler,exe,THREADS){
+            protected void rpcCall(RequestBean req) {
+                ResponseBean msg =  handler.rpc(req);
+                if (!msg.toString().contains(req.getData())) {
+                    System.err.println(req.getData()+ "\t" + InnerBindUtil.id(req) + "\t" + msg);
                 }
-            });
-        }
+            }
+        });
         System.out.println("Pls Input a  word ..");
 //      final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

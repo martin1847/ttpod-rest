@@ -26,10 +26,6 @@ public class Notify_Future {
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024, THREADS));
 
-        int NotifyTotal = 0;
-        int FutureTotal = 0;
-        int TIMES = 15;
-        int HOT_TOTAL = TIMES - 5;
         Benchmark notify = new Benchmark("Notify",handler,exe,THREADS);
         Benchmark future = new Benchmark("Future",handler,exe,THREADS){
             protected void rpcCall(RequestBean req) {
@@ -40,24 +36,12 @@ public class Notify_Future {
                 }
             }
         };
-        for (int j = TIMES; j > 0; j--) {
-            int cost = notify.costMills();
-            if (j <= HOT_TOTAL) {
-                NotifyTotal += cost;
-            }
-            cost = future.costMills();
-            if (j <= HOT_TOTAL) {
-                FutureTotal += cost;
-            }
-        }
+        Benchmark.VS(notify, future, 15);
 
-        System.out.println("===========================END========================");
-        int cost = NotifyTotal / HOT_TOTAL;
-        System.out.println("Notify  cov ,cost : " + cost + " ms, rps : " + THREADS * 1000  / cost);
-        cost = FutureTotal / HOT_TOTAL;
-        System.out.println("Future  cov ,cost : " + cost + " ms, rps : " + THREADS * 1000  / cost);
+
         client.close();
         exe.shutdown();
 
     }
+  
 }
