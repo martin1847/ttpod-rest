@@ -2,21 +2,22 @@ package test.netty.query;
 
 import com.ttpod.netty.Client;
 import com.ttpod.netty.rpc.RequestBean;
+import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
 
 /**
  * date: 14-1-28 下午2:16
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class Notify_Future {
+public class NIO_OIO {
     public static void main(String[] args) throws Exception {
         Client client = new Client(new InetSocketAddress("127.0.0.1", 6666),
                 new ClientInitializer());
@@ -28,27 +29,30 @@ public class Notify_Future {
 
         int NotifyTotal = 0;
         int FutureTotal = 0;
-        int TIMES = 15;
+        int TIMES = 25;
         int HOT_TOTAL = TIMES - 5;
-        Benchmark notify = new Benchmark("Notify",handler,exe,THREADS);
-        Benchmark future = new Benchmark("Future",handler,exe,THREADS){
-            protected void rpcCall(RequestBean req) {
-                try {
-                    handler.rpc(req, 1000);
-                } catch (TimeoutException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
         for (int j = TIMES; j > 0; j--) {
-            int cost = notify.costMills();
+
+            final CountDownLatch latch = new CountDownLatch(THREADS);
+            long b = System.currentTimeMillis();
+            for (int i = THREADS; i > 0; i--) {
+                exe.execute(new Runnable() {
+                    public void run() {
+                        String q = Thread.currentThread().getName();
+                        RequestBean req = new RequestBean(RequestBean.QueryServie.SONG, (short) 1, (short) 50, q);
+                        ResponseBean msg = handler.rpc(req);
+                        latch.countDown();
+                    }
+                });
+            }
+            latch.await();
+            int cost = (int) (System.currentTimeMillis() - b);
+            System.out.println("Notify cost :" + cost + " ms, rps : " + THREADS * 1000 / cost);
             if (j <= HOT_TOTAL) {
                 NotifyTotal += cost;
             }
-            cost = future.costMills();
-            if (j <= HOT_TOTAL) {
-                FutureTotal += cost;
-            }
+
+
         }
 
         System.out.println("===========================END========================");
@@ -61,3 +65,5 @@ public class Notify_Future {
 
     }
 }
+
+

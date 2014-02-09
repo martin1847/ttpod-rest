@@ -7,14 +7,6 @@ import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
-import com.ttpod.netty.rpc.codec.RequestEncoder;
-import com.ttpod.netty.rpc.codec.ResponseDecoder;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,22 +21,9 @@ import java.util.concurrent.Executors;
  */
 public class QueryClient {
     public static void main(String[] args) throws Exception {
-        final ChannelHandler requestEncoder = new RequestEncoder();
-        final ChannelHandler responseDecoder = new ResponseDecoder();
-        Client client = new Client(new InetSocketAddress("127.0.0.1", 6666),
-            new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ChannelPipeline p = ch.pipeline();
-                    p.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
-                    p.addLast("responseDecoder", responseDecoder);
-                    p.addLast("requestEncoder", requestEncoder);
-                    p.addLast(new DefaultClientHandler());
-                }
-            });
-
+        Client client = new Client(
+                new InetSocketAddress("127.0.0.1", 6666), new ClientInitializer());
         // Read commands from the stdin.
-        ChannelFuture lastWriteFuture = null;
         final ClientHandler handler = client.getChannel().pipeline().get(DefaultClientHandler.class);
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024,THREADS));

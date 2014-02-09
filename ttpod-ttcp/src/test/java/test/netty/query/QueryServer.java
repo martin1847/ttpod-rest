@@ -27,8 +27,6 @@ import java.util.Arrays;
 public class QueryServer {
     public static void main(String[] args) {
 
-
-
         final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
         final ChannelHandler responseEncoder = new ResponseEncoder();
         final EventLoopGroup searchGroup = new NioEventLoopGroup(
