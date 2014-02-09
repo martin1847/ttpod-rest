@@ -56,14 +56,12 @@ class Benchmark implements Runnable{
     static void VS(Benchmark a,Benchmark b,int TIMES){
         int aTotal = 0;
         int bTotal = 0;
-        for (int j = TIMES + 5 ; j > 0; j--) {
-            int cost = a.costMills();
+        for (int j = TIMES + 5 ; j > 0; j--) {// Hot for 5 times.
+            int costa = a.costMills();
+            int costb = b.costMills();
             if (j <= TIMES) {
-                aTotal += cost;
-            }
-            cost = b.costMills();
-            if (j <= TIMES) {
-                bTotal += cost;
+                aTotal += costa;
+                bTotal += costb;
             }
         }
         System.out.println("===========================END========================");

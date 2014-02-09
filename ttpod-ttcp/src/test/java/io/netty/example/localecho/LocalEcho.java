@@ -40,7 +40,7 @@ public class LocalEcho {
     }
 
     public void run() throws Exception {
-        // Address to bind on / connect to.
+        // Address to id on / connect to.
         final LocalAddress addr = new LocalAddress(port);
 
         EventLoopGroup serverGroup = new NioEventLoopGroup();
