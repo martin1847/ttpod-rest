@@ -15,7 +15,6 @@ public class ResponseBean {
 
     List data;
 
-    short reqId;
 
     public int getCode() {
         return code;
@@ -49,14 +48,6 @@ public class ResponseBean {
         this.data = data;
     }
 
-    public short getReqId() {
-        return reqId;
-    }
-
-    public void setReqId(short reqId) {
-        this.reqId = reqId;
-    }
-
     @Override
     public String toString() {
         return "ResponseBean{" +
@@ -64,7 +55,9 @@ public class ResponseBean {
                 ", rows=" + rows +
                 ", pages=" + pages +
                 ", data=" + data +
-                ", reqId=" + reqId +
+                ", _req_id=" + _req_id +
                 '}';
     }
+
+    short _req_id;
 }

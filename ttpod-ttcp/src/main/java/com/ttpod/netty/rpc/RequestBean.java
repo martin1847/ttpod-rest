@@ -12,7 +12,6 @@ public class RequestBean {
 
 
 
-    public short reqId ;
 
     byte service =0;
     short page =1 ;
@@ -21,10 +20,6 @@ public class RequestBean {
 
     public RequestBean(){
 //        this((short) (ID.incrementAndGet() & 0xffff));
-    }
-
-    public RequestBean(short reqId){
-        this.reqId = reqId;
     }
 
     public RequestBean(QueryServie service, short page, short size, String q) {
@@ -79,10 +74,13 @@ public class RequestBean {
     @Override
     public String toString() {
         return "RequestBean{" +
-                "service=" + service +
+                "_req_id=" + _req_id +
+                ", service=" + service +
                 ", page=" + page +
                 ", size=" + size +
                 ", data='" + data + '\'' +
                 '}';
     }
+
+    short _req_id;
 }
