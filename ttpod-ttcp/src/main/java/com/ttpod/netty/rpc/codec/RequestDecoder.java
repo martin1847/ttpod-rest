@@ -1,5 +1,6 @@
 package com.ttpod.netty.rpc.codec;
 
+import com.ttpod.netty.rpc.InnerBindUtil;
 import com.ttpod.netty.rpc.RequestBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -45,7 +46,8 @@ public class RequestDecoder extends ByteToMessageDecoder {
         String q = in.toString(stringIndex,endIndex - stringIndex, CharsetUtil.UTF_8);
         in.readerIndex(endIndex);
 
-        RequestBean req = new RequestBean(reqId);
+        RequestBean req = new RequestBean();
+        InnerBindUtil.bind(req,reqId);
         req.setService(service);
         req.setPage(page);
         req.setSize(size);
