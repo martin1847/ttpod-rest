@@ -51,7 +51,10 @@ public class ResponseEncoder extends MessageToMessageEncoder<ResponseBean> {
 //        ExplicitIdStrategy.Registry.
         byte[] data = ProtostuffIOUtil.toByteArray(msg, ResponseDecoder.schema, LinkedBuffer.allocate(4096));
 
-        System.out.println("encode QueryRes bytes: " + data.length);
+        if( data.length > 1024){
+
+            System.out.println("encode QueryRes bytes: " + data.length);
+        }
 //        schema.newMessage();
         out.add(wrappedBuffer(data));
     }

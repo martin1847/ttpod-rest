@@ -17,7 +17,7 @@ public class RequestBean {
     byte service =0;
     short page =1 ;
     short size =50;
-    String q = "TTPOD";
+    String data = "TTPOD";
 
     public RequestBean(){
 //        this((short) (ID.incrementAndGet() & 0xffff));
@@ -32,7 +32,7 @@ public class RequestBean {
         this.service = service.flag();
         this.page = page;
         this.size = size;
-        this.q = q;
+        this.data = q;
     }
 
     public enum QueryServie{
@@ -68,12 +68,12 @@ public class RequestBean {
         this.size = size;
     }
 
-    public String getQ() {
-        return q;
+    public String getData() {
+        return data;
     }
 
-    public void setQ(String q) {
-        this.q = q;
+    public void setData(String data) {
+        this.data = data;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class RequestBean {
                 "service=" + service +
                 ", page=" + page +
                 ", size=" + size +
-                ", q='" + q + '\'' +
+                ", data='" + data + '\'' +
                 '}';
     }
 }

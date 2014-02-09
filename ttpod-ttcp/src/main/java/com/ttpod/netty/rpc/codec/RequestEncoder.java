@@ -25,7 +25,7 @@ public class RequestEncoder extends MessageToByteEncoder<RequestBean> {
 //        System.out.println("[QueryReqEncoder call]   ");
 //        byte[] q = ;
 //        byte[] full = new byte[q.length + BYTE_FIELDS];
-        byte[] string = req.getQ().getBytes(CharsetUtil.UTF_8);
+        byte[] string = req.getData().getBytes(CharsetUtil.UTF_8);
         out.writeByte(MAGIC);
         out.writeShort(string.length + BYTE_FIELDS);
         out.writeShort( req.reqId);
@@ -36,6 +36,6 @@ public class RequestEncoder extends MessageToByteEncoder<RequestBean> {
 //        System.arraycopy(q,0,full,q.length -1, q.length);
 //        out.add(Unpooled.wrappedBuffer(full));
 //        System.out.println("[QueryReqEncoder end] : "+ msg);
-       // out.add(ByteBufUtil.encodeString(buf, CharBuffer.wrap(msg.getQ()),QueryReqDecoder.UTF8));
+       // out.add(ByteBufUtil.encodeString(buf, CharBuffer.wrap(msg.getData()),QueryReqDecoder.UTF8));
     }
 }

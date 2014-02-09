@@ -49,7 +49,7 @@ public class RequestDecoder extends ByteToMessageDecoder {
         req.setService(service);
         req.setPage(page);
         req.setSize(size);
-        req.setQ(q);
+        req.setData(q);
 
         out.add(req);
     }

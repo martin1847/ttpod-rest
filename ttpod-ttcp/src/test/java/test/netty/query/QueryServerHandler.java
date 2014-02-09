@@ -15,7 +15,7 @@ import java.util.Arrays;
 @ChannelHandler.Sharable
 public class QueryServerHandler extends SimpleChannelInboundHandler<RequestBean> {
     protected void messageReceived(ChannelHandlerContext ctx, RequestBean msg) throws Exception {
-        String q = msg.getQ();
+        String q = msg.getData();
         ResponseBean data = new ResponseBean();
         data.setReqId(msg.reqId);
         data.setCode(1);
