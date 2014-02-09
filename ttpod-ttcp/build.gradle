@@ -31,7 +31,7 @@ dependencies {
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
 
 
-    optional 'com.lmax:disruptor:3.2.0'
+    testCompile 'com.lmax:disruptor:3.2.0'
 
     testCompile 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
 // java -Xbootclasspath/p:<path_to_npn_boot_jar>
