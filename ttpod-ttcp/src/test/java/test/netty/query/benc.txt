@@ -1,0 +1,8 @@
+1024 Thread 65535 request. 35 Times.
+===========================END========================
+
+Notify  cov ,cost : 4772 ms, rps : 13730
+Future  cov ,cost : 4946 ms, rps : 13249
+
+Notify  cov ,cost : 4465 ms, rps : 14677
+Future  cov ,cost : 4671 ms, rps : 14030

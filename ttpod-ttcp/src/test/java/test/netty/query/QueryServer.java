@@ -1,8 +1,13 @@
 package test.netty.query;
 
+import com.ttpod.netty.Pojo;
 import com.ttpod.netty.Server;
+import com.ttpod.netty.rpc.RequestBean;
+import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.codec.RequestDecoder;
 import com.ttpod.netty.rpc.codec.ResponseEncoder;
+import com.ttpod.netty.rpc.server.DefaultServerHandler;
+import com.ttpod.netty.rpc.server.ServerProcessor;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -11,6 +16,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.util.Version;
+
+import java.util.Arrays;
 
 /**
  * date: 14-1-28 下午1:11
@@ -27,17 +34,25 @@ public class QueryServer {
         final EventLoopGroup searchGroup = new NioEventLoopGroup(
 //                0, Executors.newCachedThreadPool()
         );
-
-        short s = (short) (Short.MAX_VALUE+100);
-        System.out.println((short)s);
-
-        int a= s& 0Xffff;
-        System.out.println(a);
         System.out.println(
                 Version.identify()
         );
 
-        final  ChannelHandler serverHandler = new QueryServerHandler();
+        final DefaultServerHandler serverHandler = new DefaultServerHandler();
+        serverHandler.setProcessors(
+                new ServerProcessor[]{
+                        new ServerProcessor() {
+                            public ResponseBean handle(RequestBean req) throws Exception {
+                                ResponseBean data = new ResponseBean();
+                                data.setCode(1);
+                                data.setPages(10);
+                                data.setRows(2000);
+                                data.setData(Arrays.asList(new Pojo(req.getData(), 100), new Pojo("OK", 10)));
+                                return data;
+                            }
+                        }
+                }
+        );
         new Server(new ChannelInitializer<SocketChannel>() {// (4)
 
             //            final QueryReqDecoder decoder =  ;
