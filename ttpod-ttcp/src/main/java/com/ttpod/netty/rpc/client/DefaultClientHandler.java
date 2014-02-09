@@ -19,16 +19,10 @@ import java.util.concurrent.TimeoutException;
  * @author: yangyang.cong@ttpod.com
  */
 public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBean> implements ClientHandler {
-    {
-        System.out.println(
-                "new DefaultClientHandler :" + this
-        );
-    }
     // Stateful properties
     private volatile Channel channel;
     private static final Logger logger = LoggerFactory.getLogger(DefaultClientHandler.class);
 
-    // TODO beanckmark with RingBuffer . https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started
     private final OutstandingContainer outstandings =  new OutstandingContainer.Array();
 
     protected void messageReceived(ChannelHandlerContext ctx, ResponseBean msg) throws Exception {
@@ -50,7 +44,8 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.warn("Unexpected exception from downstream.", cause);
+        logger.warn("Unexpected exception from downstream.MayBe server is disconnted.", cause);
+        //TODO need reconnect !~
         ctx.close();
     }
 
@@ -62,7 +57,7 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
             logger.warn("rpc req id Conflict : {}" ,req);
         }
         channel.writeAndFlush(req);
-        // TODO !future.isSuccess() clean Or Use Disruptor ( Ring Buffer ) Or just waring with put above?
+        // !future.isSuccess() clean -> Ring Buffer ( just waring with put above )?
 //        .addListener( new ChannelFutureListener() {
 //            public void operationComplete(ChannelFuture future) throws Exception {
 //                if(!future.isSuccess()){
@@ -76,15 +71,7 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
     public ResponseBean rpc(RequestBean req) {
         ResponseObserver.Blocking done = new ResponseObserver.Blocking();
         rpc(req,done);
-        synchronized (done) {
-            while (done.response == null) {
-                try {
-                    done.wait();
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
-        return done.response;
+        return done.get();
     }
 
     @Override

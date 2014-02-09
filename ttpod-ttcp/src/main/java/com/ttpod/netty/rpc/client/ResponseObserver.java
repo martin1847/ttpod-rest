@@ -22,6 +22,19 @@ public interface ResponseObserver {
                 notify();
             }
         }
+
+        public ResponseBean get(){
+            synchronized (this) {
+                while (null == response) {
+                    try {
+                        wait();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+            return response;
+        }
+
     }
 
     class Future extends FutureTask<ResponseBean> implements ResponseObserver {

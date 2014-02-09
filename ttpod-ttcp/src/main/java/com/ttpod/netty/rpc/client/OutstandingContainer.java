@@ -29,6 +29,7 @@ public interface OutstandingContainer {
 
     int UNSIGN_SHORT_OVER_FLOW = 0xFFFF;
 
+    // TODO beanckmark with RingBuffer . https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started
     class Array extends IdGen implements OutstandingContainer  {
         final ResponseObserver[] array = new ResponseObserver[UNSIGN_SHORT_OVER_FLOW + 1];
         public ResponseObserver remove(short reqId) {
