@@ -39,7 +39,10 @@ public class Client {
 
 
     public void close() throws InterruptedException {
-        channel.closeFuture().sync();
+//        channel.closeFuture().sync();
+        channel.unsafe().closeForcibly();
+//        channel.pipeline(.fireExceptionCaught(ReadTimeoutException.INSTANCE);
+//        ctx.close();
         workerGroup.shutdownGracefully();
     }
     public Channel getChannel() {
