@@ -3,10 +3,9 @@ package com.ttpod.netty.rpc.server;
 import com.ttpod.netty.rpc.InnerBindUtil;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * date: 14-2-9 下午1:11
@@ -45,9 +44,19 @@ public class DefaultServerHandler extends SimpleChannelInboundHandler<RequestBea
         return processors[request.getService()].handle(request);
     }
 
-    @Override
+    Logger logger = LoggerFactory.getLogger(DefaultServerHandler.class);
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println("exceptionCaught ... ");
-        super.exceptionCaught(ctx, cause);
+        logger.error("Unexpected exception from downstream.", cause);
+        ctx.close();
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+
+        System.out.println(
+                "channelInactive : " + ctx.channel().localAddress()
+        );
+        ctx.close();
     }
 }
