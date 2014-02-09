@@ -1,4 +1,4 @@
-package com.ttpod.netty.rpc.handler;
+package com.ttpod.netty.rpc.client;
 
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public interface ClientRpcStub {
+public interface ClientHandler {
 
     /**
      * async call.

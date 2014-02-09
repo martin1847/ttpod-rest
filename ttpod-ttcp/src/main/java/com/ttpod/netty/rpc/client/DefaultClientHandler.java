@@ -1,10 +1,8 @@
-package com.ttpod.netty.rpc.handler.impl;
+package com.ttpod.netty.rpc.client;
 
+import com.ttpod.netty.rpc.InnerBindUtil;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
-import com.ttpod.netty.rpc.handler.ClientRpcStub;
-import com.ttpod.netty.rpc.handler.OutstandingContainer;
-import com.ttpod.netty.rpc.handler.ResponseObserver;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -20,25 +18,25 @@ import java.util.concurrent.TimeoutException;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> implements ClientRpcStub {
+public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBean> implements ClientHandler {
     {
         System.out.println(
-                "new ClientRpcHandler :" + this
+                "new DefaultClientHandler :" + this
         );
     }
     // Stateful properties
     private volatile Channel channel;
-    private static final Logger logger = LoggerFactory.getLogger(ClientRpcHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultClientHandler.class);
 
     // TODO beanckmark with RingBuffer . https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started
-    private static final OutstandingContainer outstandings = OutstandingContainer.ARRAY_0xFFFF;
+    private final OutstandingContainer outstandings =  new OutstandingContainer.Array();
 
     protected void messageReceived(ChannelHandlerContext ctx, ResponseBean msg) throws Exception {
-        ResponseObserver observer = outstandings.remove(msg.getReqId());
+        ResponseObserver observer = outstandings.remove(InnerBindUtil.id(msg));
         if(null != observer){
             observer.onSuccess(msg);
         }else{
-            logger.error("Unknown ResponseBean with id : {}", msg.getReqId());
+            logger.error("Unknown ResponseBean with id : {}", InnerBindUtil.id(msg));
         }
     }
 
@@ -60,7 +58,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
 
     @Override
     public void rpc(final RequestBean req, ResponseObserver observer) {
-        if(null !=  outstandings.put(req.reqId = OutstandingContainer.ID.next() ,observer)){
+        if(null !=  outstandings.put(InnerBindUtil.bind( req, outstandings.nextId()),observer)){
             logger.warn("rpc req id Conflict : {}" ,req);
         }
         channel.writeAndFlush(req);
@@ -68,7 +66,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
 //        .addListener( new ChannelFutureListener() {
 //            public void operationComplete(ChannelFuture future) throws Exception {
 //                if(!future.isSuccess()){
-//                    outstandings.remove(req.reqId);
+//                    outstandings.remove(req._reqId);
 //                }
 //            }
 //        });
@@ -76,7 +74,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
 
     @Override
     public ResponseBean rpc(RequestBean req) {
-        BlockingResponseObserver done = new BlockingResponseObserver();
+        ResponseObserver.Blocking done = new ResponseObserver.Blocking();
         rpc(req,done);
         synchronized (done) {
             while (done.response == null) {
@@ -91,7 +89,7 @@ public class ClientRpcHandler extends SimpleChannelInboundHandler<ResponseBean> 
 
     @Override
     public ResponseBean rpc(RequestBean req, int timeOutMills) throws TimeoutException{
-        ResponseFuture future = new ResponseFuture();
+        ResponseObserver.Future future = new ResponseObserver.Future();
         rpc(req,future);
         try {
             return future.get(timeOutMills, TimeUnit.MILLISECONDS);

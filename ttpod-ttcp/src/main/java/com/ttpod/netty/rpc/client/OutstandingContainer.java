@@ -1,4 +1,4 @@
-package com.ttpod.netty.rpc.handler;
+package com.ttpod.netty.rpc.client;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,50 +11,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 public interface OutstandingContainer {
 
     ResponseObserver remove(short reqId);
-
-
     ResponseObserver put(short reqId,ResponseObserver observer);
+    short nextId();
 
 
-    OutstandingContainer MAP = new OutstandingContainer() {
+    class Map extends IdGen implements OutstandingContainer {
         final ConcurrentHashMap<Short,ResponseObserver> outstandings = new ConcurrentHashMap<>(128);
 
-
-        @Override
         public ResponseObserver remove(short reqId) {
             return outstandings.remove(reqId);
         }
 
-        @Override
         public ResponseObserver put(short reqId, ResponseObserver observer) {
             return outstandings.put(reqId,observer);
         }
-    };
+    }
 
     int UNSIGN_SHORT_OVER_FLOW = 0xFFFF;
 
-    OutstandingContainer ARRAY_0xFFFF = new OutstandingContainer() {
-        ResponseObserver[] array = new ResponseObserver[UNSIGN_SHORT_OVER_FLOW + 1];
-
-
-        @Override
+    class Array extends IdGen implements OutstandingContainer  {
+        final ResponseObserver[] array = new ResponseObserver[UNSIGN_SHORT_OVER_FLOW + 1];
         public ResponseObserver remove(short reqId) {
             return put(reqId,null);
         }
-
-        @Override
         public ResponseObserver put(short reqId, ResponseObserver observer) {
             int index = reqId & UNSIGN_SHORT_OVER_FLOW;
             ResponseObserver old = array[index];
             array[index] = observer;
             return old;
-        }
-    };
-
-    class ID{
-        private static final AtomicInteger ID = new AtomicInteger();
-        public static short next(){
-            return (short) ID.incrementAndGet();//& UNSIGN_SHORT_OVER_FLOW;
         }
     }
 
@@ -66,4 +50,10 @@ public interface OutstandingContainer {
 //                    return null;
 //                }
 //            },UNSIGN_SHORT_OVER_FLOW, WaitStrategy)
+}
+class IdGen{
+    private final AtomicInteger seq = new AtomicInteger();
+    public short nextId(){
+        return (short) seq.incrementAndGet();//& UNSIGN_SHORT_OVER_FLOW;
+    }
 }
