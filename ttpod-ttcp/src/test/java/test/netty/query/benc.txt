@@ -13,3 +13,10 @@ Future  cov ,cost : 4671 ms, rps : 14030
 ===========================END========================
 New  cov ,cost : 4545 ms, rps : 14419
 Old  cov ,cost : 4511 ms, rps : 14527
+
+===========================END byteBuf 4096========================
+New  cov ,cost : 4961 ms, rps : 13210
+Old  cov ,cost : 4962 ms, rps : 13207
+===========================END byteBuf 256========================
+New  cov ,cost : 4673 ms, rps : 14024
+Old  cov ,cost : 4717 ms, rps : 13893

@@ -9,8 +9,8 @@ allprojects {
 
     repositories {
         mavenLocal()
-        mavenRepo name: 'public', url: "http://mvn.ttpod.com/nexus/content/groups/public/"
-        mavenRepo name: 'snapshots', url: "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"
+        maven{ url  "http://mvn.ttpod.com/nexus/content/groups/public/"}
+        maven{ url  "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"}
         mavenCentral()
     }
 

@@ -49,9 +49,9 @@ public class ResponseEncoder extends MessageToMessageEncoder<ResponseBean> {
     protected void encode(
             ChannelHandlerContext ctx, ResponseBean msg, List<Object> out) throws Exception {
 //        ExplicitIdStrategy.Registry.
-        byte[] data = ProtostuffIOUtil.toByteArray(msg, ResponseDecoder.schema, LinkedBuffer.allocate(4096));
+        byte[] data = ProtostuffIOUtil.toByteArray(msg, ResponseDecoder.schema, LinkedBuffer.allocate(1024));
 
-        if( data.length > 1024){
+        if( data.length > 512){
 
             System.out.println("encode QueryRes bytes: " + data.length);
         }
