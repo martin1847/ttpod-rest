@@ -20,3 +20,9 @@ Old  cov ,cost : 4962 ms, rps : 13207
 ===========================END byteBuf 256========================
 New  cov ,cost : 4673 ms, rps : 14024
 Old  cov ,cost : 4717 ms, rps : 13893
+
+
+
+===========================END Map vs Array========================
+Array  cov ,cost : 5067 ms, rps : 12933
+Map  cov ,cost : 5061 ms, rps : 12949

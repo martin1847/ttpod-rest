@@ -24,6 +24,10 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
         p.addLast("responseDecoder", responseDecoder);
         p.addLast("requestEncoder", requestEncoder);
+        initClientHandler(p);
+    }
+
+    protected void  initClientHandler(ChannelPipeline p){
         p.addLast(new DefaultClientHandler());
     }
 
