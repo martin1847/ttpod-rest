@@ -22,7 +22,8 @@ subprojects {
     apply plugin: 'java'
 
     compileJava.sourceCompatibility = '1.7'
-    compileJava.options.encoding = 'UTF-8'
+//    compileJava.options.encoding = 'UTF-8'
+    [ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
 //  compileJava.options.compilerArgs = ['-Xlint:unchecked']
 
 
