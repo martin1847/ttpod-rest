@@ -15,14 +15,11 @@ dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.5'
 
-    testCompile 'org.springframework:spring-context:3.2.3.RELEASE'
+    testCompile 'org.springframework:spring-context:3.2.7.RELEASE'
 
 //    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
 
     compile 'commons-lang:commons-lang:2.6'
-
-
-    testCompile 'org.freemarker:freemarker:2.3.19'
 
     compile 'com.google.protobuf:protobuf-java:2.5.0'
 
@@ -30,8 +27,7 @@ dependencies {
     compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
 
-
-    testCompile 'com.lmax:disruptor:3.2.0'
+    //testCompile 'com.lmax:disruptor:3.2.0'
 
     testCompile 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
 // java -Xbootclasspath/p:<path_to_npn_boot_jar>

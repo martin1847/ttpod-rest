@@ -1,6 +1,12 @@
-version = '1.0.1'
+version = '1.0.4'
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
+apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
+
+
+ext{
+    springVersion='3.2.7.RELEASE'
+}
 
 dependencies {
 
@@ -17,8 +23,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
 
-    compile('org.springframework:spring-webmvc:3.2.6.RELEASE')
-    compile 'org.springframework:spring-tx:3.2.6.RELEASE'
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-tx:$springVersion"
 
 //    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
 
@@ -34,7 +40,7 @@ dependencies {
     optional 'redis.clients:jedis:2.2.1'
     optional 'org.jsoup:jsoup:1.7.3'
     
-    testCompile 'junit:junit:4.11'
+    testCompile "org.springframework:spring-test:$springVersion"
     testCompile 'com.google.caliper:caliper:1.0-beta-1'
 
 }
