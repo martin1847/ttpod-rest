@@ -23,7 +23,13 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
     private volatile Channel channel;
     private static final Logger logger = LoggerFactory.getLogger(DefaultClientHandler.class);
 
-    private final OutstandingContainer outstandings =  new OutstandingContainer.Array();
+    private final OutstandingContainer outstandings;
+    public DefaultClientHandler(){
+        this(new OutstandingContainer.Array());
+    }
+    public DefaultClientHandler(OutstandingContainer container){
+        this.outstandings = container;
+    }
 
     protected void messageReceived(ChannelHandlerContext ctx, ResponseBean msg) throws Exception {
         ResponseObserver observer = outstandings.remove(InnerBindUtil.id(msg));

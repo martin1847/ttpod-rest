@@ -1,7 +1,5 @@
 package com.ttpod.netty.rpc;
 
-import java.util.List;
-
 /**
  * date: 14-2-7 上午11:55
  *
@@ -13,7 +11,7 @@ public class ResponseBean {
     int rows;
     int pages;
 
-    List data;
+    Object data;
 
 
     public int getCode() {
@@ -40,11 +38,11 @@ public class ResponseBean {
         this.pages = pages;
     }
 
-    public List getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(List data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
