@@ -1,6 +1,5 @@
-package test.netty.query;
+package com.ttpod.netty.rpc.client;
 
-import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.codec.RequestEncoder;
 import com.ttpod.netty.rpc.codec.ResponseDecoder;
 import io.netty.channel.ChannelHandler;
@@ -10,11 +9,13 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 
 /**
- * date: 14-2-9 下午7:55
+ * DefaultClientInitializer
+ *
+ * date: 14-2-12 下午4:24
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class ClientInitializer extends ChannelInitializer<SocketChannel> {
+public class DefaultClientInitializer extends ChannelInitializer<SocketChannel> {
 
     final ChannelHandler requestEncoder = new RequestEncoder();
     final ChannelHandler responseDecoder = new ResponseDecoder();
@@ -30,9 +31,4 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     protected void  initClientHandler(ChannelPipeline p){
         p.addLast(new DefaultClientHandler());
     }
-
-//
-//    private ClientInitializer(){}
-//
-//    public final static ClientInitializer INSTANCE = new ClientInitializer();
 }

@@ -6,6 +6,7 @@ import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
+import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
 
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ import java.util.concurrent.Executors;
 public class QueryClient {
     public static void main(String[] args) throws Exception {
         Client client = new Client(
-                new InetSocketAddress("127.0.0.1", 6666), new ClientInitializer());
+                new InetSocketAddress("127.0.0.1", 6666), new DefaultClientInitializer());
         // Read commands from the stdin.
         final ClientHandler handler = client.getChannel().pipeline().get(DefaultClientHandler.class);
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;

@@ -4,6 +4,7 @@ import com.ttpod.netty.Client;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
+import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
 
 import java.net.InetSocketAddress;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 public class Notify_Future {
     public static void main(String[] args) throws Exception {
         Client client = new Client(new InetSocketAddress("127.0.0.1", 6666),
-                new ClientInitializer());
+                new DefaultClientInitializer());
         System.out.println("Begin Loop");
         // Read commands from the stdin.
         final ClientHandler handler = client.getChannel().pipeline().get(DefaultClientHandler.class);

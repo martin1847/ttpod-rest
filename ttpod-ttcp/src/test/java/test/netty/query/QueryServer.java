@@ -7,6 +7,7 @@ import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.codec.RequestDecoder;
 import com.ttpod.netty.rpc.codec.ResponseEncoder;
 import com.ttpod.netty.rpc.server.DefaultServerHandler;
+import com.ttpod.netty.rpc.server.DefaultServerInitializer;
 import com.ttpod.netty.rpc.server.ServerProcessor;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
@@ -27,14 +28,6 @@ import java.util.Arrays;
 public class QueryServer {
     public static void main(String[] args) {
 
-        final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
-        final ChannelHandler responseEncoder = new ResponseEncoder();
-        final EventLoopGroup searchGroup = new NioEventLoopGroup(
-//                0, Executors.newCachedThreadPool()
-        );
-        System.out.println(
-                Version.identify()
-        );
 
         final DefaultServerHandler serverHandler = new DefaultServerHandler();
         serverHandler.setProcessors(
@@ -51,23 +44,7 @@ public class QueryServer {
                         }
                 }
         );
-        new Server(new ChannelInitializer<SocketChannel>() {// (4)
+        new Server(new DefaultServerInitializer(serverHandler),6666);
 
-            //            final QueryReqDecoder decoder =  ;
-//            final QueryReqEncoder encoder =  ;
-            @Override
-            public void initChannel(SocketChannel ch) throws Exception {
-                ChannelPipeline p = ch.pipeline();
-
-                p.addLast("decoder", new RequestDecoder());
-
-                p.addLast("frameEncoder",frameEncoder );
-                p.addLast("responseEncoder", responseEncoder);
-
-                p.addLast(searchGroup,"serverHandler", serverHandler);
-            }
-        },6666);
-
-        searchGroup.shutdownGracefully();
     }
 }
