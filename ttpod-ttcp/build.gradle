@@ -5,30 +5,18 @@ apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 
 dependencies {
 
-
 //    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
-
-    optional 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
-
-    testCompile 'org.mongodb:mongo-java-driver:2.11.3'
-//    compile 'org.aspectj:aspectjrt:1.7.3'
+    compile 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
 
     compile 'org.slf4j:slf4j-api:1.7.5'
-
-    testCompile 'org.springframework:spring-context:3.2.7.RELEASE'
-
-//    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
-
     compile 'commons-lang:commons-lang:2.6'
-
     compile 'com.google.protobuf:protobuf-java:2.5.0'
-
     compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
     compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
 
     //testCompile 'com.lmax:disruptor:3.2.0'
-
+    testCompile 'org.springframework:spring-context:3.2.7.RELEASE'
     testCompile 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
 // java -Xbootclasspath/p:<path_to_npn_boot_jar>
 //  compile 'org.mortbay.jetty.npn:npn-boot:8.1.2.v20120308'
