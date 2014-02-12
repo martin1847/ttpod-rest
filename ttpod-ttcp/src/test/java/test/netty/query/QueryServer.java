@@ -29,6 +29,9 @@ public class QueryServer {
     public static void main(String[] args) {
 
 
+        System.out.println(
+                Version.identify()
+        );
         final DefaultServerHandler serverHandler = new DefaultServerHandler();
         serverHandler.setProcessors(
                 new ServerProcessor[]{

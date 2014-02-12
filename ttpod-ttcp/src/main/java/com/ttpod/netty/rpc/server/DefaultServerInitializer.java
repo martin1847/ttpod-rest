@@ -5,6 +5,7 @@ import com.ttpod.netty.rpc.codec.ResponseEncoder;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 /**
@@ -14,7 +15,8 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
  */
 public class DefaultServerInitializer extends ChannelInitializer<SocketChannel> {
 
-    final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
+//    final ChannelHandler frameEncoder = new ProtobufVarint32LengthFieldPrepender();
+    final ChannelHandler frameEncoder = new LengthFieldPrepender(4);
     final ChannelHandler responseEncoder = new ResponseEncoder();
     final EventLoopGroup serverGroup = new NioEventLoopGroup(
 //                0, Executors.newCachedThreadPool()
@@ -35,6 +37,6 @@ public class DefaultServerInitializer extends ChannelInitializer<SocketChannel> 
         p.addLast("frameEncoder",frameEncoder );
         p.addLast("responseEncoder", responseEncoder);
 
-        p.addLast(serverGroup,"serverHandler", serverHandler);
+        p.addLast(serverGroup, "serverHandler", serverHandler);
     }
 }

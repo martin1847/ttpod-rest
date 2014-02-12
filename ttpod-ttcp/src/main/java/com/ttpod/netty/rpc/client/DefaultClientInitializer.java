@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 /**
  * DefaultClientInitializer
@@ -22,7 +22,8 @@ public class DefaultClientInitializer extends ChannelInitializer<SocketChannel> 
 
     public void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline p = ch.pipeline();
-        p.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
+//        p.addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
+        p.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4,0,4));
         p.addLast("responseDecoder", responseDecoder);
         p.addLast("requestEncoder", requestEncoder);
         initClientHandler(p);
