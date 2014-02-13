@@ -38,8 +38,8 @@ public class Array_Map {
         Benchmark.VS(Array, Map, 15);
 
 
-        arrayClient.close();
-        mapClient.close();
+        arrayClient.shutdown();
+        mapClient.shutdown();
         exe.shutdown();
 
     }

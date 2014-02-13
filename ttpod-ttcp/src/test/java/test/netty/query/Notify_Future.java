@@ -40,7 +40,7 @@ public class Notify_Future {
         Benchmark.VS(notify, future, 15);
 
 
-        client.close();
+        client.shutdown();
         exe.shutdown();
 
     }

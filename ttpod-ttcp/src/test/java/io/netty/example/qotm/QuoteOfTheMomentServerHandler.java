@@ -61,7 +61,7 @@ public class QuoteOfTheMomentServerHandler extends SimpleChannelInboundHandler<D
             ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         cause.printStackTrace();
-        // We don't close the channel because we can keep serving requests.
+        // We don't shutdown the channel because we can keep serving requests.
     }
 
     protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket msg) throws Exception {

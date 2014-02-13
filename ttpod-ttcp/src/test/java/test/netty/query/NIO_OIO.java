@@ -32,8 +32,8 @@ public class NIO_OIO {
         Benchmark.VS(New, Old, 15);
 
 
-        nioClient.close();
-        oioClient.close();
+        nioClient.shutdown();
+        oioClient.shutdown();
         exe.shutdown();
 
     }

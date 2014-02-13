@@ -204,7 +204,7 @@ public class HttpUploadClient {
         List<Entry<String, String>> entries = headers.entries();
         channel.writeAndFlush(request).sync();
 
-        // Wait for the server to close the connection.
+        // Wait for the server to shutdown the connection.
         channel.closeFuture().sync();
 
         return entries;
@@ -291,7 +291,7 @@ public class HttpUploadClient {
         // after each request
         // bodyRequestEncoder.cleanFiles();
 
-        // Wait for the server to close the connection.
+        // Wait for the server to shutdown the connection.
         channel.closeFuture().sync();
 
         return bodylist;
@@ -361,7 +361,7 @@ public class HttpUploadClient {
         // Now no more use of file representation (and list of HttpData)
         bodyRequestEncoder.cleanFiles();
 
-        // Wait for the server to close the connection.
+        // Wait for the server to shutdown the connection.
         channel.closeFuture().sync();
     }
 

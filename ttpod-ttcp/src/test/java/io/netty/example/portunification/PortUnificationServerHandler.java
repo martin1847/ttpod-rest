@@ -71,7 +71,7 @@ public class PortUnificationServerHandler extends ByteToMessageDecoder {
             } else if (isFactorial(magic1)) {
                 switchToFactorial(ctx);
             } else {
-                // Unknown protocol; discard everything and close the connection.
+                // Unknown protocol; discard everything and shutdown the connection.
                 in.clear();
                 ctx.close();
             }

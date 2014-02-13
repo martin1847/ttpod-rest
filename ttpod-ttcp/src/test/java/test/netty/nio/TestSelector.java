@@ -13,7 +13,7 @@ public class TestSelector {
         try {
             for (int i = 0; i < MAXSIZE; ++i) {
                 sels[i] = Selector.open();
-                //sels[i].close();
+                //sels[i].shutdown();
             }
             Thread.sleep(60000);
         } catch (Exception ex) {

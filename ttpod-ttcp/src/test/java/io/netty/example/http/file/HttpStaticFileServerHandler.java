@@ -221,7 +221,7 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         // Write the end marker
         ChannelFuture lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
 
-        // Decide whether to close the connection or not.
+        // Decide whether to shutdown the connection or not.
         if (!isKeepAlive(request)) {
             // Close the connection when the whole content is written out.
             lastContentFuture.addListener(ChannelFutureListener.CLOSE);

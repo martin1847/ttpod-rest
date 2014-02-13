@@ -112,10 +112,10 @@ public class WebSocketClient {
             ch.writeAndFlush(new PingWebSocketFrame(Unpooled.copiedBuffer(new byte[]{1, 2, 3, 4, 5, 6})));
 
             // Close
-            System.out.println("WebSocket Client sending close");
+            System.out.println("WebSocket Client sending shutdown");
             ch.writeAndFlush(new CloseWebSocketFrame());
 
-            // WebSocketClientHandler will close the connection when the server
+            // WebSocketClientHandler will shutdown the connection when the server
             // responds to the CloseWebSocketFrame.
             ch.closeFuture().sync();
         } finally {

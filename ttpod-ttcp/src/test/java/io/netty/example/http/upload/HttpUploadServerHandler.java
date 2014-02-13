@@ -284,7 +284,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
         ByteBuf buf = copiedBuffer(responseContent.toString(), CharsetUtil.UTF_8);
         responseContent.setLength(0);
 
-        // Decide whether to close the connection or not.
+        // Decide whether to shutdown the connection or not.
         boolean close = request.headers().contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
                 || request.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
                 && !request.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);

@@ -45,7 +45,7 @@ public class QueryClient {
             ResponseBean res = handler.rpc(req);
             System.out.println(line + "  ->  rpc["+ InnerBindUtil.id(req) +"] -> " +res );
             if ("bye".equals(line)) {
-                client.close();
+                client.shutdown();
                 break;
             }
         }

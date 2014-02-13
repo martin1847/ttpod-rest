@@ -89,7 +89,7 @@ public class HttpSnoopClient {
             // Send the HTTP request.
             ch.writeAndFlush(request);
 
-            // Wait for the server to close the connection.
+            // Wait for the server to shutdown the connection.
             ch.closeFuture().sync();
         } finally {
             // Shut down executor threads to exit.

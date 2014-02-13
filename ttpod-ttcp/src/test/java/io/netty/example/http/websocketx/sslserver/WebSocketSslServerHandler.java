@@ -137,7 +137,7 @@ public class WebSocketSslServerHandler extends SimpleChannelInboundHandler<Objec
             setContentLength(res, res.content().readableBytes());
         }
 
-        // Send the response and close the connection if necessary.
+        // Send the response and shutdown the connection if necessary.
         ChannelFuture f = ctx.channel().write(res);
         if (!isKeepAlive(req) || res.getStatus().code() != 200) {
             f.addListener(ChannelFutureListener.CLOSE);
