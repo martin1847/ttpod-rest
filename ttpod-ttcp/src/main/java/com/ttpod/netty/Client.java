@@ -1,5 +1,6 @@
 package com.ttpod.netty;
 
+import com.ttpod.netty.rpc.pool.CloseableChannelFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -17,10 +18,8 @@ import java.net.SocketAddress;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class Client {
+public class Client implements CloseableChannelFactory {
     EventLoopGroup workerGroup;
-
-    Channel channel;
 
     public Client(SocketAddress socketAddress, ChannelHandler channelHandler) throws InterruptedException {
         this(socketAddress,true, channelHandler);
@@ -29,7 +28,7 @@ public class Client {
     final Bootstrap b;
     final SocketAddress socketAddress;
     final ChannelGroup clientGroup;
-    public Client(SocketAddress socketAddress, boolean NIO, ChannelHandler channelHandler) throws InterruptedException {
+    public Client(SocketAddress socketAddress, boolean NIO, ChannelHandler channelHandler){
         this.socketAddress = socketAddress;
         this.workerGroup = NIO ? new NioEventLoopGroup() : new OioEventLoopGroup();
         b = new Bootstrap(); // (1)
@@ -37,29 +36,28 @@ public class Client {
         b.channel( NIO ?NioSocketChannel.class : OioSocketChannel.class); // (3)
         b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
         b.handler(channelHandler);
-
         this.clientGroup = new DefaultChannelGroup("clientGroup",GlobalEventExecutor.INSTANCE);
-        this.channel = connect();
-
     }
 
-    public Channel connect()  throws InterruptedException {
+    public Channel connect(){
 
-        Channel channel = b.connect(socketAddress).sync().channel();
+        Channel channel = b.connect(socketAddress).syncUninterruptibly().channel();
         clientGroup.add(channel);
         // Start the client.
         return channel; // (5)
     }
 
-    public void shutdown() throws InterruptedException {
+    @Override
+    public Channel newChannel() {
+        return connect();
+    }
+
+    @Override
+    public void shutdown(){
 //        channel.closeFuture().sync();
 //        channel.unsafe().closeForcibly();
         clientGroup.disconnect().awaitUninterruptibly();
         workerGroup.shutdownGracefully();
-    }
-
-    public Channel getChannel() {
-        return channel;
     }
 
 

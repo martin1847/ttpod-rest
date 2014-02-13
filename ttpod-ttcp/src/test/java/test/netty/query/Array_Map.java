@@ -5,6 +5,7 @@ import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
+import com.ttpod.netty.rpc.pool.CloseableChannelFactory;
 import io.netty.channel.ChannelPipeline;
 
 import java.net.InetSocketAddress;
@@ -22,18 +23,18 @@ public class Array_Map {
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024, THREADS));
 
-        Client arrayClient = new Client(new InetSocketAddress("127.0.0.1", 6666),
+        CloseableChannelFactory arrayClient = new Client(new InetSocketAddress("127.0.0.1", 6666),
                 new DefaultClientInitializer());
-        final ClientHandler NIOhandler = arrayClient.getChannel().pipeline().get(DefaultClientHandler.class);
+        final ClientHandler NIOhandler = arrayClient.newChannel().pipeline().get(DefaultClientHandler.class);
         Benchmark Array = new Benchmark("Array",NIOhandler,exe,THREADS);
 
-        Client mapClient = new Client(new InetSocketAddress("127.0.0.1", 6666),new DefaultClientInitializer(){
+        CloseableChannelFactory mapClient = new Client(new InetSocketAddress("127.0.0.1", 6666),new DefaultClientInitializer(){
             @Override
             protected void initClientHandler(ChannelPipeline p) {
                 p.addLast(new DefaultClientHandler(new OutstandingContainer.Map()));
             }
         });
-        final ClientHandler mapHandler = mapClient.getChannel().pipeline().get(DefaultClientHandler.class);
+        final ClientHandler mapHandler = mapClient.newChannel().pipeline().get(DefaultClientHandler.class);
         Benchmark Map = new Benchmark("Map",mapHandler,exe,THREADS);
         Benchmark.VS(Array, Map, 15);
 

@@ -5,6 +5,7 @@ import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
+import com.ttpod.netty.rpc.pool.CloseableChannelFactory;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -21,13 +22,13 @@ public class NIO_OIO {
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024, THREADS));
 
-        Client nioClient = new Client(new InetSocketAddress("127.0.0.1", 6666),
+        CloseableChannelFactory nioClient = new Client(new InetSocketAddress("127.0.0.1", 6666),
                 new DefaultClientInitializer());
-        final ClientHandler NIOhandler = nioClient.getChannel().pipeline().get(DefaultClientHandler.class);
+        final ClientHandler NIOhandler = nioClient.newChannel().pipeline().get(DefaultClientHandler.class);
         Benchmark New = new Benchmark("New",NIOhandler,exe,THREADS);
 
-        Client oioClient = new Client(new InetSocketAddress("127.0.0.1", 6666),false,new DefaultClientInitializer());
-        final ClientHandler OIOhandler = nioClient.getChannel().pipeline().get(DefaultClientHandler.class);
+        CloseableChannelFactory oioClient = new Client(new InetSocketAddress("127.0.0.1", 6666),false,new DefaultClientInitializer());
+        final ClientHandler OIOhandler = nioClient.newChannel().pipeline().get(DefaultClientHandler.class);
         Benchmark Old = new Benchmark("Old",OIOhandler,exe,THREADS);
         Benchmark.VS(New, Old, 15);
 

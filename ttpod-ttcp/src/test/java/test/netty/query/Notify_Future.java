@@ -6,6 +6,7 @@ import com.ttpod.netty.rpc.client.ClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.client.OutstandingContainer;
+import com.ttpod.netty.rpc.pool.CloseableChannelFactory;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -19,11 +20,11 @@ import java.util.concurrent.TimeoutException;
  */
 public class Notify_Future {
     public static void main(String[] args) throws Exception {
-        Client client = new Client(new InetSocketAddress("127.0.0.1", 6666),
+        CloseableChannelFactory client = new Client(new InetSocketAddress("127.0.0.1", 6666),
                 new DefaultClientInitializer());
         System.out.println("Begin Loop");
         // Read commands from the stdin.
-        final ClientHandler handler = client.getChannel().pipeline().get(DefaultClientHandler.class);
+        final ClientHandler handler = client.newChannel().pipeline().get(DefaultClientHandler.class);
         final int THREADS = OutstandingContainer.UNSIGN_SHORT_OVER_FLOW;
         ExecutorService exe = Executors.newFixedThreadPool(Math.min(1024, THREADS));
 
