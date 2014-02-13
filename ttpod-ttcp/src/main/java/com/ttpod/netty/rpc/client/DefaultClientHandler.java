@@ -3,6 +3,7 @@ package com.ttpod.netty.rpc.client;
 import com.ttpod.netty.rpc.InnerBindUtil;
 import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
+import com.ttpod.netty.rpc.pool.ChannelPool;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -24,6 +25,8 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
     private static final Logger logger = LoggerFactory.getLogger(DefaultClientHandler.class);
 
     private final OutstandingContainer outstandings;
+
+
     public DefaultClientHandler(){
         this(new OutstandingContainer.Array());
     }
@@ -51,8 +54,11 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.warn("Unexpected exception from downstream.MayBe server is disconnted.", cause);
-        //TODO need reconnect !~
+        //TODO reconnect use zookeeper !~
         ctx.close();
+        if(null!=channelPool){
+            channelPool.remove(channel);
+        }
     }
 
 
@@ -91,4 +97,10 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
             throw new RuntimeException("future Got Error . ",e);
         }
     }
+
+    public void setChannelPool(ChannelPool channelPool) {
+        this.channelPool = channelPool;
+    }
+
+    ChannelPool channelPool;
 }

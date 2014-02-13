@@ -3,6 +3,13 @@ version = '1.0.1'
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
 apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 
+configurations {
+    compile.exclude module: 'commons-logging'
+    compile.exclude module: 'log4j'
+    compile.exclude module: 'jackson-mapper-asl'
+    compile.exclude module: 'slf4j-log4j12'
+//    all*.exclude group: 'org.gradle.test.excludes', module: 'reports'
+}
 dependencies {
 
 //    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
@@ -14,6 +21,18 @@ dependencies {
     compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
     compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
+
+    compile 'org.apache.zookeeper:zookeeper:3.4.5'
+
+//    optional 'org.apache.curator:curator-x-discovery:2.4.0'
+//    optional ('org.apache.curator:curator-examples:2.4.0'){
+//        exclude module: 'jackson-mapper-asl'
+//        exclude module: 'log4j'
+//        exclude module: 'commons-logging'
+//    }
+
+
+//    compile 'com.linkedin:norbert_2.8.1:0.6.33'
 
     //testCompile 'com.lmax:disruptor:3.2.0'
     testCompile 'org.springframework:spring-context:3.2.7.RELEASE'

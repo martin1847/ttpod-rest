@@ -43,4 +43,5 @@ dependencies {
     testCompile "org.springframework:spring-test:$springVersion"
     testCompile 'com.google.caliper:caliper:1.0-beta-1'
 
+    runtime  'org.logback-extensions:logback-ext-spring:0.1.1'
 }

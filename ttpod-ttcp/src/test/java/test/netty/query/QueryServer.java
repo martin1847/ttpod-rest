@@ -6,9 +6,12 @@ import com.ttpod.netty.rpc.RequestBean;
 import com.ttpod.netty.rpc.ResponseBean;
 import com.ttpod.netty.rpc.codec.RequestDecoder;
 import com.ttpod.netty.rpc.codec.ResponseEncoder;
+import com.ttpod.netty.rpc.pool.impl.DefaultGroupManager;
 import com.ttpod.netty.rpc.server.DefaultServerHandler;
 import com.ttpod.netty.rpc.server.DefaultServerInitializer;
 import com.ttpod.netty.rpc.server.ServerProcessor;
+import com.ttpod.netty.util.IpAddress;
+import com.ttpod.netty.util.Zoo;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -17,6 +20,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.util.Version;
+import sun.net.util.IPAddressUtil;
 
 import java.util.Arrays;
 
@@ -32,6 +36,7 @@ public class QueryServer {
         System.out.println(
                 Version.identify()
         );
+
         final DefaultServerHandler serverHandler = new DefaultServerHandler();
         serverHandler.setProcessors(
                 new ServerProcessor[]{
@@ -47,7 +52,9 @@ public class QueryServer {
                         }
                 }
         );
-        new Server(new DefaultServerInitializer(serverHandler),6666);
+        new Server(new DefaultServerInitializer(serverHandler),6666,new DefaultGroupManager(
+              "192.168.8.12:2181","com.ttpod.search"
+        ));
 
     }
 }

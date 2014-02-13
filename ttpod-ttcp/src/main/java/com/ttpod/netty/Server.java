@@ -1,12 +1,14 @@
 package com.ttpod.netty;
 
+import com.ttpod.netty.rpc.pool.GroupManager;
+import com.ttpod.netty.util.IpAddress;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * date: 14-1-7 下午4:20
@@ -15,24 +17,31 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class Server {
 
-    ChannelHandler channelHandler;
-    int port;
 
-    ChannelFuture channelFuture;
+    int port;
+    EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    Channel channel;
+    ChannelHandler channelHandler;
+    GroupManager groupManager;
     public Server(ChannelHandler channelHandler) {
-        this(channelHandler,8080);
+        this(channelHandler,8080,null);
     }
     public Server(ChannelHandler channelHandler, int port) {
+        this(channelHandler,port,null);
+    }
+
+    public Server(ChannelHandler channelHandler, int port,GroupManager groupManager) {
         this.channelHandler = channelHandler;
         this.port = port;
+        this.groupManager = groupManager;
 
         start();
     }
 
 
     private void start(){
-        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+
         try {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
@@ -43,24 +52,31 @@ public class Server {
                     .childOption(ChannelOption.SO_KEEPALIVE, true);// which is NioServerSocketChannel in this case.
 
             // Bind and start to accept incoming connections.
-            channelFuture = b.bind(port).sync(); // (7)
+            channel = b.bind(port).sync().channel(); // (7)
 
-            System.out.println("Starting server at 0.0.0.0:"+port);
+            System.out.println("Starting server at "+ IpAddress.eth0IpOrHostName() +":"+port);
+
+            if(groupManager != null){
+                groupManager.join(IpAddress.eth0IpOrHostName() +":"+port,null);
+                System.out.println("server joined : "+ groupManager.name());
+            }
+
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
             // shut down your server.
-            channelFuture.channel().closeFuture().sync();
+            channel.closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            // Shut down all event loops to terminate all threads.
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
         }
     }
 
 
-    public void close(){
-        channelFuture.channel().close();
+    public void shutdown(){
+        channel.close();
+        workerGroup.shutdownGracefully();
+        bossGroup.shutdownGracefully();
     }
+
+
+
 }
