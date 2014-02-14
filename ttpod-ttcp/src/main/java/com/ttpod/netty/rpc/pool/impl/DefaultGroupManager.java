@@ -83,7 +83,7 @@ public class DefaultGroupManager implements Runnable,GroupManager {
 
     @Override
     public void shutdown() {
-        exe.shutdownNow();
+        if( null != exe ) exe.shutdownNow();
     }
 
 
