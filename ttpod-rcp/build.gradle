@@ -1,4 +1,4 @@
-version = '1.0.1'
+version = '1.0'
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
 apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
@@ -13,16 +13,17 @@ configurations {
 dependencies {
 
 //    optional 'io.netty:netty-all:5.0.0.Alpha1'//4.0.13.Final'
-    compile 'io.netty:netty-all:4.0.14.Final'//4.0.13.Final'
+    compile 'io.netty:netty-all:4.0.15.Final'//4.0.13.Final'
 
     compile 'org.slf4j:slf4j-api:1.7.5'
     compile 'commons-lang:commons-lang:2.6'
-    compile 'com.google.protobuf:protobuf-java:2.5.0'
+
     compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
     compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
+    runtime 'com.google.protobuf:protobuf-java:2.5.0'
     optional 'com.dyuproject.protostuff:protostuff-runtime-registry:1.0.8'
 
-    compile 'org.apache.zookeeper:zookeeper:3.4.5'
+    optional 'org.apache.zookeeper:zookeeper:3.4.5'
 
 //    optional 'org.apache.curator:curator-x-discovery:2.4.0'
 //    optional ('org.apache.curator:curator-examples:2.4.0'){
