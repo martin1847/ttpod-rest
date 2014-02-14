@@ -9,35 +9,30 @@ public class RequestBean {
 
 
 
+    public static final byte NAME_SERVICE = 0;
+    public static final byte FIRST_SERVICE = 1;
+    public static final byte SECOND_SERVICE = 2;
+    public static final byte THIRD_SERVICE = 3;
 
-
-
-
-    byte service =0;
-    short page =1 ;
-    short size =50;
-    String data = "TTPOD";
+    byte service ;
+    short page ;
+    short size ;
+    String data ;
 
     public RequestBean(){
-//        this((short) (ID.incrementAndGet() & 0xffff));
     }
 
-    public RequestBean(QueryServie service, short page, short size, String q) {
+    public RequestBean(Enum service, short page, short size, String data) {
+        this((byte) service.ordinal(),page,size,data);
+    }
+
+    public RequestBean(byte service, short page, short size, String data) {
         this();
-        this.service = service.flag();
+        this.service = service;
         this.page = page;
         this.size = size;
-        this.data = q;
+        this.data = data;
     }
-
-    public enum QueryServie{
-        SONG,SINGER,ALBUM;
-
-        public byte flag(){
-            return (byte) ordinal();
-        }
-    }
-
 
     public byte getService() {
         return service;

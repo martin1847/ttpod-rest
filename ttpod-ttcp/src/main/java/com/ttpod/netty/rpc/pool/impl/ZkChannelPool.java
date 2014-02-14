@@ -11,6 +11,7 @@ import com.ttpod.netty.rpc.pool.GroupMemberObserver;
 import com.ttpod.netty.util.Zoo;
 import io.netty.channel.Channel;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -104,6 +105,10 @@ public class ZkChannelPool implements ChannelPool<ClientHandler> {
             String[] ip_port = addr.trim().split(":");
             String ip = ip_port[0];
             int port = Integer.parseInt(ip_port[1]);
+
+            //TODO server weight
+//            zooKeeper.getData(groupName+"/"+addr,false, null);
+
             try {
                 CloseableChannelFactory fac = new Client(new InetSocketAddress(ip,port),new DefaultClientInitializer());
                 connPool.put(addr,fac);

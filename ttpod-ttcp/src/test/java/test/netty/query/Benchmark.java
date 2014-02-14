@@ -25,7 +25,7 @@ class Benchmark implements Runnable{
             exe.execute(new Runnable() {
                 public void run() {
                     String q = Thread.currentThread().getName();
-                    RequestBean req = new RequestBean(RequestBean.QueryServie.SONG, (short) 1, (short) 50, q);
+                    RequestBean req = new RequestBean(RequestBean.NAME_SERVICE, (short) 1, (short) 50, q);
                     rpcCall(req);
                     latch.countDown();
                 }
