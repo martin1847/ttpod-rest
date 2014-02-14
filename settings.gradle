@@ -1,6 +1,6 @@
 include "ttpod-rest"
 
-include "ttpod-rcp"
+include "ttpod-rpc"
 
 include "ttpod-vertx-groovy"
 
