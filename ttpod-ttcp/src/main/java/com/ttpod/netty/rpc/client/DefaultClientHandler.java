@@ -57,7 +57,7 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
         //TODO reconnect use zookeeper !~
         ctx.close();
         if(null!=channelPool){
-            channelPool.remove(channel);
+            channelPool.remove(this);
         }
     }
 
@@ -98,9 +98,9 @@ public class DefaultClientHandler extends SimpleChannelInboundHandler<ResponseBe
         }
     }
 
-    public void setChannelPool(ChannelPool channelPool) {
+    public void setChannelPool(ChannelPool<ClientHandler> channelPool) {
         this.channelPool = channelPool;
     }
 
-    ChannelPool channelPool;
+    ChannelPool<ClientHandler> channelPool;
 }

@@ -6,21 +6,18 @@ import com.ttpod.netty.rpc.client.DefaultClientHandler;
 import com.ttpod.netty.rpc.client.DefaultClientInitializer;
 import com.ttpod.netty.rpc.pool.ChannelPool;
 import com.ttpod.netty.rpc.pool.CloseableChannelFactory;
+import com.ttpod.netty.rpc.pool.GroupManager;
 import com.ttpod.netty.rpc.pool.GroupMemberObserver;
 import com.ttpod.netty.util.Zoo;
 import io.netty.channel.Channel;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * date: 14-2-13 下午2:21
@@ -52,9 +49,10 @@ public class ZkChannelPool implements ChannelPool<ClientHandler> {
     }
 
     ZooKeeper zooKeeper;
+    GroupManager groupManager;
     public void init(){
         zooKeeper = Zoo.connect(zkAddress);
-        new DefaultGroupManager(zooKeeper,groupName,new GroupMemberObserver() {
+        groupManager = new DefaultGroupManager(zooKeeper,groupName,new GroupMemberObserver() {
             public void onChange(List<String> currentNodes) {
                 setUpClient(currentNodes);
             }
@@ -68,8 +66,8 @@ public class ZkChannelPool implements ChannelPool<ClientHandler> {
     }
 
     @Override
-    public void remove(Channel c) {
-        handlers.remove(fetchHandler(c));
+    public void remove(ClientHandler c) {
+        handlers.remove(c);
     }
 
     @Override
@@ -80,10 +78,14 @@ public class ZkChannelPool implements ChannelPool<ClientHandler> {
             );
             entry.getValue().shutdown();
         }
+        System.out.println("shutdown groupManager ...");
+        groupManager.shutdown();
     }
 
     ClientHandler fetchHandler(Channel channel){
-        return channel.pipeline().get(DefaultClientHandler.class);
+        DefaultClientHandler handler = channel.pipeline().get(DefaultClientHandler.class);
+        handler.setChannelPool(this);
+        return handler;
     }
 
 
@@ -102,16 +104,12 @@ public class ZkChannelPool implements ChannelPool<ClientHandler> {
             String[] ip_port = addr.trim().split(":");
             String ip = ip_port[0];
             int port = Integer.parseInt(ip_port[1]);
-
             try {
                 CloseableChannelFactory fac = new Client(new InetSocketAddress(ip,port),new DefaultClientInitializer());
                 connPool.put(addr,fac);
-
                 System.out.println("Success conn To : " + addr);
                 for(int i = clientsPerServer;i>0;i--){
-                    DefaultClientHandler handler = fac.newChannel().pipeline().get(DefaultClientHandler.class);
-                    handler.setChannelPool(this);
-                    handlers.add(handler);
+                    handlers.add(fetchHandler(fac.newChannel()));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

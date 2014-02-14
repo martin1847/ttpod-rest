@@ -10,4 +10,7 @@ public interface GroupManager {
     String join(String memberName, byte[] data);
 
     String name();
+
+
+    void shutdown();
 }

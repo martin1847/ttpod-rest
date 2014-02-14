@@ -5,6 +5,8 @@ import com.ttpod.netty.rpc.pool.GroupMemberObserver;
 import com.ttpod.netty.util.Zoo;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -18,9 +20,13 @@ import java.util.concurrent.Semaphore;
  */
 public class DefaultGroupManager implements Runnable,GroupManager {
 
+
+    static final Logger logger = LoggerFactory.getLogger(DefaultGroupManager.class);
+
     ZooKeeper zk;
     String groupName;
     GroupMemberObserver montior;
+    ExecutorService exe;
 
     public DefaultGroupManager(String zkAddress, String groupName){
         this(Zoo.connect(zkAddress),groupName,null);
@@ -47,13 +53,13 @@ public class DefaultGroupManager implements Runnable,GroupManager {
         }
 
         if(montior != null){
-            final ExecutorService exe = Executors.newSingleThreadExecutor();
+            exe = Executors.newSingleThreadExecutor();
             exe.execute(this);
-            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                public void run() {
-                    exe.shutdownNow();
-                }
-            }));
+//            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//                public void run() {
+//                    exe.shutdownNow();
+//                }
+//            }));
         }
     }
 
@@ -65,7 +71,7 @@ public class DefaultGroupManager implements Runnable,GroupManager {
                      ZooDefs.Ids.OPEN_ACL_UNSAFE,
                      CreateMode.EPHEMERAL);
          } catch (KeeperException | InterruptedException e) {
-             e.printStackTrace();
+             logger.error(memberName+ " join group " + groupName +" Faild !!!",e);
              throw new RuntimeException(memberName+ " join group " + groupName +" Faild !!!",e);
          }
      }
@@ -75,29 +81,23 @@ public class DefaultGroupManager implements Runnable,GroupManager {
         return groupName;
     }
 
-
-    void beginMontior() throws InterruptedException {
-        zk.getChildren(groupName,false, new AsyncCallback.ChildrenCallback() {
-//                @Override
-//                public void process(WatchedEvent event) {
-//                    if (event.getType() == Event.EventType.NodeChildrenChanged) {
-//                        semaphore.release();
-//                    }
-//                }
-
-            @Override
-            public void processResult(int rc, String path, Object ctx, List<String> children) {
-                if(rc == 0){
-                    montior.onChange(children);
-                    semaphore.release();
-                }
-            }
-        },null);
-//        if (children.isEmpty()) {
-//            System.out.printf("No members in group %s\n", groupName);
-//        }
-//        return children;
+    @Override
+    public void shutdown() {
+        exe.shutdownNow();
     }
+
+
+//    void beginMontior() throws InterruptedException {
+//        zk.getChildren(groupName,false, new AsyncCallback.ChildrenCallback() {
+//            @Override
+//            public void processResult(int rc, String path, Object ctx, List<String> children) {
+//                if(rc == 0){
+//                    montior.onChange(children);
+//                    semaphore.release();
+//                }
+//            }
+//        },null);
+//    }
 
 
     private void montior() throws InterruptedException {
@@ -113,10 +113,10 @@ public class DefaultGroupManager implements Runnable,GroupManager {
             });
             montior.onChange(children);
             if (children.isEmpty()) {
-                System.out.printf("No members in group %s\n", groupName);
+                logger.error("No members in group {} . Service maybe Unavailable !!!! ", groupName);
             }
         } catch (KeeperException e) {
-            e.printStackTrace();
+            logger.error("GroupMemberObserver catch KeeperException from montior group: " + groupName,e);
             throw new RuntimeException("list catch KeeperException",e);
         }
 
@@ -131,7 +131,7 @@ public class DefaultGroupManager implements Runnable,GroupManager {
                 semaphore.acquire();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("GroupMember Montior maybe canceled of group: "+  groupName,e);
         }
 
     }
@@ -146,7 +146,8 @@ public class DefaultGroupManager implements Runnable,GroupManager {
 //            zk.delete(path, -1);
         }
         catch (KeeperException.NoNodeException e) {
-            System.out.printf("Group %s does not exist\n", groupName);
+            logger.error("Group {} does not exist !!! ",  groupName);
+//            System.out.printf("Group %s does not exist\n", groupName);
         }
     }
 
