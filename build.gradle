@@ -41,6 +41,9 @@ subprojects {
     dependencies {
         testCompile 'junit:junit:4.11'
     }
+    configurations {
+        runtime.exclude module: 'junit'
+    }
 }
 
 //
