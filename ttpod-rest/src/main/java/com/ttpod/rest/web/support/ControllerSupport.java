@@ -129,8 +129,12 @@ public class ControllerSupport extends MultiActionController {
         try {
             return invokeMethod(methodName, request, response);
         } catch (Throwable throwable) {
-            LOGGER.error(" handleRequest Error. ",throwable);
-            throw new Exception(throwable);
+            if(throwable instanceof Exception){
+                throw (Exception)throwable;
+            }else{
+                LOGGER.error(" handleRequest Error. ",throwable);
+                throw new Exception(throwable);
+            }
         }
     }
 
