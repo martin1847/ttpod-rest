@@ -6,7 +6,6 @@ import com.mongodb.DBObject;
 import com.mongodb.QueryBuilder;
 import com.ttpod.rest.AppProperties;
 import com.ttpod.rest.common.doc.ParamKey;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,7 +99,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
     static final String DFMT = "yyyy-MM-dd HH:mm:ss";
     private static Date getTime(HttpServletRequest request,String key)  {
         String str = request.getParameter(key);
-        if(StringUtils.isNotBlank(str)){
+        if(null != str && str.length() >  0 ){
             try {
                 return new SimpleDateFormat(DFMT).parse(str);
             } catch (ParseException e) {

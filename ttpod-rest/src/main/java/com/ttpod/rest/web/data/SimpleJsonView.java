@@ -3,7 +3,6 @@ package com.ttpod.rest.web.data;
 import com.ttpod.rest.common.doc.ParamKey;
 import com.ttpod.rest.common.util.JSONUtil;
 import groovy.transform.CompileStatic;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class SimpleJsonView implements View {
 
         String json = JSONUtil.beanToJson(model);
         String callback = request.getParameter(ParamKey.In.callback);
-        if(StringUtils.isNotBlank(callback)){
+        if(null != callback && callback.length() > 0){
             rennderJson(callback+'('+json+')',"application/x-javascript;charset=utf-8",response);
             return;
         }

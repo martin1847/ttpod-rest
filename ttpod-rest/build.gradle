@@ -5,7 +5,8 @@ apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 
 
 ext{
-    springVersion='3.2.7.RELEASE'
+    springVersion='3.2.8.RELEASE'
+    jacksonVersion='2.3.1'
 }
 
 dependencies {
@@ -14,30 +15,28 @@ dependencies {
 //    provided 'org.projectlombok:lombok:0.11.8'
     provided 'org.codehaus.groovy:groovy-all:2.2.1+:indy'
 
-    optional 'org.mongodb:mongo-java-driver:2.11.3'
+    optional 'org.mongodb:mongo-java-driver:2.11.4'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
     optional 'org.apache.httpcomponents:httpclient:4.3.1'
     compile 'org.slf4j:slf4j-api:1.7.5'
 //    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 
     compile "org.springframework:spring-webmvc:$springVersion"
     compile "org.springframework:spring-tx:$springVersion"
 
 //    compile 'org.springframework:spring-context-support:3.2.3.RELEASE'
-
-    compile 'commons-lang:commons-lang:2.6'
-
-
-    optional 'org.freemarker:freemarker:2.3.20'
+//    compile 'commons-lang:commons-lang:2.6'
+//    compile 'org.apache.commons:commons-lang3:3.2.1'
+//    optional 'org.freemarker:freemarker:2.3.20'
 
     optional ('org.springframework.data:spring-data-redis:1.0.4.RELEASE'){
         transitive = false
     }
 
-    optional 'redis.clients:jedis:2.2.1'
+//    optional 'redis.clients:jedis:2.2.1'
     optional 'org.jsoup:jsoup:1.7.3'
     
     testCompile "org.springframework:spring-test:$springVersion"
