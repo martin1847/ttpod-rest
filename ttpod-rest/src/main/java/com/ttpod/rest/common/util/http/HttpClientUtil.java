@@ -1,28 +1,25 @@
 package com.ttpod.rest.common.util.http;
 
 
-import groovy.transform.CompileStatic;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.client.protocol.RequestAcceptEncoding;
+import org.apache.http.client.protocol.ResponseContentEncoding;
+import org.apache.http.config.ConnectionConfig;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +37,6 @@ import java.util.concurrent.TimeUnit;
  *
  * @author: yangyang.cong@ttpod.com
  */
-@CompileStatic
 public abstract class HttpClientUtil {
 
     static final Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
@@ -58,46 +54,67 @@ public abstract class HttpClientUtil {
 //        SchemeRegistry registry = new SchemeRegistry();
 //        registry.register(new Scheme("http",  80, PlainSocketFactory.getSocketFactory()));
 //        registry.register(new Scheme("https",  443, SSLSocketFactory.getSocketFactory()));
-        PoolingClientConnectionManager cm = new PoolingClientConnectionManager();
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(800);
         cm.setDefaultMaxPerRoute(200);
 
         cm.setMaxPerRoute(new HttpRoute(new HttpHost("localhost")),500);
         cm.setMaxPerRoute(new HttpRoute(new HttpHost("127.0.0.1")),500);
-        cm.setMaxPerRoute(new HttpRoute(new HttpHost("ttus.ttpod.com")),500);
-        HttpParams defaultParams = new  BasicHttpParams();
+        cm.setMaxPerRoute(new HttpRoute(new HttpHost("ttus.ttpod.com")), 500);
+        cm.setDefaultConnectionConfig(
+                ConnectionConfig.custom()
+                        .setBufferSize(4096)
+                        .setCharset(UTF8)
+                        .build()
+        );
 
-        defaultParams.setLongParameter(ClientPNames.CONN_MANAGER_TIMEOUT, TIME_OUT);
-        defaultParams.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, TIME_OUT);//连接超时
-        defaultParams.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, TIME_OUT);//读取超时
 
-        defaultParams.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.IGNORE_COOKIES);
-        defaultParams.setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET,UTF8.name());
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(TIME_OUT)
+                .setConnectTimeout(TIME_OUT)//CoreConnectionPNames.CONNECTION_TIMEOUT
+                .setSocketTimeout(TIME_OUT)//CoreConnectionPNames.SO_TIMEOUT
+                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
+                .build();
+//        HttpParams defaultParams = new  BasicHttpParams();
+//        defaultParams.setLongParameter(ClientPNames.CONN_MANAGER_TIMEOUT, TIME_OUT);
+//        defaultParams.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, TIME_OUT);//连接超时
+//        defaultParams.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, TIME_OUT);//读取超时
+
+//        defaultParams.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.IGNORE_COOKIES);
+//        defaultParams.setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET,UTF8.name());
         //defaultParams.setParameter(CoreProtocolPNames.PROTOCOL_VERSION,"HTTP/1.1");
-        defaultParams.setParameter(CoreProtocolPNames.USER_AGENT,USER_AGENT);
+//        defaultParams.setParameter(CoreProtocolPNames.USER_AGENT,USER_AGENT);
 
 
 //        CacheConfig cacheConfig = new CacheConfig();
 //        cacheConfig.setMaxCacheEntries(5000);
 //        cacheConfig.setMaxObjectSize(8192 * 4);
 
-        HttpClient client = new DefaultHttpClient(cm,defaultParams);
-        // 500 错误 重试一次 bw, also retry by seeds..
-//        client = new AutoRetryHttpClient(client,new ServiceUnavailableRetryStrategy() {
-//            @Override
-//            public boolean retryRequest(HttpResponse response, int executionCount, HttpContext context) {
-//                return executionCount <= 2 &&
-//                        response.getStatusLine().getStatusCode() >= HttpStatus.SC_INTERNAL_SERVER_ERROR;
-//            }
-//            @Override
-//            public long getRetryInterval() {
-//                return 1500;
-//            }
-//        });
+        return HttpClientBuilder.create()
+                .setConnectionManager(cm)
+                .setDefaultRequestConfig(requestConfig)
+                .setUserAgent(USER_AGENT)
+                .addInterceptorFirst(new RequestAcceptEncoding())
+                .addInterceptorFirst(new ResponseContentEncoding())
+                .build();
 
-        client = new DecompressingHttpClient(client);
-
-        return client;
+//        HttpClient client = new DefaultHttpClient(cm,defaultParams);
+//        // 500 错误 重试一次 bw, also retry by seeds..
+////        client = new AutoRetryHttpClient(client,new ServiceUnavailableRetryStrategy() {
+////            @Override
+////            public boolean retryRequest(HttpResponse response, int executionCount, HttpContext context) {
+////                return executionCount <= 2 &&
+////                        response.getStatusLine().getStatusCode() >= HttpStatus.SC_INTERNAL_SERVER_ERROR;
+////            }
+////            @Override
+////            public long getRetryInterval() {
+////                return 1500;
+////            }
+////        });
+//
+//        client = new DecompressingHttpClient(client);
+//
+//        return client;
         //return new CachingHttpClient(client, cacheConfig);
     }
 

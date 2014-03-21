@@ -1,7 +1,7 @@
 package test.http
 
 import com.ttpod.rest.common.util.http.HttpClientUtil
-import com.ttpod.rest.common.util.http.HttpClientUtil4_3
+import com.ttpod.rest.common.util.http.HttpClientUtil4_1
 
 /**
  * date: 14-3-8 下午2:28
@@ -33,10 +33,10 @@ java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer
     static final String TTUS = "http://ttus.ttpod.com/user/show?access_token=";
 
     //TODO benchMark with 4.3 and 4.2
-    void testHttp(){
+    void testHttp4_3(){
 
         def access_token = "df2ff60320d2f949266d62252d66d5fd"
-            String json = HttpClientUtil4_3.get(TTUS + access_token, null, HttpClientUtil.UTF8);
+        String json = HttpClientUtil.get(TTUS + access_token, null, HttpClientUtil.UTF8);
         println json
     }
 

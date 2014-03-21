@@ -1,11 +1,11 @@
-version = '1.0.4'
+version = '1.1'
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
 apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 
 
 ext{
-    springVersion='3.2.8.RELEASE'
+    springVersion='4.0.2.RELEASE'
     jacksonVersion='2.3.2'
 }
 
@@ -18,7 +18,7 @@ dependencies {
     optional 'org.mongodb:mongo-java-driver:2.11.4'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
-    optional 'org.apache.httpcomponents:httpclient:4.3.1'
+    optional 'org.apache.httpcomponents:httpclient:4.3.3'
     compile 'org.slf4j:slf4j-api:1.7.6'
 //    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
@@ -32,15 +32,15 @@ dependencies {
 //    compile 'org.apache.commons:commons-lang3:3.2.1'
 //    optional 'org.freemarker:freemarker:2.3.20'
 
-    optional ('org.springframework.data:spring-data-redis:1.1.1.RELEASE'){
+    optional ('org.springframework.data:spring-data-redis:1.2.0.RELEASE'){//use for KGS
         transitive = false
     }
 
 //    optional 'redis.clients:jedis:2.2.1'
-    optional 'org.jsoup:jsoup:1.7.3'
+//    optional 'org.jsoup:jsoup:1.7.3'//JsoupUtil
     
     testCompile "org.springframework:spring-test:$springVersion"
     testCompile 'com.google.caliper:caliper:1.0-beta-1'
 
-    runtime  'org.logback-extensions:logback-ext-spring:0.1.1'
+//    optional  'org.logback-extensions:logback-ext-spring:0.1.1'
 }
