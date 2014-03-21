@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public class HighLowKGS extends SimpleKGS {
+public class HighLowKGS extends RedisKGS {
 
     public void setStep(int step) {
         if(step >  1)

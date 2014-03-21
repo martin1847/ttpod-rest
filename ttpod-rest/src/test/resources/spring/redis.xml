@@ -9,6 +9,6 @@
           p:hostName="${redis.host}" p:port="${redis.port}"/>
     <bean id="mainRedis" class="org.springframework.data.redis.core.StringRedisTemplate"
           p:connectionFactory-ref="redisConnectionFactory" />
-    <bean id="seqKGS" class="com.ttpod.rest.persistent.SimpleKGS" p:nameSpace="seq" p:kgsRedis-ref="mainRedis"/>
+    <bean id="seqKGS" class="com.ttpod.rest.persistent.RedisKGS" p:nameSpace="seq" p:kgsRedis-ref="mainRedis"/>
 
 </beans>
