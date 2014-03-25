@@ -60,6 +60,11 @@ public final class Crud {
         public DBObject sortby(HttpServletRequest req) {
             return SJ_DESC;
         }
+
+        protected boolean checkModify(Map<String,Object> data){
+            return true;
+        }
+
         public static final QueryCondition EMPTY = new QueryCondition();
     }
 
@@ -99,12 +104,12 @@ public final class Crud {
         Map<String,Object> map = new HashMap<String,Object>();
         for (Map.Entry<String, Closure> entry : props.entrySet()) {
             String key = entry.getKey();
-            Object val = entry.getValue().call(req.getParameter(key),map);
+            Object val = entry.getValue().call(req.getParameter(key));
             if (val != null) {
                 map.put(key, val);
             }
         }
-        if(table.save(new BasicDBObject(map)).getN() == 1){
+        if(qc.checkModify(map) &&   table.save(new BasicDBObject(map)).getN() == 1){
             opLog(table.getName() + "_add", map);
         }
 
@@ -119,7 +124,7 @@ public final class Crud {
             return IMessageCode.CODE0;
         }
 
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<String,Object>();
         for (Map.Entry<String, Closure> entry : props.entrySet()) {
             String key = entry.getKey();
             if(key.equals(_id)){
@@ -134,7 +139,7 @@ public final class Crud {
             }
         }
 
-        if(map.size() > 0 && table.update(new BasicDBObject(_id,id),new BasicDBObject($set,map)).getN() == 1){
+        if(qc.checkModify(map) && map.size() > 0 && table.update(new BasicDBObject(_id,id),new BasicDBObject($set,map)).getN() == 1){
             map.put(_id,id);//just For Log
             opLog(table.getName() + "_edit", map);
         }
