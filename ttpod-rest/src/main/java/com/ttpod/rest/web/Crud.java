@@ -1,6 +1,7 @@
 package com.ttpod.rest.web;
 
 import com.mongodb.*;
+import com.mongodb.util.ObjectSerializer;
 import com.ttpod.rest.common.doc.IMessageCode;
 import com.ttpod.rest.common.doc.TwoTableCommit;
 import com.ttpod.rest.common.util.Pager;
@@ -95,10 +96,10 @@ public final class Crud {
 
     public Map add(HttpServletRequest req) {
 
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<String,Object>();
         for (Map.Entry<String, Closure> entry : props.entrySet()) {
             String key = entry.getKey();
-            Object val = entry.getValue().call(req.getParameter(key));
+            Object val = entry.getValue().call(req.getParameter(key),map);
             if (val != null) {
                 map.put(key, val);
             }
