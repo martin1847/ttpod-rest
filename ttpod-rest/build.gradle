@@ -1,4 +1,4 @@
-version = '1.1'
+version = '1.2'
 
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
@@ -16,21 +16,21 @@ compileGroovy {
 
 
 ext{
-    springVersion='4.0.2.RELEASE'
-    jacksonVersion='2.3.2'
+    springVersion='4.0.4.RELEASE'
+    jacksonVersion='2.3.3'
 }
 
 dependencies {
 
     provided  'javax.servlet:javax.servlet-api:3.1.0'
 //    provided 'org.projectlombok:lombok:0.11.8'
-    provided 'org.codehaus.groovy:groovy-all:2.2.2:indy'
+    provided 'org.codehaus.groovy:groovy-all:2.3.0:indy'
 
-    optional 'org.mongodb:mongo-java-driver:2.11.4'
+    optional 'org.mongodb:mongo-java-driver:2.12.1'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
     optional 'org.apache.httpcomponents:httpclient:4.3.3'
-    compile 'org.slf4j:slf4j-api:1.7.6'
+    compile 'org.slf4j:slf4j-api:1.7.7'
 //    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
