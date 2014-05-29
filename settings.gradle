@@ -4,4 +4,7 @@ include "ttpod-rpc"
 
 include "ttpod-vertx-groovy"
 
+include 'ttpod-cache'
+
 rootProject.name = 'ttpod'
+
