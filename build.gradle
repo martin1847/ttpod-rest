@@ -52,3 +52,6 @@ subprojects {
 //    description = 'Generates gradlew[.bat] scripts'
 //    gradleVersion = '1.6'
 //}
+ext{
+    curatorVersion = "2.4.0"
+}
