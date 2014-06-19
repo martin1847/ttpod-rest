@@ -21,7 +21,7 @@ public interface ParamKey {
 
         int PAGE_DEFAULT = 1;
 
-        int SIZE_DEFAULT = 6;
+        int SIZE_DEFAULT = Integer.getInteger("default.size",6);
 
         int SIZE_MAX_ALLOW = 200;
 
@@ -35,15 +35,27 @@ public interface ParamKey {
 
         String code = "code";
 
-        String msg = "msg";
-
-        String count = "count";
-
         String data = "data";
 
-        String all_page = "all_page";
+        /**
+         * 总行数
+         */
+        String rows = "rows";
 
+        /**
+         * 总页数
+         */
+        String pages = "pages";
+
+        /**
+         * For Debug,执行时间，毫秒
+         */
         String exec = "exec";
+
+        /**
+         * For Debug，调试信息
+         */
+        String msg = "msg";
 
 
         Integer SUCCESS = 1;

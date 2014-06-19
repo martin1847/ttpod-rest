@@ -14,46 +14,47 @@ import java.io.Serializable;
  * @author: yangyang.cong@ttpod.com
  */
 @CompileStatic
-public class Pager implements Serializable{
+public class Pager<ListOrObj> implements Serializable{
 
     private static final long serialVersionUID = 181494579783120364L;
 
-    long count;
     int currentPage;
-    int pageSize;
-    int allPage;
-    Object data;
+    int size;
+    int pages;
+
+    long rows;
+    ListOrObj data;
 
     public Pager(){
 
     }
-    public Pager(long countRows, int currentPage, int pageSize)
+    public Pager(long countRows, int currentPage, int size)
     {
-        this.count = countRows;
-        this.pageSize = pageSize;
-        this.allPage = (int)((countRows + pageSize - 1) / pageSize);
-        this.currentPage = (currentPage < 1 ? 1 : currentPage > this.allPage ? this.allPage : currentPage);
+        this.rows = countRows;
+        this.size = size;
+        this.pages = (int)((countRows + size - 1) / size);
+        this.currentPage = (currentPage < 1 ? 1 : currentPage > this.pages ? this.pages : currentPage);
     }
 
-    public Pager(Object data,long countRows, int currentPage, int pageSize)
+    public Pager(ListOrObj data,long countRows, int currentPage, int size)
     {
-        //this(countRows, ( startRow/ (pageSize = pageSize < 1 ? 1 : pageSize) +1), (pageSize = pageSize < 1 ? 1 : pageSize) );
+        //this(countRows, ( startRow/ (size = size < 1 ? 1 : size) +1), (size = size < 1 ? 1 : size) );
 
-        this(countRows, currentPage, pageSize);
+        this(countRows, currentPage, size);
         this.data = data;
     }
 
-    public long getCount()
+    public long getRows()
     {
-        return this.count;
+        return this.rows;
     }
 
-    public Object getData()
+    public ListOrObj getData()
     {
         return this.data;
     }
 
-    public void setData(Object data) {
+    public void setData(ListOrObj data) {
         this.data = data;
     }
 
@@ -62,19 +63,19 @@ public class Pager implements Serializable{
         return this.currentPage;
     }
 
-    public int getAllPage()
+    public int getPages()
     {
-        return this.allPage;
+        return this.pages;
     }
 
-    public int getPageSize()
+    public int getSize()
     {
-        return this.pageSize;
+        return this.size;
     }
 
-    public void setCount(long count)
+    public void setRows(long rows)
     {
-        this.count = count;
+        this.rows = rows;
     }
 
     /**

@@ -55,7 +55,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 
     //
     public static Map normalOutPager(Pager pager){
-        return normalOutModel(pager.getCount(), pager.getAllPage(), pager.getData());
+        return normalOutModel(pager.getRows(), pager.getPages(), pager.getData());
     }
 
 
@@ -64,10 +64,10 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
         Map map = new HashMap();
         map.put(ParamKey.Out.code, ParamKey.Out.SUCCESS);
         if(count>=0){
-            map.put(ParamKey.Out.count,count);
+            map.put(ParamKey.Out.rows,count);
         }
         if(allPage>=0){
-            map.put(ParamKey.Out.all_page,allPage);
+            map.put(ParamKey.Out.pages,allPage);
         }
         map.put(ParamKey.Out.data,data);
 
@@ -135,8 +135,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
         }
     }
 
-    public static Pager mongoPager(DBCollection table, DBObject query, DBObject field, DBObject sort, int page, int pageSize) {
-        return new Pager(
+    public static Pager<List<DBObject>> mongoPager(DBCollection table, DBObject query, DBObject field, DBObject sort, int page, int pageSize) {
+        return new Pager<>(
                 table.find(query, field).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toArray()
                 ,nocount_table.contains(table.getName()) ? -1:table.count(query), page, pageSize);
     }

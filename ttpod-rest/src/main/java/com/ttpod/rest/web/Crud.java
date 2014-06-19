@@ -211,9 +211,9 @@ public final class Crud {
         int p = WebUtils.getPage(req);
         int size = WebUtils.getPageSize(req);
 
-        Pager pager = WebUtils.mongoPager(table, query, field, sort, p, size);
+        Pager<List<DBObject>> pager = WebUtils.mongoPager(table, query, field, sort, p, size);
         if(closureRenderList != null ){
-            List<BasicDBObject> list = (List<BasicDBObject>) pager.getData();
+            List<DBObject> list =  pager.getData();
             if(list.size() > 0){
                 closureRenderList.call(list);
             }
