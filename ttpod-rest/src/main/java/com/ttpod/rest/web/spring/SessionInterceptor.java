@@ -9,8 +9,11 @@ import java.util.Map;
  *
  * @author: yangyang.cong@ttpod.com
  */
-public interface SessionInterceptor extends HandlerInterceptor {
+public interface SessionInterceptor<ValueType> extends HandlerInterceptor {
 
-    public Map<String,Object> getSession();
+    Map<String,ValueType> getSession();
+
+
+    String access_token = "access_token";
 
 }
