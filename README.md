@@ -34,7 +34,7 @@ That's ALL !!!
 As you see,`my` is the Controller Name (first lowercase) and `hello` is the method Name.  
 This is the main **Convention**.  
 Don't forget the  `@Rest` annotation on the controller.
-In fact,it just equals `@Controller` (SpringMVC) + `@CompileStatic` (Groovy).
+`@Rest` =  `@Controller` (SpringMVC) + `@CompileStatic` (Groovy).
 
 
 

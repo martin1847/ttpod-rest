@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+       default-lazy-init="true">
+
+    <!--<util:constant static-field="com.mongodb.WriteConcern.${mongo.write}" id="writeConcern"/>-->
+
+    <bean class="com.ttpod.rest.web.spring.MongoFactoryBean" id="mongo">
+        <property name="options">
+            <bean class="com.mongodb.MongoOptions"
+                  p:connectionsPerHost="80"
+                  p:threadsAllowedToBlockForConnectionMultiplier="6"
+                  p:connectTimeout="5000"
+                  p:maxWaitTime="3000"
+                  p:autoConnectRetry="true"
+                  p:socketKeepAlive="true"
+                  p:socketTimeout="15000"
+                  p:wtimeout="3000"
+                  p:fsync="false"
+                  p:w="1"/>
+        </property>
+        <!--<property name="autoSlaveOk" value="true"/>-->
+        <property name="urls" value="${mongo.uri}"/>
+    </bean>
+
+    <bean id="mainDb" class="com.ttpod.rest.web.spring.DbFactoryBean" p:mongo-ref="mongo" p:name="main" />
+    <bean id="kgs" class="com.ttpod.rest.persistent.MongoKGS" p:db-ref="mainDb"/>
+
+
+</beans>

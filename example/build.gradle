@@ -25,18 +25,25 @@ dependencies {
 compileGroovy {
     groovyOptions.listFiles = false
     groovyOptions.optimizationOptions.indy = true
-//        groovyOptions.fork = false
-//        groovyOptions.stacktrace = true
-//        groovyOptions.useAnt = true
     groovyOptions.fork(memoryMaximumSize: '128M')
 }
 
 
+apply plugin: 'war'
+apply plugin: 'jetty'
+httpPort = 8080
+stopPort = 9451
+
+[jettyRun, jettyRunWar]*.with {
+    contextPath = ''
+//    webDefaultXml  =  file("${rootProject.projectDir}/gradle/jetty-webdefault.xml");
+}
 
 dependencies {
 //
+    providedCompile  'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile 'com.ttpod:ttpod-rest:1.3'
+    compile 'com.ttpod:ttpod-rest:1.3.2'
     compile 'org.springframework:spring-context-support:4.0.5.RELEASE'
     compile 'org.springframework:spring-tx:4.0.5.RELEASE'
 
@@ -53,7 +60,9 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'org.slf4j:jcl-over-slf4j:1.7.7'
 
-//        providedCompile 'commons-logging:commons-logging:99.0-does-not-exist'
+    runtime 'org.logback-extensions:logback-ext-spring:0.1.1'
 
-    runtime  'ch.qos.logback:logback-classic:1.1.2'
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
+
 }
