@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -99,15 +99,34 @@ public abstract class JSONUtil {
         MAPPER.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 
+        try{
+            Class GString = Class.forName("groovy.lang.GString");
+            SimpleModule gstringModule = new SimpleModule();
+            gstringModule.addSerializer(GString, new JsonSerializer() {
+                @Override
+                public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+                    jgen.writeString(value.toString());
+                }
+            });
+            MAPPER.registerModule(gstringModule);
+        }catch (Throwable ignroed){}
+
+
+
         MAPPER.getSerializationConfig().withSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
 
     public static void validateJSON(String json) throws IOException {
-        try(JsonParser parser = JSONFACTORY.createParser(json)){
+        JsonParser parser =null;
+        try {
+            parser = JSONFACTORY.createParser(json);
             while (parser.nextToken() != null) {
             }
+        }finally {
+               if(null != parser ) parser.close();
         }
+
     }
 
     public interface ToJson{
