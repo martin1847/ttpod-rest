@@ -1,4 +1,4 @@
+rootProject.name = 'ttpod-rest'
 include "ttpod-rest"
 
-rootProject.name = 'ttpod-rest'
 
