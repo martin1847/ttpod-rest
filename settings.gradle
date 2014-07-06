@@ -1,10 +1,4 @@
 include "ttpod-rest"
 
-include "ttpod-rpc"
-
-include "ttpod-vertx-groovy"
-
-include 'ttpod-cache'
-
-rootProject.name = 'ttpod'
+rootProject.name = 'ttpod-rest'
 
