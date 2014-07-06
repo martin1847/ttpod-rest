@@ -30,12 +30,13 @@ class MyController extends ControllerSupport7 {
 
 That's ALL !!!
 
+* the main **Convention**
 
-As you see,`my` is the Controller Name (first lowercase) and `hello` is the method Name.  
-This is the main **Convention**.  
-Don't forget the  `@Rest` annotation on the controller.
-`@Rest` =  `@Controller` (SpringMVC) + `@CompileStatic` (Groovy).
 
+As you see,`my` is the Controller Name (first lowercase) and `hello` is the method Name.This is The main `Convention`.   
+Don't forget the  `@Rest` annotation on the controller.    
+>`@Rest` =  `@Controller` (SpringMVC) + `@CompileStatic` (Groovy).
+>`@RestWithSesson` = `@Controller` +  `@CompileStatic` + `@Interceptors`.
 
 
 ##Quick Start
@@ -128,7 +129,7 @@ gradle jettyRun
 </dependency>    
 ```
 
-where ${restVersion} is the lasted ttpod-rest version, current is `1.3.1`.
+where ${restVersion} is the lasted ttpod-rest version, current is `1.3.2`.
 
 ### Gradle
 
