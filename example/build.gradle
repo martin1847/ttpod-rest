@@ -66,3 +66,8 @@ dependencies {
     testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
 
 }
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
