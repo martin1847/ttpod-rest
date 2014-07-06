@@ -97,14 +97,16 @@ gradle jettyRun
 ```
 
 
+## 环境依赖
 
-
-
-
-
-
-
-## 获取依赖 
+### JDK 7
+  
+   项目支持 jdk6 和 jdk7 ，默认分支为jdk7，jdk6 需要自行构建，jdk7提供了`dynamic`指令， 已经使用替代反射调用。如果jdk6的话，只能使用反射。
+   
+   [jdk7 use ControllSupport7 with MethodHandle](https://github.com/mahuabian/ttpod-rest/blob/master/ttpod-rest/src/main/java/com/ttpod/rest/web/support/ControllerSupport7.java)
+   
+   [jdk6 use ControllSupport with reflect ](https://github.com/mahuabian/ttpod-rest/blob/master/ttpod-rest/src/main/java/com/ttpod/rest/web/support/ControllerSupport.java)
+   
 
 ### Download jar
 
@@ -147,6 +149,18 @@ repositories {
 
   
 
+## 关于性能
+
+这是一个无法逃避的话题。对Groovy代码性能的担忧发表一下个人观点：
+损失10%～20%左右的性能，提升5～10倍的开发效率，你怎么看？
+
+至于为什么损失能控制到10%，完全归功于 [@CompileStatic](http://groovy.codehaus.org/Runtime+vs+Compile+time,+Static+vs+Dynamic)
+
+<http://java-performance.info/static-code-compilation-groovy-2-0/>
+
+个人去看了下`CompileStatic`加与不加编译之后的class文件，使用 [jd-gui](jd.benow.ca/#jd-gui-download) 打开，没有CompileStatic的都是callsite这种全反射调用，而加上CompileStatic之后编译的字节码和普通java编译的并无太大区别，都是直接调用。
+
+建议感兴趣的朋友自己动手去试验一下，欢迎一起讨论！！
 
 
 
