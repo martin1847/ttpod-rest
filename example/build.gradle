@@ -7,7 +7,7 @@ apply plugin: 'maven'
 repositories {
     mavenLocal()
     jcenter()
-    maven { url "http://dl.bintray.com/shangqingxiaai/maven/" }
+//    maven { url "http://dl.bintray.com/shangqingxiaai/maven/" }
     mavenCentral()
 }
 

@@ -115,17 +115,9 @@ gradle jettyRun
 
 ### Maven
 
+需要添加 [jcenter](http://jcenter.bintray.com/) 仓库
+
 ```xml
-<project>
-    <repositories>
-        <repository>
-            <id>ttpod-repo</id>
-            <url>http://dl.bintray.com/shangqingxiaai/maven/</url>
-        </repository>
-    </repositories>
-</project>
-
-
 <dependency>
     <groupId>com.ttpod</groupId>
     <artifactId>ttpod-rest</artifactId>
@@ -140,7 +132,7 @@ where ${restVersion} is the lasted ttpod-rest version, current is `1.3.2`.
 ``` groovy
 repositories {
     .....
-    maven { url "http://dl.bintray.com/shangqingxiaai/maven/" }
+    jcenter()
     .....
 }
   
