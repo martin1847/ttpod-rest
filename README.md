@@ -27,18 +27,23 @@ class MyController extends ControllerSupport7 {
 
 
 
-##How To Use
+##Quick Start
 
 
-### 拉取 example 目录
+* 拉取 example 目录
 
 ``` bash use svn
 $ svn checkout https://github.com/mahuabian/ttpod-rest/trunk/example
 ```
-OR
-``` bash use git
-$ git archive --remote git@github.com:mahuabian/ttpod-rest.git HEAD:example | tar xf -
-```
+
+* cd example
+
+
+## 获取依赖 
+
+### download jar
+
+<https://bintray.com/shangqingxiaai/maven/ttpod-rest/view>
 
 
 ### Maven
