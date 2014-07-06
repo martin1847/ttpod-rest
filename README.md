@@ -1,6 +1,6 @@
 #TTPOD REST
 
----
+
 
 CoC 理念的一套HTTP JSON API框架，基于SpringMVC 和 Groovy.
 
@@ -32,11 +32,16 @@ class MyController extends ControllerSupport7 {
 
 * 拉取 example 目录
 
-``` bash use svn
+
+``` bash
 $ svn checkout https://github.com/mahuabian/ttpod-rest/trunk/example
 ```
 
+
 * cd example
+
+
+
 
 
 ## 获取依赖 
