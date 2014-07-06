@@ -152,7 +152,26 @@ repositories {
 
 个人去看了下`CompileStatic`加与不加编译之后的class文件，使用 [jd-gui](jd.benow.ca/#jd-gui-download) 打开，没有CompileStatic的都是callsite这种全反射调用，而加上CompileStatic之后编译的字节码和普通java编译的并无太大区别，都是直接调用。
 
-建议感兴趣的朋友自己动手去试验一下，欢迎一起讨论！！
+建议感兴趣的朋友自己动手去试验一下，欢迎一起讨论 ！！
+
+
+### 关于开源
+
+一直在使用开源，其实回馈之心由来已久，只是苦于能力有限，无法提供有价值的东西给社区。这套rest框架在我们公司 [天天动听](http://www.ttpod.cn) 多个后台API项目如搜索、音效、歌单等项目稳定运行，最长项目已运行一年半以上，对于开发效率的提升还是能有些价值的，另外一点价值就是拦截了每个请求的处理时间，默认超过2秒会在日志打印出来，这个也帮助我们可以尽早发现需要改进的API方法。
+
+```log
+23:01:11.992 INFO c.t.r.w.s.ControllerSupport < slow request : /test/search ,cost : 1633 ms >
+23:01:12.002 INFO c.t.r.w.s.ControllerSupport < slow request : /test/search ,cost : 2218 ms >
+```
+
+斗胆奉上微薄之力，欢迎有类似场景需求的朋友使用！
+
+如果你打算试用的话，可以通知到我，谢谢！！ 
+
+cyy2cyy@gmail.com
+
+个人博客 <http://bianzi.me>
+
 
 
 
