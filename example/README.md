@@ -4,7 +4,9 @@
 
 
 ## 构建工具 gradle 
-[Gradle Download](http://www.gradle.org/)
+ ＊ 下载安装 [Gradle Download](http://www.gradle.org/)，已安装跳过，不想安装看下一条
+
+ ＊ 或者使用 `gradlew` 命令直接运行（仍然需要联网下载gradle相关依赖，但是运行方便，好吧，其实是自动下载）
 
 ## 目录结构
 
@@ -51,8 +53,16 @@ src
 
 * 运行项目需要gradle
 
-``` bash
+安装过gradle之后，直接
+``` bash 
 $gradle jettyRun
+```
+
+没装的
+
+``` bash 
+$./gradlew jettyRun
+$gradlew.bat jettyRun 
 ```
 
 * 运行单元测试
