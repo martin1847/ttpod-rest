@@ -35,8 +35,8 @@ That's ALL !!!
 
 As you see,`my` is the Controller Name (first lowercase) and `hello` is the method Name.This is The main `Convention`.   
 Don't forget the  `@Rest` annotation on the controller.    
->`@Rest` =  `@Controller` (SpringMVC) + `@CompileStatic` (Groovy).
->`@RestWithSesson` = `@Controller` +  `@CompileStatic` + `@Interceptors`.
+>`@Rest` =  `@Controller` (SpringMVC) + `@CompileStatic` (Groovy)    
+>`@RestWithSesson` = `@Controller` +  `@CompileStatic` + `@Interceptors`
 
 
 ##Quick Start
@@ -78,6 +78,8 @@ src
 │           └── web.xml
 ```
 
+* 代码行数 :example/src/main
+
 ```
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
@@ -88,7 +90,7 @@ Groovy                           1              5              0              9
 SUM:                             8             43             40            14
 ```
 
-* 运行项目需要gradle
+* 运行构建 gradle
 
 ``` bash
 gradle jettyRun
