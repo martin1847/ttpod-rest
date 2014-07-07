@@ -1,0 +1,11 @@
+version = restVersion
+
+compileJava.sourceCompatibility = '1.7'
+compileJava.targetCompatibility = '1.7'
+
+apply from: "${rootProject.projectDir}/gradle/provided.gradle"
+
+dependencies {
+    provided  'javax.servlet:javax.servlet-api:3.1.0'
+    compile project(":ttpod-rest")
+}
