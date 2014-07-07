@@ -38,12 +38,15 @@ stopPort = 9451
     contextPath = ''
 //    webDefaultXml  =  file("${rootProject.projectDir}/gradle/jetty-webdefault.xml");
 }
-
+ext{
+    restVersion = "1.4.0"
+}
 dependencies {
 //
     providedCompile  'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile 'com.ttpod:ttpod-rest:1.3.2'
+    compile "com.ttpod:ttpod-rest:$restVersion"
+    compile "com.ttpod:rest-jdk7:$restVersion"
     compile 'org.springframework:spring-context-support:4.0.5.RELEASE'
     compile 'org.springframework:spring-tx:4.0.5.RELEASE'
 

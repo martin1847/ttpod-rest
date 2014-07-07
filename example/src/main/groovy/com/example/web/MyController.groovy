@@ -1,6 +1,7 @@
 package com.example.web
 
 import com.ttpod.rest.anno.Rest
+import com.ttpod.rest.common.doc.IMessageCode
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -34,5 +35,7 @@ class MyController extends Base {
                    </html>
             """
     }
+
+    def code(){IMessageCode.CODE1}
 
 }

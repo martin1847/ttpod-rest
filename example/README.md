@@ -3,7 +3,15 @@
 项目原型
 
 
-## 构建工具 gradle 
+## 构建工具 gradle 或者 maven
+
+### Maven User
+
+```
+$ mvn jetty:run
+```
+
+### Gradle User
  ＊ 下载安装 [Gradle Download](http://www.gradle.org/)，已安装跳过，不想安装看下一条
 
  ＊ 或者使用 `gradlew` 命令直接运行（仍然需要联网下载gradle相关依赖，但是运行方便，好吧，其实是自动下载）
@@ -51,6 +59,14 @@ src
 ```
 ## RUN IT !
 
+## Maven User
+
+```
+$mvn test
+$mvn jetty:run
+```
+
+## Gradle User
 * 运行项目需要gradle
 
 安装过gradle之后，直接
