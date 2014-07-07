@@ -1,6 +1,7 @@
 package com.ttpod.rest.ext;
 
 import com.ttpod.rest.common.util.JSONUtil;
+import com.ttpod.rest.common.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
@@ -51,6 +52,15 @@ public  final class RestExtension {
 
     public static String asJsonString(Object obj){
         return (obj == null ? null : JSONUtil.beanToJson(obj));
+    }
+
+
+    public static int page(HttpServletRequest req) {
+        return WebUtils.getPage(req);
+    }
+
+    public static int size(HttpServletRequest req) {
+        return WebUtils.getPageSize(req);
     }
 
 }
