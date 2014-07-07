@@ -127,7 +127,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 
 
 
-    static final Set<String> nocount_table = new HashSet<>();
+    static final Set<String> nocount_table = new HashSet<String>();
     static {
         String[] str = AppProperties.get("api.nocount_table","").split(",");
         for(String table : str){
@@ -136,7 +136,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
     }
 
     public static Pager<List<DBObject>> mongoPager(DBCollection table, DBObject query, DBObject field, DBObject sort, int page, int pageSize) {
-        return new Pager<>(
+        return new Pager<List<DBObject>>(
                 table.find(query, field).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toArray()
                 ,nocount_table.contains(table.getName()) ? -1:table.count(query), page, pageSize);
     }

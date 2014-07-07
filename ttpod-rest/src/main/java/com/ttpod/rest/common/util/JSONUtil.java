@@ -44,24 +44,11 @@ public abstract class JSONUtil {
         }
     }
 
-    public static String beanToJson(ToJson o) {
-        return o.toJsonString();
-    }
-
-    /**
-     * 把对象转换为json格式字符串输出
-     *
-     * @param response 当前响应response
-     * @param bean     要输出的对象
-     */
-//    public static void printObjAsJson(HttpServletResponse response, Object bean) {
-//        printObj(response, beanToJson(bean));
-//    }
-
     /**
      * 转换Java Bean 为 HashMap
      */
-    public static Map<String, Object> beanToMap(Object o) {
+    @SuppressWarnings("unchecked")
+    public static<Value> Map<String, Value> beanToMap(Object o) {
         try {
             return (Map) MAPPER.readValue(beanToJson(o), HashMap.class);
         } catch (IOException e) {
@@ -73,7 +60,8 @@ public abstract class JSONUtil {
     /**
      * 转换Json String 为 HashMap
      */
-    public static Map<String, Object> jsonToMap(String json) {
+    @SuppressWarnings("unchecked")
+    public static<Object> Map<String, Object> jsonToMap(String json) {
         try {
             return (Map) MAPPER.readValue(json, HashMap.class);
         } catch (IOException e) {
@@ -101,15 +89,15 @@ public abstract class JSONUtil {
 
         try{
             Class GString = Class.forName("groovy.lang.GString");
-            SimpleModule gstringModule = new SimpleModule();
-            gstringModule.addSerializer(GString, new JsonSerializer() {
+            SimpleModule gStringModule = new SimpleModule();
+            gStringModule.addSerializer(GString, new JsonSerializer() {
                 @Override
                 public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-                    jgen.writeString(value.toString());
+                    jgen.writeString(String.valueOf(value));
                 }
             });
-            MAPPER.registerModule(gstringModule);
-        }catch (Throwable ignroed){}
+            MAPPER.registerModule(gStringModule);
+        }catch (Throwable ignored){}
 
 
 
@@ -129,7 +117,7 @@ public abstract class JSONUtil {
 
     }
 
-    public interface ToJson{
-        String toJsonString();
-    }
+//    public interface ToJson{
+//        String toJsonString();
+//    }
 }

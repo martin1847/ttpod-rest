@@ -1,8 +1,9 @@
-version = '1.3.2'
+version = restVersion
 
 
 apply from: "${rootProject.projectDir}/gradle/provided.gradle"
 apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
+apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 apply plugin: 'groovy'
 
 compileGroovy {

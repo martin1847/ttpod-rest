@@ -25,7 +25,7 @@ public class RestStaticCompileProcessor extends StaticCompileTransformation {
 //        System.out.println(
 //                "parent.getAnnotations" + parent.getAnnotations()
 //        );
-        List<AnnotationNode> list = new ArrayList<>();
+        List<AnnotationNode> list = new ArrayList<AnnotationNode>();
         try {
             Class[] value = (Class[]) Class.forName(annotation).getDeclaredField("value").get(null);
             for(Class t : value){

@@ -71,7 +71,7 @@ public class MongoFactoryBean implements FactoryBean<Mongo>, InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         String[] host_ports = urls.split(",");
-        List<ServerAddress> addList = new ArrayList<>(host_ports.length);
+        List<ServerAddress> addList = new ArrayList<ServerAddress>(host_ports.length);
         for (String host_port : host_ports){
             String[] kv = host_port.split(":");
             addList.add(new ServerAddress(kv[0],Integer.valueOf(kv[1])));

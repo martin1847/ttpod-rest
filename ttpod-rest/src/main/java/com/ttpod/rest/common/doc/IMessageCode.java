@@ -1,39 +1,46 @@
 package com.ttpod.rest.common.doc;
 
-import com.ttpod.rest.common.util.JSONUtil;
+
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface IMessageCode extends JSONUtil.ToJson{
+public enum  IMessageCode {
+    CODE0(0,"{\"code\":0}"),CODE1(1,"{\"code\":1}");
 
 
-    int getCode();
+    private IMessageCode (int code,String msg){
+        this.code = code;
+        this.msg = msg;
+    }
+    int code;
+    String msg;
+
+    public int getCode(){
+        return code;
+    }
 
 
-    String getMessage();
+    public String getMessage(){
+        return msg;
+    }
 
+    @Override
+    @JsonValue
+    public String toString() {
+        return msg;
+    }
 
-    IMessageCode CODE0 = new IMessageCode() {
-        public int getCode() {
-            return 0;
-        }
-        public String getMessage() {
-            return "OK";
-        }
-        public String toJsonString() {
-            return "{\"code\":0}";
-        }
-    };
-
-
-    Map OK = Collections.unmodifiableMap(
-            new HashMap(){
+    public static final Map OK = Collections.unmodifiableMap(
+            new HashMap() {
                 {
-                    put("code",1);
+                    put("code", 1);
                 }
             }
     );
+
+
 
 }
