@@ -91,10 +91,11 @@ Java                             2             11             21             16
 SUM:                             9             62             67            184
 ```
 
-* 运行构建 gradle
+* 运行构建
 
 ``` bash
-gradle jettyRun
+$ mvn jetty:run
+$ gradle jettyRun
 ```
 
 
@@ -129,7 +130,7 @@ gradle jettyRun
 <!-- 激活jdk7  -->
 <dependency>
     <groupId>com.ttpod</groupId>
-    <artifactId>rest－jdk7</artifactId>
+    <artifactId>rest-jdk7</artifactId>
     <version>${restVersion}</version>
 </dependency>
 ```
