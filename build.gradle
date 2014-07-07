@@ -22,8 +22,8 @@ subprojects {
 //    apply plugin: 'idea'
     apply plugin: 'java'
 
-    compileJava.sourceCompatibility = '1.7'
-    compileJava.targetCompatibility = '1.7'
+    compileJava.sourceCompatibility = '1.6'
+    compileJava.targetCompatibility = '1.6'
     [ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
 //  compileJava.options.compilerArgs = ['-Xlint:unchecked']
 
@@ -53,5 +53,5 @@ subprojects {
 //    gradleVersion = '1.6'
 //}
 ext{
-    curatorVersion = "2.4.0"
+    restVersion = "1.4.0"
 }

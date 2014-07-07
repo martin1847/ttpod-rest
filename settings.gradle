@@ -1,4 +1,5 @@
 rootProject.name = 'ttpod-rest'
-include "ttpod-rest"
 
+include "ttpod-rest"
+include 'rest-jdk7'
 

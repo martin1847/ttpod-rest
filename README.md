@@ -50,32 +50,33 @@ $ svn checkout https://github.com/mahuabian/ttpod-rest/trunk/example
 ```
 * 目录结构
 
-``` 
+```
 src
-├── main
-│   ├── groovy
-│   │   └── com
-│   │       └── example
-│   │           └── web
-│   │               └── MyController.groovy
-│   ├── java
-│   │   └── com
-│   │       └── example
-│   │           ├── session
-│   │           │   └── MySessionInterceptor.java
-│   │           └── web
-│   │               └── Base.java
-│   ├── resources
-│   │   ├── application.properties
-│   │   ├── logback.xml
-│   │   ├── spring
-│   │   │   ├── application.xml
-│   │   │   └── mongodb.xml
-│   │   └── test.properties
-│   └── webapp
-│       └── WEB-INF
-│           ├── dispatcher-servlet.xml
-│           └── web.xml
+|-- main
+|   |-- groovy
+|   |   `-- com
+|   |       `-- example
+|   |           `-- web
+|   |               |-- CrudController.groovy
+|   |               `-- MyController.groovy
+|   |-- java
+|   |   `-- com
+|   |       `-- example
+|   |           |-- session
+|   |           |   `-- MySessionInterceptor.java
+|   |           `-- web
+|   |               `-- Base.java
+|   |-- resources
+|   |   |-- application.properties
+|   |   |-- logback.xml
+|   |   |-- spring
+|   |   |   |-- application.xml
+|   |   |   `-- mongodb.xml
+|   |   `-- test.properties
+|   `-- webapp
+|       `-- WEB-INF
+|           |-- dispatcher-servlet.xml
+|           `-- web.xml
 ```
 
 * 代码行数 :example/src/main
@@ -83,11 +84,11 @@ src
 ```
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-XML                              5             27             19            122
+XML                              5             31             19            124
+Groovy                           2             20             27             44
 Java                             2             11             21             16
-Groovy                           1              5              0              9
 -------------------------------------------------------------------------------
-SUM:                             8             43             40            140
+SUM:                             9             62             67            184
 ```
 
 * 运行构建 gradle
@@ -99,9 +100,11 @@ gradle jettyRun
 
 ## 环境依赖
 
-### JDK 7
+### JDK 6
   
-   项目支持 jdk6 和 jdk7 ，默认分支为jdk7，jdk6 需要自行构建，jdk7提供了`dynamic`指令， 已经使用替代反射调用。如果jdk6的话，只能使用反射。
+   项目支持 jdk6 和 jdk7 ，默认分支为jdk6。
+
+   jdk7提供了`dynamic`指令， 已经使用替代反射调用。如果jdk6的话，只能使用反射。
    
    [jdk7 use ControllSupport7 with MethodHandle](https://github.com/mahuabian/ttpod-rest/blob/master/ttpod-rest/src/main/java/com/ttpod/rest/web/support/ControllerSupport7.java)
    
@@ -122,10 +125,16 @@ gradle jettyRun
     <groupId>com.ttpod</groupId>
     <artifactId>ttpod-rest</artifactId>
     <version>${restVersion}</version>
-</dependency>    
+</dependency>
+<!-- 激活jdk7  -->
+<dependency>
+    <groupId>com.ttpod</groupId>
+    <artifactId>rest－jdk7</artifactId>
+    <version>${restVersion}</version>
+</dependency>
 ```
 
-where ${restVersion} is the lasted ttpod-rest version, current is `1.3.2`.
+where ${restVersion} is the lasted ttpod-rest version, current is `1.4.0`.
 
 ### Gradle
 
@@ -137,6 +146,7 @@ repositories {
 }
   
   compile "com.ttpod:ttpod-rest:${restVersion}"
+  compile "com.ttpod:rest-jdk7:${restVersion}" //激活jdk7
 ```  
 
   
