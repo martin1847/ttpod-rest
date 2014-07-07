@@ -7,7 +7,7 @@
 				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
        default-lazy-init="true">
 
-    <!--<util:constant static-field="com.mongodb.WriteConcern.${mongo.write}" id="writeConcern"/>-->
+    <util:constant static-field="com.mongodb.WriteConcern.ACKNOWLEDGED" id="writeConcern"/>
 
     <bean class="com.ttpod.rest.web.spring.MongoFactoryBean" id="mongo">
         <property name="options">
@@ -27,8 +27,12 @@
         <property name="urls" value="${mongo.uri}"/>
     </bean>
 
-    <bean id="mainDb" class="com.ttpod.rest.web.spring.DbFactoryBean" p:mongo-ref="mongo" p:name="main" />
+    <bean id="mainDb" class="com.ttpod.rest.web.spring.DbFactoryBean" p:mongo-ref="mongo" p:name="db_main" />
     <bean id="kgs" class="com.ttpod.rest.persistent.MongoKGS" p:db-ref="mainDb"/>
+
+    <!-- CRUD 后台业务需要，前端API不需要 -->
+    <bean id="adminDb" class="com.ttpod.rest.web.spring.DbFactoryBean" p:mongo-ref="mongo" p:name="db_admin" />
+
 
 
 </beans>

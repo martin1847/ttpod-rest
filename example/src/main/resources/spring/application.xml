@@ -9,6 +9,7 @@
        default-lazy-init="false">
 
     <context:component-scan base-package="com.example.service"/>
+    <bean id="sessionInterceptor" class="com.example.session.MySessionInterceptor" />
 
 
     <beans profile="!test">
@@ -18,5 +19,7 @@
     <beans profile="test">
         <context:property-placeholder location="classpath:test.properties" ignore-unresolvable="true"/>
     </beans>
+
+
 
 </beans>

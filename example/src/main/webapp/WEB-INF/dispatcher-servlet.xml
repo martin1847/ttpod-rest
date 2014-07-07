@@ -12,7 +12,6 @@
     <mvc:annotation-driven/>
 
     <context:component-scan base-package="com.example.web"/>
-    <bean id="sessionInterceptor" class="com.example.session.MySessionInterceptor" />
 
     <bean class="com.ttpod.rest.web.spring.InterceptorAnnotationAwareClassNameHandlerMapping" />
 
