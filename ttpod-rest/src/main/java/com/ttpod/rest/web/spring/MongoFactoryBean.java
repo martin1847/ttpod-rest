@@ -74,7 +74,7 @@ public class MongoFactoryBean implements FactoryBean<Mongo>, InitializingBean {
         List<ServerAddress> addList = new ArrayList<ServerAddress>(host_ports.length);
         for (String host_port : host_ports){
             String[] kv = host_port.split(":");
-            addList.add(new ServerAddress(kv[0],Integer.valueOf(kv[1])));
+            addList.add(new ServerAddress(kv[0],Integer.parseInt(kv[1])));
         }
 
         if(autoSlaveOk && addList.size() > 1){

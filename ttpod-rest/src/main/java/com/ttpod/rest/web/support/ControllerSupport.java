@@ -105,6 +105,9 @@ public class ControllerSupport extends MultiActionController {
 
             map2View = new JsonExchange();
         } catch (Exception e) {
+            if(e instanceof RuntimeException){
+                throw (RuntimeException)e;
+            }
             throw new RuntimeException(e);
         }
     }
