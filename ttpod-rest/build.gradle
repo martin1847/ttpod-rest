@@ -44,7 +44,7 @@ dependencies {
 //    compile 'org.apache.commons:commons-lang3:3.2.1'
 //    optional 'org.freemarker:freemarker:2.3.20'
 
-//    optional ('org.springframework.data:spring-data-redis:1.2.0.RELEASE'){//use for KGS
+//    optional ('org.springframework.view:spring-view-redis:1.2.0.RELEASE'){//use for KGS
 //        transitive = false
 //    }
 

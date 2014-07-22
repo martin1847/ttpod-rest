@@ -75,16 +75,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 
     }
 
-    /**
-     * 数据填充到 request 中
-     * @param request
-     * @param map
-     */
-    public static void populate(HttpServletRequest request,Map<String,Object> map){
-        for (Map.Entry<String,Object> entry: map.entrySet()){
-            request.setAttribute(entry.getKey(),entry.getValue());
-        }
-    }
+//    /**
+//     * 数据填充到 request 中
+//     * @param request
+//     * @param map
+//     */
+//    public static void populate(HttpServletRequest request,Map<String,Object> map){
+//
+//    }
 
 
 

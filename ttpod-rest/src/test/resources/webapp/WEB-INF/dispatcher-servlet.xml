@@ -22,7 +22,7 @@
     <!--
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
-        <bean class="org.springframework.data.redis.samples.retwisj.web.CookieInterceptor" />
+        <bean class="org.springframework.view.redis.samples.retwisj.web.CookieInterceptor" />
 	</mvc:interceptors>
     -->
 

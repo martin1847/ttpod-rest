@@ -1,8 +1,8 @@
-package com.ttpod.rest.web.data;
+package com.ttpod.rest.web.view;
 
 import com.ttpod.rest.common.doc.ParamKey;
 import com.ttpod.rest.common.util.JSONUtil;
-import groovy.transform.CompileStatic;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,18 +17,15 @@ import java.util.Map;
  *
  * @author: yangyang.cong@ttpod.com
  */
-@CompileStatic
+//@CompileStatic
 public class SimpleJsonView implements View {
 
-    private static final SimpleJsonView VIEW = new SimpleJsonView();
+    private static final SimpleJsonView instance = new SimpleJsonView();
 
-    private SimpleJsonView(){
+    protected SimpleJsonView(){
 
     }
 
-    public  static SimpleJsonView instance(){
-        return VIEW;
-    }
 
     @Override
     public String getContentType() {
@@ -40,7 +37,7 @@ public class SimpleJsonView implements View {
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String json = JSONUtil.beanToJson(model);
+        String json = toJson(model);
         String callback = request.getParameter(ParamKey.In.callback);
         if(null != callback && callback.length() > 0){
             rennderJson(callback+'('+json+')',"application/x-javascript;charset=utf-8",response);
@@ -48,6 +45,10 @@ public class SimpleJsonView implements View {
         }
         rennderJson(json,response);
         //JSONUtil.printObj(response,json);
+    }
+
+    protected String toJson(Map<String, ?> model){
+        return  JSONUtil.beanToJson(model);
     }
 
     public static void rennderJson(String json, HttpServletResponse response) throws IOException {
@@ -60,5 +61,9 @@ public class SimpleJsonView implements View {
         PrintWriter out = response.getWriter();
         out.print(json);
         out.close();
+    }
+
+    public static ModelAndView asJson(Map o){
+        return new ModelAndView(instance,o);
     }
 }

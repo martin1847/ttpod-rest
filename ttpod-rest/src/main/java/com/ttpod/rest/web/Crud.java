@@ -1,7 +1,6 @@
 package com.ttpod.rest.web;
 
 import com.mongodb.*;
-import com.mongodb.util.ObjectSerializer;
 import com.ttpod.rest.common.doc.IMessageCode;
 import com.ttpod.rest.common.doc.TwoTableCommit;
 import com.ttpod.rest.common.util.Pager;
@@ -117,7 +116,7 @@ public final class Crud {
     }
 
 
-    public Object edit(HttpServletRequest req) {
+    public Map edit(HttpServletRequest req) {
 
         Object id = parseId(req);
         if(null == id){
@@ -187,7 +186,7 @@ public final class Crud {
         obj.put(_id,tmp);
         obj.put("type",type);
         obj.put("session",sessionInterceptor.getSession());
-        obj.put("data",data);
+        obj.put("view",data);
         obj.put(timestamp,tmp);
         adminDb.getCollection(LOG_COLL_NAME).save(obj);
     }

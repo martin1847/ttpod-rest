@@ -1,9 +1,8 @@
 package com.ttpod.rest.web.support;
 
-import com.ttpod.rest.common.doc.IMessageCode;
 import com.ttpod.rest.common.doc.ParamKey;
-import com.ttpod.rest.web.data.JsonExchange;
-import com.ttpod.rest.web.data.Map2View;
+import com.ttpod.rest.web.view.ObjectJsonView;
+import com.ttpod.rest.web.view.SimpleJsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,7 +34,7 @@ public class ControllerSupport extends MultiActionController {
 
     static final boolean DEBUG =LOGGER.isDebugEnabled();
 
-    static final ThreadLocal<Map<String,Long>> EXEC_MAP = new ThreadLocal<Map<String, Long>>();
+//    static final ThreadLocal<Map<String,Long>> EXEC_MAP = new ThreadLocal<Map<String, Long>>();
 
 //    static {
 //        log.debug( "Enabled debug in com.ttpod.weibo.web : " + DEBUG);
@@ -48,8 +46,6 @@ public class ControllerSupport extends MultiActionController {
 //    }
     //@Resource
 
-
-    Map2View map2View;
 
 
     final Map<String, MethodExec> handlerMethodMap;
@@ -77,7 +73,7 @@ public class ControllerSupport extends MultiActionController {
                         && returnType != String.class
                         && returnType != void  .class
                         && ! Map         .class.isAssignableFrom(returnType)
-                        && ! IMessageCode.class.isAssignableFrom(returnType)
+//                        && ! IMessageCode.class.isAssignableFrom(returnType)
                         && ! ModelAndView.class.isAssignableFrom(returnType)
                     ){
                     continue;
@@ -103,7 +99,6 @@ public class ControllerSupport extends MultiActionController {
 
             }
 
-            map2View = new JsonExchange();
         } catch (Exception e) {
             if(e instanceof RuntimeException){
                 throw (RuntimeException)e;
@@ -151,66 +146,40 @@ public class ControllerSupport extends MultiActionController {
             String methodName, HttpServletRequest request, HttpServletResponse response) throws Throwable {
 
         MethodExec method = this.handlerMethodMap.get(methodName);
-        if (method == null) {
+        if ( null == method) {
             return handlerMethodNotFound(request,response);
         }
 
         long b = System.currentTimeMillis();
-        if(DEBUG){
-            EXEC_MAP.set(new HashMap<String, Long>());
-        }
+//        if(DEBUG){
+//            EXEC_MAP.set(new HashMap<String, Long>());
+//        }
 
         Object returnValue = method.exec(this, request, response);
 
+        long cost = System.currentTimeMillis() - b;
+        if(cost > SLOW_REQ_TIME){
+            LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
+        }
+        ModelAndView mv = null;
         if (returnValue instanceof Map) {
-
-            Map map  =  (Map)returnValue;
-
-            long cost = System.currentTimeMillis() - b;
-            if(DEBUG){
-                map = new HashMap(map);
-                map.put(ParamKey.Out.exec,cost);
-            }else if( map != IMessageCode.OK &&  map.containsKey(ParamKey.Out.msg)){
-                map.remove(ParamKey.Out.msg);
-            }
-            if(cost > SLOW_REQ_TIME){
-                LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
-            }
-            return map2View.exchange(map);
-        }else if (returnValue instanceof IMessageCode) {
-
-            IMessageCode messageCode = (IMessageCode) returnValue;
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put(ParamKey.Out.code,messageCode.getCode());
-
-
-            long cost = System.currentTimeMillis() - b;
-            if(DEBUG){
-                map.put(ParamKey.Out.msg,messageCode.getMessage());
-                map.put(ParamKey.Out.exec,cost);
-            }
-
-
-            if(cost > SLOW_REQ_TIME){
-                LOGGER.info(" slow request : {} ,cost : {} ms ",request.getServletPath(),cost);
-            }
-
-            return map2View.exchange(map);
+            mv = SimpleJsonView.asJson((Map)returnValue);
+        }else if (returnValue instanceof ModelAndView) {
+            mv = (ModelAndView) returnValue;
+        }else if (returnValue instanceof String) {
+            mv = new ModelAndView((String) returnValue);
+        }else if(returnValue != null){
+            mv = ObjectJsonView.asJson(returnValue);
         }
-        else if (returnValue instanceof ModelAndView) {
-            return (ModelAndView) returnValue;
+        if(DEBUG && null != mv){
+            mv.getModel().put(ParamKey.Out.exec,cost);
         }
-        else if (returnValue instanceof String) {
-            return new ModelAndView((String) returnValue);
-        }
-        else {
-            return null;
-        }
+        return mv;
     }
 
 
-    protected void logExec(String desc,long execTime){
-        EXEC_MAP.get().put(desc,execTime);
-    }
+//    protected void logExec(String desc,long execTime){
+//        EXEC_MAP.get().put(desc,execTime);
+//    }
 
 }

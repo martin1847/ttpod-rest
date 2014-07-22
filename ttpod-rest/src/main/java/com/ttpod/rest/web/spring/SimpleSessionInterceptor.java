@@ -1,7 +1,7 @@
 package com.ttpod.rest.web.spring;
 
 import com.ttpod.rest.common.doc.ParamKey;
-import com.ttpod.rest.web.data.SimpleJsonView;
+import com.ttpod.rest.web.view.SimpleJsonView;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

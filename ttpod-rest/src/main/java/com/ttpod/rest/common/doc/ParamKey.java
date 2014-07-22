@@ -25,7 +25,6 @@ public interface ParamKey {
 
         int SIZE_MAX_ALLOW = 200;
 
-        String user_id = "user_id";
 
     }
 
