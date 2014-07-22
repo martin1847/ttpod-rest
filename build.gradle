@@ -53,5 +53,5 @@ subprojects {
 //    gradleVersion = '1.6'
 //}
 ext{
-    restVersion = "1.4.0"
+    restVersion = "1.4.1"
 }

@@ -39,7 +39,7 @@ stopPort = 9451
 //    webDefaultXml  =  file("${rootProject.projectDir}/gradle/jetty-webdefault.xml");
 }
 ext{
-    restVersion = "1.4.0"
+    restVersion = "1.4.1"
 }
 dependencies {
 //
@@ -51,7 +51,7 @@ dependencies {
     compile 'org.springframework:spring-tx:4.0.5.RELEASE'
 
     compile 'org.mongodb:mongo-java-driver:2.12.2'
-//    compile 'org.springframework.data:spring-data-redis:1.3.0.RELEASE'
+//    compile 'org.springframework.view:spring-view-redis:1.3.0.RELEASE'
 
 //    compile 'org.apache.httpcomponents:httpclient:4.3.4'
 //    compile 'org.apache.commons:commons-io:1.3.2'
