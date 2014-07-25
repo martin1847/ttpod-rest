@@ -6,6 +6,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.beans.Introspector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -59,7 +60,21 @@ public class StaticSpring implements ServletContextListener {
         return context;
     }
 
-    public static Object get(String beanName){
+
+    /**
+     * Convert the first character of ClassName from upper case to lower case, then get from Spring .
+     * <br>
+     *     Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays as "URL".
+     */
+    public static <T>T camelGet(Class<T> className){
+        return (T) getContext().getBean(Introspector.decapitalize(className.getSimpleName()));
+    }
+
+
+    /**
+     * @see #camelGet(Class)
+     */
+    @Deprecated public static Object get(String beanName){
         return getContext().getBean(beanName);
     }
 
@@ -70,4 +85,5 @@ public class StaticSpring implements ServletContextListener {
     public static void execute(Runnable run){
         EXE.execute(run);
     }
+
 }
