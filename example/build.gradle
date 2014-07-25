@@ -39,7 +39,7 @@ stopPort = 9451
 //    webDefaultXml  =  file("${rootProject.projectDir}/gradle/jetty-webdefault.xml");
 }
 ext{
-    restVersion = "1.4.1"
+    restVersion = "1.4.2"
 }
 dependencies {
 //
