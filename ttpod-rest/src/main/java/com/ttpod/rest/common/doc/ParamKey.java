@@ -13,11 +13,11 @@ public interface ParamKey {
     interface In{
 
 
-        String page = "page";
+        String page =  System.getProperty( "rest.page" ,"page") ;
 
-        String callback= "callback";
+        String callback = System.getProperty( "rest.callback" ,"callback") ;
 
-        String size = "size";
+        String size = System.getProperty( "rest.size" ,"size") ;
 
         int PAGE_DEFAULT = 1;
 
@@ -32,19 +32,19 @@ public interface ParamKey {
 
     interface Out{
 
-        String code = "code";
+        String code = System.getProperty( "rest.code" ,"code") ;
 
-        String data = "data";
+        String data = System.getProperty( "rest.data" ,"data") ;
 
         /**
          * 总行数
          */
-        String rows = "rows";
+        String rows = System.getProperty( "rest.rows" ,"rows") ;
 
         /**
          * 总页数
          */
-        String pages = "pages";
+        String pages =  System.getProperty( "rest.pages" ,"pages") ;
 
         /**
          * For Debug,执行时间，毫秒
