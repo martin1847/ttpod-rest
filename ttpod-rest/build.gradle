@@ -25,7 +25,7 @@ dependencies {
 
     provided  'javax.servlet:javax.servlet-api:3.1.0'
 //    provided 'org.projectlombok:lombok:0.11.8'
-    provided 'org.codehaus.groovy:groovy-all:2.3.3:indy'
+    provided 'org.codehaus.groovy:groovy-all:2.3.5:indy'
 
     optional 'org.mongodb:mongo-java-driver:2.12.2'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
