@@ -105,7 +105,7 @@ $ gradle jettyRun
   
    项目支持 jdk6 和 jdk7 ，默认分支为jdk6。
 
-   jdk7提供了`dynamic`指令， 已经使用替代反射调用。如果jdk6的话，只能使用反射。
+   jdk7提供了 [invokedynamic](http://docs.oracle.com/javase/7/docs/technotes/guides/vm/multiple-language-support.html#invokedynamic) 指令， 用以取代反射调用。如果jdk6的话，只能使用反射。
    
    [jdk7 use ControllSupport7 with MethodHandle](https://github.com/mahuabian/ttpod-rest/blob/master/ttpod-rest/src/main/java/com/ttpod/rest/web/support/ControllerSupport7.java)
    
@@ -122,6 +122,13 @@ $ gradle jettyRun
 需要添加 [jcenter](http://jcenter.bintray.com/) 仓库
 
 ```xml
+<repositories>
+    <repository>
+        <id>jcenter</id>
+        <url>http://jcenter.bintray.com/</url>
+    </repository>
+</repositories>
+    
 <dependency>
     <groupId>com.ttpod</groupId>
     <artifactId>ttpod-rest</artifactId>
