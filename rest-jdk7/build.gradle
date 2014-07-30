@@ -1,4 +1,6 @@
-version = restVersion
+//version = restVersion
+
+version = "1.0"
 
 compileJava.sourceCompatibility = '1.7'
 compileJava.targetCompatibility = '1.7'

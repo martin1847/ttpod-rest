@@ -46,7 +46,7 @@ dependencies {
     providedCompile  'javax.servlet:javax.servlet-api:3.1.0'
 
     compile "com.ttpod:ttpod-rest:$restVersion"
-    compile "com.ttpod:rest-jdk7:$restVersion"
+    compile "com.ttpod:rest-jdk7:1.0"
     compile 'org.springframework:spring-context-support:4.0.5.RELEASE'
     compile 'org.springframework:spring-tx:4.0.5.RELEASE'
 

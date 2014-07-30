@@ -138,7 +138,7 @@ $ gradle jettyRun
 <dependency>
     <groupId>com.ttpod</groupId>
     <artifactId>rest-jdk7</artifactId>
-    <version>${restVersion}</version>
+    <version>1.0</version>
 </dependency>
 ```
 
