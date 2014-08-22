@@ -24,8 +24,12 @@ public class MongoKGS implements KGS{
     private DBCollection collection;
 
 
+    protected String nameSpace = FIELD;
+
+
+
     public int nextId() {
-        return nextId(FIELD);
+        return nextId(nameSpace);
     }
 
     private static final DBObject seqField = new BasicDBObject(FIELD,1);
@@ -35,4 +39,13 @@ public class MongoKGS implements KGS{
         return (Integer)collection.findAndModify(new BasicDBObject(MongoKey._id,nameSpace),
                 seqField,MongoKey.NO_SORT,false,incSeq,true,true).get(FIELD);
     }
+
+    public String getNameSpace() {
+        return nameSpace;
+    }
+
+    public void setNameSpace(String nameSpace) {
+        this.nameSpace = nameSpace;
+    }
+
 }
