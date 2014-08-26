@@ -1,5 +1,6 @@
 package com.ttpod.rest.web;
 
+import com.ttpod.rest.AppProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -27,7 +28,8 @@ public class StaticSpring implements ServletContextListener {
 
 
     static final ExecutorService EXE =
-            new ThreadPoolExecutor(Math.max(4,Runtime.getRuntime().availableProcessors()), 160,
+            new ThreadPoolExecutor(Math.max(Integer.parseInt(AppProperties.get("StaticSpring.thread.min","8"))
+                    ,Runtime.getRuntime().availableProcessors()), 512,
                     60L, TimeUnit.SECONDS,
                     new LinkedBlockingQueue<Runnable>(),
                     new CustomizableThreadFactory("StaticSpring.EXE")) ;
