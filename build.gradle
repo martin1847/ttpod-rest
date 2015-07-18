@@ -9,8 +9,8 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven{ url  "http://mvn.ttpod.com/nexus/content/groups/public/"}
-//        maven{ url  "http://mvn.ttpod.com/nexus/content/groups/public-snapshots/"}
+//        maven{ url  "http://mvn.ttpod.com/nexus/content/groups/public/"}
+//        maven{ url  "http://mvnrepo.alibaba-inc.com/nexus/content/groups/public/"}
         jcenter()
         mavenCentral()
     }
@@ -40,7 +40,7 @@ subprojects {
     apply from: "${rootProject.projectDir}/gradle/source.gradle"
 
     dependencies {
-        testCompile 'junit:junit:4.11'
+        testCompile 'junit:junit:4.12'
     }
     configurations {
         runtime.exclude module: 'junit'
@@ -53,5 +53,5 @@ subprojects {
 //    gradleVersion = '1.6'
 //}
 ext{
-    restVersion = "1.4.3"
+    restVersion = "1.5.0"
 }

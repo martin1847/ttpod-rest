@@ -142,7 +142,7 @@ $ gradle jettyRun
 </dependency>
 ```
 
-where ${restVersion} is the lasted ttpod-rest version, current is `1.4.3`.
+where ${restVersion} is the lasted ttpod-rest version, current is `1.5.0`.
 
 ### Gradle
 

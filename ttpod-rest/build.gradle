@@ -6,6 +6,8 @@ apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
 apply from: "${rootProject.projectDir}/gradle/nexus.gradle"
 apply plugin: 'groovy'
 
+//apply plugin: 'optional-base'
+
 compileGroovy {
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'
@@ -19,24 +21,24 @@ compileGroovy {
 
 
 ext{
-    springVersion='4.0.5.RELEASE'
-    jacksonVersion='2.3.3'
+    springVersion='4.1.7.RELEASE'
+    jacksonVersion='2.5.4'
 }
 
 dependencies {
 
     provided  'javax.servlet:javax.servlet-api:3.1.0'
 //    provided 'org.projectlombok:lombok:0.11.8'
-    provided 'org.codehaus.groovy:groovy-all:2.3.5:indy'
+    provided 'org.codehaus.groovy:groovy-all:2.3.11:indy'
 
-    optional 'org.mongodb:mongo-java-driver:2.12.2'
+    optional 'org.mongodb:mongo-java-driver:3.0.3'
 //    compile 'org.aspectj:aspectjrt:1.7.3'
 
-    optional 'org.apache.httpcomponents:httpclient:4.3.4'
-    compile 'org.slf4j:slf4j-api:1.7.7'
+    optional 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'org.slf4j:slf4j-api:1.7.12'
 //    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
-    compile "com.fasterxml.jackson.core:jackson-core:2.4.1"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.4.1.1"
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 
     compile "org.springframework:spring-webmvc:$springVersion"
 //    compile "org.springframework:spring-tx:$springVersion"
@@ -54,7 +56,7 @@ dependencies {
 //    optional 'org.jsoup:jsoup:1.7.3'//JsoupUtil
     
     testCompile "org.springframework:spring-test:$springVersion"
-    testCompile 'com.google.caliper:caliper:1.0-beta-1'
+//    testCompile 'com.google.caliper:caliper:1.0-beta-2'
 
 //    optional  'org.logback-extensions:logback-ext-spring:0.1.1'
 }
