@@ -16,7 +16,6 @@
                   p:threadsAllowedToBlockForConnectionMultiplier="6"
                   p:connectTimeout="5000"
                   p:maxWaitTime="3000"
-                  p:autoConnectRetry="true"
                   p:socketKeepAlive="true"
                   p:socketTimeout="15000"
                   p:wtimeout="3000"
